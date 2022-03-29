@@ -30,7 +30,7 @@ describe('Ingredient', () => {
     it('Should store a id number', () => {
         expect(ingredient.id).to.equal(1)
     });
-        
+
     it('Should store a name string', () => {
         expect(ingredient.name).to.equal("Potatoe")
     })
@@ -39,7 +39,7 @@ describe('Ingredient', () => {
         expect(ingredient.estimatedCostInCents).to.equal(99)
     });
 
-    it('Should store a igredient unit string', () => {
+    it('Should store a ingredient unit string', () => {
         expect(ingredient.unit).to.equal("servings")
     });
 
@@ -52,7 +52,7 @@ describe('Ingredient', () => {
     })
 
     it('Should have a method to return name', () => {
-        expect(ingredient.getName()).to.equal('Potatoe') 
+        expect(ingredient.getName()).to.equal('Potatoe')
     })
 
     it('Should have a method to return estimatedCostInCents', () => {
