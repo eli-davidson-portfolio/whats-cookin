@@ -15,8 +15,33 @@ const users = require('../src/data/users.js');
 
 describe('Recipe', () => {
 
-  let recipe, ingredient
+  let recipe, ingredient1, ingredient2, ingredient3
   beforeEach(() => {
+    ingredient1 = new Ingredient()
+    ingredient2 = new Ingredient()
+    ingredient3 = new Ingredient()
+      recipe = new Recipe(1, 'image', [
+        {
+          "id": 20081,
+          "quantity": {
+            "amount": 1.5,
+            "unit": "c"
+          }
+        },
+        {
+          "id": 18372,
+          "quantity": {
+            "amount": 0.5,
+            "unit": "tsp"
+          }
+        },
+        {
+          "id": 1123,
+          "quantity": {
+            "amount": 1,
+            "unit": "large"
+          }
+        }])
 
   })
     it('Should be a function', () => {
@@ -67,8 +92,8 @@ describe('Recipe', () => {
       expect(recipe.tags[0]).to.be.a('string')
     })
 
-    it('Should have a method to update ingredient name', () => {
-
+    it.skip('Should have a method to update ingredient name', () => {
+//undecided
     })
 
     it('Should have a method to return names of ingredients', () => {
@@ -82,24 +107,5 @@ describe('Recipe', () => {
     it('Should have method to return the instructions', () => {
       expect(recipe.getInstructions).to.deep.equal('array')
     })
-
-    
-
-
-
-
-
-
-
-
-
-    it()
-
-
-
-    it('')
-
-
-
 
 })
