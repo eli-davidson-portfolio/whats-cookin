@@ -52,30 +52,34 @@ describe('Ingredient', () => {
     })
 
     it('Should have a method to return name', () => {
-        expect(ingredient.getName).to.equal('Potatoe') 
+        expect(ingredient.getName()).to.equal('Potatoe') 
     })
 
     it('Should have a method to return estimatedCostInCents', () => {
-        expect(ingredient.getCost).to.equal(99)
+        expect(ingredient.getCost()).to.equal(99)
     })
 
     it('Should have a method to return ingredient unit', () => {
-        expect(ingredient.getUnit).to.equal("servings")
+        expect(ingredient.getUnit()).to.equal("servings")
     })
 
     it('Should have a method to return ingredient amount', () => {
-        expect(ingredient.getAmount).to.equal(1)
+        expect(ingredient.getAmount()).to.equal(1)
     })
 
-    it.skip('Should have a method to update amount', () => {
-        expect(ingredient.updateAmount).to.equal()
+    it('Should have a method to update amount', () => {
+        ingredient.updateAmount(2)
+        expect(ingredient.getAmount()).to.equal(2)
+    })
+    // We may need another it block to update amount further
+
+    it('Should be able to update the name', () => {
+        ingredient.updateName("tomatoe")
+        expect(ingredient.getName()).to.equal("tomatoe")
     })
 
-    it.skip('Should be able to update the name', () => {
-        expect(ingredient.estimatedCostInCents).to.equal(99)
-    })
-
-    it.skip('Should be able to update the estimatedCostInCents', () => {
-        expect(ingredient.estimatedCostInCents).to.equal(99)
+    it('Should be able to update the estimatedCostInCents', () => {
+        ingredient.updateCost(199)
+        expect(ingredient.getCost()).to.equal(199)
     })
 });
