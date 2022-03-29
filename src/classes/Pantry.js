@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 //Classes
 const Ingredient = require('../src/classes/Ingredient.js');
 const Recipe = require('../src/classes/Recipe.js');
@@ -13,8 +12,11 @@ const ingredients = require('../src/data/ingredients.js');
 const recipes = require('../src/data/recipes.js');
 const users = require('../src/data/users.js');
 
-describe('RecipeRepository', () => {
-  it('Should be a function', () => {
-    expect(RecipeRepository).to.be.a('function');
-  });
-})
+class Pantry {
+    constructor() {
+
+        // One class to get you started!
+    }
+}
+
+export default Pantry;

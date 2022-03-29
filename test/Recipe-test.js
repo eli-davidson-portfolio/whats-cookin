@@ -13,8 +13,8 @@ const ingredients = require('../src/data/ingredients.js');
 const recipes = require('../src/data/recipes.js');
 const users = require('../src/data/users.js');
 
-describe('RecipeRepository', () => {
-  it('Should be a function', () => {
-    expect(RecipeRepository).to.be.a('function');
-  });
+describe('Recipe', () => {
+    it('Should be a function', () => {
+        expect(Recipe).to.be.a('function');
+    });
 })
