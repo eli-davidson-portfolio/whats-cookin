@@ -15,9 +15,9 @@ class Ingredient {
     constructor(id = 0, name = "error", estimatedCostInCents = 0, unit = "servings", amount = 1) {
         this.id = id
         this.name = name 
-        this.estimatedCostInCents = estimatedCostInCents
-        this.unit = unit
         this.amount = amount
+        this.unit = unit
+        this.estimatedCostInCents = estimatedCostInCents
         // One class to get you started!
     }
     getId() {
@@ -37,13 +37,18 @@ class Ingredient {
     }
     updateAmount(amount) {
         this.amount = amount
+        this.updateCost(amount)
     }
     updateName(name) {
-        this.name = name
+        if(name) this.name = name
     }
-    updateCost(cost) {
-        this.estimatedCostInCents = cost
+    updateCost(amount) {
+        this.estimatedCostInCents = this.getCost() * amount
     }
+    updateUnit(unit) {
+        if(unit) this.unit = unit
+    }
+
  };
 
 module.exports = Ingredient;

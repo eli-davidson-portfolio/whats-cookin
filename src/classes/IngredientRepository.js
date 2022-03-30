@@ -1,4 +1,3 @@
-
 const ingredientsData = [
     {
       "id": 20081,
@@ -1235,4 +1234,39 @@ const ingredientsData = [
     }
   ];
 
-module.exports = ingredientsData;
+//Classes
+const Ingredient = require('./Ingredient.js');
+const Recipe = require('./Recipe.js');
+const RecipeRepository = require('./RecipeRepository.js');
+const User = require('./User.js');
+const Pantry = require('./Pantry.js');
+const GroceryList = require('./GroceryList.js');
+const FavoriteList = require('./FavoriteList.js');
+const ToCookList = require('./ToCookList.js');
+//Data
+const ingredients = require('../data/ingredients.js');
+const recipes = require('../data/recipes.js');
+const users = require('../data/users.js');
+class IngredientRepository {
+    constructor(data = []) {
+        this.data = data;
+        this.ingredientlist = {};
+        this.createIngredients();
+    }
+    createIngredients() {
+        this.data = ingredients
+        this.data.forEach((ingredient) => {
+            this.ingredientlist[ingredient.id] = new Ingredient(ingredient.id, ingredient.name, ingredient.estimatedCostInCents);
+        })
+    }
+    getIngredient(id, qty, unit) {
+        const ingredient = this.ingredientlist[id];
+        console.log(ingredient)
+        ingredient.updateAmount(qty);
+        ingredient.updateUnit(unit);
+        return ingredient;
+    }
+
+}
+
+module.exports = IngredientRepository;

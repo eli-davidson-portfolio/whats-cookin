@@ -39,7 +39,7 @@ describe('Ingredient', () => {
         expect(ingredient.estimatedCostInCents).to.equal(99)
     });
 
-    it('Should store a ingredient unit string', () => {
+    it('Should store a igredient unit string', () => {
         expect(ingredient.unit).to.equal("servings")
     });
 
