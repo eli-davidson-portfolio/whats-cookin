@@ -40,13 +40,13 @@ class Ingredient {
         this.updateCost(amount)
     }
     updateName(name) {
-        this.name = name
+        if(name) this.name = name
     }
     updateCost(amount) {
         this.estimatedCostInCents = this.getCost() * amount
     }
     updateUnit(unit) {
-        this.unit = unit
+        if(unit) this.unit = unit
     }
 
  };
