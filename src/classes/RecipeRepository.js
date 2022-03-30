@@ -11,9 +11,24 @@ const ingredients = require('../data/ingredients.js');
 const recipes = require('../data/recipes.js');
 const users = require('../data/users.js');
 class RecipeRepository {
-  constructor() {
+  constructor(data = recipes) {
+    this.data = data
+    this.recipes = []
+    createRecipes()
+  }
+  createRecipes() {
+    this.data.forEach(recipe => {
+      this.recipes.push(new Recipe(recipe))
+    })
+  }
+  getRecipes() {
 
-    // One class to get you started!
+  }
+  filterTag() {
+
+  }
+  filterName() {
+
   }
 }
 

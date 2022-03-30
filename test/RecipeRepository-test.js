@@ -33,7 +33,7 @@ describe('RecipeRepository', () => {
   });
 
   it('Should be a method to instantiate recipe objects', () => {
-    expect(rr.createRecipe).to.be.an("function");
+    expect(rr.createRecipes).to.be.an("function");
   });
 
   it('Should store an array of recipe objects', () => {
