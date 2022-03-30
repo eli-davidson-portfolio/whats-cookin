@@ -12,10 +12,10 @@ const recipes = require('../data/recipes.js');
 const users = require('../data/users.js');
 
 class Recipe {
-    constructor(id = 0, image = 'no image', ingredients = []) {
-      this.id = id,
-      this.image = image,
-      this.ingredients = ingredients
+    constructor(recipe) {
+      this.id = recipe.id,
+      this.image = recipe.image,
+      this.ingredients = recipe.ingredients
 
         // One class to get you started!
     }
