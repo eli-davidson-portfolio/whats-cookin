@@ -40,7 +40,6 @@ describe('IngredientRepository', () => {
 
     it('Should have a method to return ingredients', () => {
         let result = ir.getIngredient(18069)
-        let start = ir.getIngredient(18069)
         result.updateAmount(6)
         result.updateUnit('slices')
         expect(result.id).to.equal(18069);
