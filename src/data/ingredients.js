@@ -1,3 +1,4 @@
+
 const ingredientsData = [
     {
       "id": 20081,
@@ -1233,3 +1234,5 @@ const ingredientsData = [
       "estimatedCostInCents": 613
     }
   ];
+
+module.exports = ingredientsData;

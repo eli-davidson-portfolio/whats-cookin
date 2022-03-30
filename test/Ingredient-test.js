@@ -82,4 +82,6 @@ describe('Ingredient', () => {
         ingredient.updateCost(199)
         expect(ingredient.getCost()).to.equal(199)
     })
+    console.log(ingredient)
+
 });
