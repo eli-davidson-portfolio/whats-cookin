@@ -14,11 +14,11 @@ const users = require('../data/users.js');
 class Ingredient {
     constructor(id = 0, name = "error", estimatedCostInCents = 0, unit = "servings", amount = 1) {
         this.id = id
-        this.name = name 
+        this.name = name
         this.amount = amount
         this.unit = unit
         this.estimatedCostInCents = estimatedCostInCents
-        // One class to get you started!
+        //One class to get you started!
     }
     getId() {
         return this.id
