@@ -16,11 +16,10 @@ const users = require('../src/data/users.js');
 
 
 describe('IngredientRepository', () => {
-    let ir 
+    let ir
 
     beforeEach(() => {
         ir = new IngredientRepository()
-
     })
 
     it('Should be a function', () => {
@@ -35,21 +34,19 @@ describe('IngredientRepository', () => {
         expect(ir.data).to.be.an('array');
     });
 
-    it('Should store ingredients in an object', () => {
-        expect(ir.ingredientlist).to.be.an('object');
-    });
-
-    it('Should have a method to instantiate ingrediant objects', () => {
+    it('Should have a method to instantiate ingredient objects', () => {
+      expect(ir.getIngredient).to.be.a('function')
     });
 
     it('Should have a method to return ingredients', () => {
-        let result = ir.getIngredient(18069, 6, 'slices')
+        let result = ir.getIngredient(18069)
+        result.updateAmount(6)
+        result.updateUnit('slices')
         expect(result.id).to.equal(18069);
         expect(result.name).to.equal('gluten-free white sandwich bread');
         expect(result.amount).to.equal(6);
         expect(result.unit).to.equal('slices');
         expect(result.estimatedCostInCents).to.equal(5178);
-        console.log(result)
     });
 
 
