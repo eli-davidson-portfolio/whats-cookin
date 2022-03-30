@@ -79,7 +79,9 @@ describe('Ingredient', () => {
     })
 
     it('Should be able to update the estimatedCostInCents', () => {
-        ingredient.updateCost(199)
-        expect(ingredient.getCost()).to.equal(199)
+        ingredient.updateAmount(2)
+        expect(ingredient.getCost()).to.equal(198)
     })
+    console.log(ingredient)
+
 });
