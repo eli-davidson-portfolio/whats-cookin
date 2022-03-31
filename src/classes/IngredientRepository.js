@@ -1,27 +1,30 @@
 
 //Classes
-const Ingredient = require('./Ingredient.js');
-const Recipe = require('./Recipe.js');
-const RecipeRepository = require('./RecipeRepository.js');
-const User = require('./User.js');
-const Pantry = require('./Pantry.js');
-const GroceryList = require('./GroceryList.js');
-const FavoriteList = require('./FavoriteList.js');
-const ToCookList = require('./ToCookList.js');
+import Ingredient from './Ingredient.js';
+// import Recipe from'../src/classes/Recipe.js';
+// import RecipeRepository from'../src/classes/RecipeRepository.js';
+// import User from'../src/classes/User.js';
+// import Pantry from'../src/classes/Pantry.js';
+// import GroceryList from'../src/classes/GroceryList.js';
+// import FavoriteList from'../src/classes/FavoriteList.js';
+// import ToCookList from'../src/classes/ToCookList.js';
 //Data
-const ingredients = require('../data/ingredients.js');
-const recipes = require('../data/recipes.js');
-const users = require('../data/users.js');
+import ingredients from'../data/ingredients.js';
+//import recipes from'../src/data/recipes.js';
+//import users from'../src/data/users.js';
 
 class IngredientRepository {
-    constructor(data = ingredients) {
+    constructor(data = ingredients.ingredientsData) {
         this.data = data;
+        this.newIngredient = {}
     }
 
     getIngredient(id) {
         let data = this.data.find(ingredient => ingredient.id === id)
-        return new Ingredient(data.id, data.name, data.estimatedCostInCents)
+        let test = new Ingredient(data.id, data.name, data.estimatedCostInCents)
+        return test
+        console.log(test, 'FUUUUUUUUUCK')
     }
 }
 
-module.exports = IngredientRepository;
+export default IngredientRepository;

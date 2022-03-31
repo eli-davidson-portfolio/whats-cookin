@@ -1,15 +1,15 @@
-//Classes
-const Recipe = require('./Recipe.js');
-const RecipeRepository = require('./RecipeRepository.js');
-const User = require('./User.js');
-const Pantry = require('./Pantry.js');
-const GroceryList = require('./GroceryList.js');
-const FavoriteList = require('./FavoriteList.js');
-const ToCookList = require('./ToCookList.js');
-//Data
-const ingredients = require('../data/ingredients.js');
-const recipes = require('../data/recipes.js');
-const users = require('../data/users.js');
+// import Ingredient from '../src/classes/Ingredient.js';
+// import Recipe from'../src/classes/Recipe.js';
+// import RecipeRepository from'../src/classes/RecipeRepository.js';
+// import User from'../src/classes/User.js';
+// import Pantry from'../src/classes/Pantry.js';
+// import GroceryList from'../src/classes/GroceryList.js';
+// import FavoriteList from'../src/classes/FavoriteList.js';
+// import ToCookList from'../src/classes/ToCookList.js';
+// //Data
+// import ingredients from'../src/data/ingredients.js';
+// import recipes from'../src/data/recipes.js';
+// import users from'../src/data/users.js';
 
 class Ingredient {
     constructor(id = 0, name = "error", estimatedCostInCents = 0, unit = "servings", amount = 1) {
@@ -50,5 +50,5 @@ class Ingredient {
     }
 
  };
-
-module.exports = Ingredient;
+ export default Ingredient;
+//module.exports = Ingredient;
