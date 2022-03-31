@@ -1,20 +1,46 @@
 //Classes
-const Ingredient = require('./Ingredient.js');
-const Recipe = require('./Recipe.js');
-const User = require('./User.js');
-const Pantry = require('./Pantry.js');
-const GroceryList = require('./GroceryList.js');
-const FavoriteList = require('./FavoriteList.js');
-const ToCookList = require('./ToCookList.js');
+//import Ingredient from './Ingredient.js';
+import IngredientRepository from './IngredientRepository.js';
+//import Recipe from'./Recipe.js';
+// import RecipeRepository from'./RecipeRepository.js';
+// import User from'./User.js';
+// import Pantry from'./Pantry.js';
+// import GroceryList from'./GroceryList.js';
+// import FavoriteList from'./FavoriteList.js';
+// import ToCookList from'./ToCookList.js';
 //Data
-const ingredients = require('../data/ingredients.js');
-const recipes = require('../data/recipes.js');
-const users = require('../data/users.js');
+//import ingredients from'./data/ingredients.js';
+import recipes from'../data/recipes.js'
+//console.log(recipes);
+//import users from'./data/users.js';
 class RecipeRepository {
-  constructor() {
+  constructor(data = recipes.recipeData) {
+    this.data = data
+    this.recipes = []
+    this.ir = new IngredientRepository()
+    this.createRecipes()
+    console.log(this.ir, 'NEW INGREPO')
+  }
 
-    // One class to get you started!
+  createRecipes() {
+    this.data.forEach(recipe => {
+    //  let newRecipe = new Recipe(recipe)
+      // newRecipe.ingredients.forEach((ingredient) => {
+      //   let newIngredient = this.ir.getIngredient(ingredient.id)
+      //   console.log(newIngredient, 'newIngredient')
+      // //  ingredient.id, ingredient.quantity.amount, ingredient.quantity.unit)
+      // })
+      this.recipes.push()
+    })
+  }
+  getRecipes() {
+
+  }
+  filterTag() {
+
+  }
+  filterName() {
+
   }
 }
-
-module.exports = RecipeRepository;
+export default RecipeRepository;

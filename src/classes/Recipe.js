@@ -1,21 +1,31 @@
-//Classes
-const Ingredient = require('./Ingredient.js');
-const RecipeRepository = require('./RecipeRepository.js');
-const User = require('./User.js');
-const Pantry = require('./Pantry.js');
-const GroceryList = require('./GroceryList.js');
-const FavoriteList = require('./FavoriteList.js');
-const ToCookList = require('./ToCookList.js');
-//Data
-const ingredients = require('../data/ingredients.js');
-const recipes = require('../data/recipes.js');
-const users = require('../data/users.js');
 
 class Recipe {
-    constructor() {
+    constructor(recipe) {
 
-        // One class to get you started!
+      this.id = recipe.id
+      this.name = recipe.name
+      this.image = recipe.image
+      this.ingredientsData = recipe.ingredients
+      this.ingredients = []
+      this.instructions = recipe.instructions
+      this.tags = recipe.tags
+      //this.updateIngredients()
     }
-}
 
-module.exports = Recipe;
+    updateIngredients() {
+      let data = this.ingredients.shift()
+      this.ingredients.push()
+      console.log(data, ' DATA')
+    }
+
+    getInstructions() {
+      return this.instructions.map((instruction) => {
+        return {
+          step: instruction.number,
+          instruction: instruction.instruction
+      }
+      })
+    }
+
+}
+export default Recipe;

@@ -1,26 +1,24 @@
 import { expect } from 'chai';
 //Classes
-const Ingredient = require('../src/classes/Ingredient.js');
-const Recipe = require('../src/classes/Recipe.js');
-const RecipeRepository = require('../src/classes/RecipeRepository.js');
-const IngredientRepository = require('../src/classes/IngredientRepository.js');
-const User = require('../src/classes/User.js');
-const Pantry = require('../src/classes/Pantry.js');
-const GroceryList = require('../src/classes/GroceryList.js');
-const FavoriteList = require('../src/classes/FavoriteList.js');
-const ToCookList = require('../src/classes/ToCookList.js');
-//Data
-const ingredients = require('../src/data/ingredients.js');
-const recipes = require('../src/data/recipes.js');
-const users = require('../src/data/users.js');
+import IngredientRepository from '../src/classes/IngredientRepository.js';
+// import Recipe from'../src/classes/Recipe.js';
+// import RecipeRepository from'../src/classes/RecipeRepository.js';
+// import User from'../src/classes/User.js';
+// import Pantry from'../src/classes/Pantry.js';
+// import GroceryList from'../src/classes/GroceryList.js';
+// import FavoriteList from'../src/classes/FavoriteList.js';
+// import ToCookList from'../src/classes/ToCookList.js';
+// //Data
+import ingredients from'../src/data/ingredients.js';
+// import recipes from'../src/data/recipes.js';
+// import users from'../src/data/users.js';
 
 
 describe('IngredientRepository', () => {
-    let ir 
+    let ir
 
     beforeEach(() => {
-        ir = new IngredientRepository()
-
+        ir = new IngredientRepository(ingredients.ingredientsData)
     })
 
     it('Should be a function', () => {
@@ -35,21 +33,19 @@ describe('IngredientRepository', () => {
         expect(ir.data).to.be.an('array');
     });
 
-    it('Should store ingredients in an object', () => {
-        expect(ir.ingredientlist).to.be.an('object');
-    });
-
-    it('Should have a method to instantiate ingrediant objects', () => {
+    it('Should have a method to instantiate ingredient objects', () => {
+      expect(ir.getIngredient).to.be.a('function')
     });
 
     it('Should have a method to return ingredients', () => {
-        let result = ir.getIngredient(18069, 6, 'slices')
+        let result = ir.getIngredient(18069)
+        result.updateAmount(6)
+        result.updateUnit('slices')
         expect(result.id).to.equal(18069);
         expect(result.name).to.equal('gluten-free white sandwich bread');
         expect(result.amount).to.equal(6);
         expect(result.unit).to.equal('slices');
         expect(result.estimatedCostInCents).to.equal(5178);
-        console.log(result)
     });
 
 

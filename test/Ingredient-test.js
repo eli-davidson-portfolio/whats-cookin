@@ -1,17 +1,17 @@
 import { expect } from 'chai';
 //Classes
-const Ingredient = require('../src/classes/Ingredient.js');
-const Recipe = require('../src/classes/Recipe.js');
-const RecipeRepository = require('../src/classes/RecipeRepository.js');
-const User = require('../src/classes/User.js');
-const Pantry = require('../src/classes/Pantry.js');
-const GroceryList = require('../src/classes/GroceryList.js');
-const FavoriteList = require('../src/classes/FavoriteList.js');
-const ToCookList = require('../src/classes/ToCookList.js');
+import Ingredient from '../src/classes/Ingredient.js';
+// import Recipe from'../src/classes/Recipe.js';
+// import RecipeRepository from'../src/classes/RecipeRepository.js';
+// import User from'../src/classes/User.js';
+// import Pantry from'../src/classes/Pantry.js';
+// import GroceryList from'../src/classes/GroceryList.js';
+// import FavoriteList from'../src/classes/FavoriteList.js';
+// import ToCookList from'../src/classes/ToCookList.js';
 //Data
-const ingredients = require('../src/data/ingredients.js');
-const recipes = require('../src/data/recipes.js');
-const users = require('../src/data/users.js');
+// import ingredients from'../src/data/ingredients.js';
+// import recipes from'../src/data/recipes.js';
+// import users from'../src/data/users.js';
 
 describe('Ingredient', () => {
     let ingredient
@@ -30,7 +30,7 @@ describe('Ingredient', () => {
     it('Should store a id number', () => {
         expect(ingredient.id).to.equal(1)
     });
-        
+
     it('Should store a name string', () => {
         expect(ingredient.name).to.equal("Potatoe")
     })
@@ -52,7 +52,7 @@ describe('Ingredient', () => {
     })
 
     it('Should have a method to return name', () => {
-        expect(ingredient.getName()).to.equal('Potatoe') 
+        expect(ingredient.getName()).to.equal('Potatoe')
     })
 
     it('Should have a method to return estimatedCostInCents', () => {
@@ -82,6 +82,4 @@ describe('Ingredient', () => {
         ingredient.updateAmount(2)
         expect(ingredient.getCost()).to.equal(198)
     })
-    console.log(ingredient)
-
 });
