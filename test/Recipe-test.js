@@ -1,18 +1,18 @@
 import { expect } from 'chai';
 //Classes
 import Ingredient from '../src/classes/Ingredient.js';
-import IngredientRepository from '../src/classes/IngredientRepository.js';
+import RecipeRepository from '../src/classes/RecipeRepository.js';
 import Recipe from'../src/classes/Recipe.js';
 //Data
 import recipesTestData from '../src/data/recipesTestData.js';
 
 describe('Recipe', () => {
 
-  let ir, recipe, ingredient1, ingredient2, ingredient3
-  recipe = new Recipe(recipesTestData.recipesTestData[0])
+  let ir, recipe, ingredient1, ingredient2, ingredient3, rr
   
   beforeEach(() => {
-    ir = new IngredientRepository()
+    rr = new RecipeRepository()
+    recipe = rr.recipes[0]
   })
 
     it('Should be a function', () => {
@@ -63,19 +63,41 @@ describe('Recipe', () => {
       expect(recipe.tags[0]).to.be.a('string')
     })
 // fix after updating recipe repo
-    it.skip('Should have a method to return names of ingredients', () => {
-      expect(recipe.getIngredientNames).to.equal('name')
+    it('Should have a method to return names of ingredients', () => {
+      expect(recipe.getIngredientNames()[0]).to.equal('wheat flour')
     })
 
-    it.skip('Should have a method to determine the cost of ingredients', () => {
-      expect(recipe.getTotalCost).to.equal(99)
+    it('Should have a method to determine the cost of ingredients', () => {
+      recipe.updateCost()
+      expect(recipe.totalCost).to.equal(17776)
     })
+
     it('Should have method to return the instructions', () => {
-      console.log(recipe.getInstructions())
       expect(recipe.getInstructions()[0]).to.deep.equal({
         step: 1,
         instruction: `In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy.`
       })
     })
 
+    it('Should have a method to favorite a recipe', () => {
+        recipe.favorite()
+        expect(recipe.tags.includes('favorite')).to.be.true
+      })
+
+      it('Should have a method to unfavorite a recipe', () => {   
+        recipe.favorite()
+        recipe.unfavorite()
+        expect(recipe.tags.includes('favorite')).to.be.false
+      })
+
+      it('Should have a method to add toCook tag to a recipe', () => {
+        recipe.toCook()
+        expect(recipe.tags.includes('toCook')).to.be.true
+      })
+
+      it('Should have a method to remove toCook from a recipe', () => {   
+        recipe.toCook()
+        recipe.notToCook()
+        expect(recipe.tags.includes('toCook')).to.be.false
+      })
 })

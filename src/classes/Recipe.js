@@ -9,6 +9,7 @@ class Recipe {
       this.ingredients = []
       this.instructions = recipe.instructions
       this.tags = recipe.tags
+      this.totalCost = 0
       //this.updateIngredients()
     }
 
@@ -26,6 +27,28 @@ class Recipe {
       }
       })
     }
-
+    updateCost() {
+        this.totalCost = this.ingredients.reduce((sum, ingredient) => {
+            sum += ingredient.estimatedCostInCents
+            return sum
+        }, 0)
+    }
+    favorite() {
+       if (!this.tags.includes('favorite')) this.tags.push('favorite')
+    }
+    unfavorite() {
+        if (this.tags.includes('favorite')) this.tags.pop()
+    }
+    toCook() {
+        if (!this.tags.includes('toCook')) this.tags.unshift('toCook')
+     }
+     notToCook() {
+         if (this.tags.includes('toCook')) this.tags.shift()
+     }
+     getIngredientNames() {
+         return this.ingredients.map((ingredient) => {
+             return ingredient.name
+         })
+     }
 }
 export default Recipe;
