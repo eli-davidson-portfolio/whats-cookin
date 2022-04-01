@@ -1,15 +1,3 @@
-// import Ingredient from '../src/classes/Ingredient.js';
-// import Recipe from'../src/classes/Recipe.js';
-// import RecipeRepository from'../src/classes/RecipeRepository.js';
-// import User from'../src/classes/User.js';
-// import Pantry from'../src/classes/Pantry.js';
-// import GroceryList from'../src/classes/GroceryList.js';
-// import FavoriteList from'../src/classes/FavoriteList.js';
-// import ToCookList from'../src/classes/ToCookList.js';
-// //Data
-// import ingredients from'../src/data/ingredients.js';
-// import recipes from'../src/data/recipes.js';
-// import users from'../src/data/users.js';
 
 class Ingredient {
     constructor(id = 0, name = "error", estimatedCostInCents = 0, unit = "servings", amount = 1) {
@@ -18,7 +6,6 @@ class Ingredient {
         this.amount = amount
         this.unit = unit
         this.estimatedCostInCents = estimatedCostInCents
-        //One class to get you started!
     }
     getId() {
         return this.id
@@ -51,4 +38,4 @@ class Ingredient {
 
  };
  export default Ingredient;
-//module.exports = Ingredient;
+
