@@ -1,7 +1,7 @@
 //Classes
 //import Ingredient from './Ingredient.js';
 import IngredientRepository from './IngredientRepository.js';
-//import Recipe from'./Recipe.js';
+import Recipe from'./Recipe.js';
 // import RecipeRepository from'./RecipeRepository.js';
 // import User from'./User.js';
 // import Pantry from'./Pantry.js';
@@ -19,28 +19,41 @@ class RecipeRepository {
     this.recipes = []
     this.ir = new IngredientRepository()
     this.createRecipes()
-    console.log(this.ir, 'NEW INGREPO')
+    // console.log(this.ir, 'NEW INGREPO')
+    // console.log(this.recipes)
   }
 
   createRecipes() {
     this.data.forEach(recipe => {
-    //  let newRecipe = new Recipe(recipe)
-      // newRecipe.ingredients.forEach((ingredient) => {
-      //   let newIngredient = this.ir.getIngredient(ingredient.id)
-      //   console.log(newIngredient, 'newIngredient')
-      // //  ingredient.id, ingredient.quantity.amount, ingredient.quantity.unit)
-      // })
-      this.recipes.push()
+     let newRecipe = new Recipe(recipe)
+    //  console.log(newRecipe)
+    //  console.log(newRecipe.ingredients)
+      newRecipe.ingredientsData.forEach((ingredient, index) => {
+        let newIngredient = this.ir.getIngredient(newRecipe.ingredientsData[index].id)
+        
+        newIngredient.updateAmount(newRecipe.ingredientsData[index].quantity.amount)
+
+        newIngredient.updateUnit(newRecipe.ingredientsData[index].quantity.unit)
+        
+        newRecipe.ingredients.push(newIngredient)
+        // console.log(newIngredient, 'newIngredient')
+      //  ingredient.id, ingredient.quantity.amount, ingredient.quantity.unit)
+      })
+      this.recipes.push(newRecipe)
     })
   }
   getRecipes() {
-
+   return this.recipes
   }
-  filterTag() {
-
+  filterTag(tag) {
+    return this.recipes.filter(recipe => {
+      recipe.tag.includes(tag)
+    })
   }
-  filterName() {
-
+  filterName(name) {
+    return this.recipes.filter(recipe => {
+      recipe.name.includes(name)
+    })
   }
 }
 export default RecipeRepository;
