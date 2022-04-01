@@ -1,17 +1,8 @@
 import { expect } from 'chai';
 //Classes
 import IngredientRepository from '../src/classes/IngredientRepository.js';
-// import Recipe from'../src/classes/Recipe.js';
-// import RecipeRepository from'../src/classes/RecipeRepository.js';
-// import User from'../src/classes/User.js';
-// import Pantry from'../src/classes/Pantry.js';
-// import GroceryList from'../src/classes/GroceryList.js';
-// import FavoriteList from'../src/classes/FavoriteList.js';
-// import ToCookList from'../src/classes/ToCookList.js';
 // //Data
 import ingredients from'../src/data/ingredients.js';
-// import recipes from'../src/data/recipes.js';
-// import users from'../src/data/users.js';
 
 
 describe('IngredientRepository', () => {

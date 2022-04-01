@@ -10,7 +10,6 @@ class Recipe {
       this.instructions = recipe.instructions
       this.tags = recipe.tags
       this.totalCost = 0
-      //this.updateIngredients()
     }
 
     updateIngredients() {

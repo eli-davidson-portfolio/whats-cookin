@@ -1,14 +1,12 @@
 import { expect } from 'chai';
 //Classes
-import Ingredient from '../src/classes/Ingredient.js';
 import RecipeRepository from '../src/classes/RecipeRepository.js';
 import Recipe from'../src/classes/Recipe.js';
-//Data
-import recipesTestData from '../src/data/recipesTestData.js';
+
 
 describe('Recipe', () => {
 
-  let ir, recipe, ingredient1, ingredient2, ingredient3, rr
+  let recipe, rr
   
   beforeEach(() => {
     rr = new RecipeRepository()
@@ -28,7 +26,7 @@ describe('Recipe', () => {
     });
 
     it('Should store an image', () => {
-      //UPdate wit.skiph image file!!!
+   
         expect(recipe.image).to.equal("https://spoonacular.com/recipeImages/595736-556x370.jpg")
     });
 
@@ -62,7 +60,7 @@ describe('Recipe', () => {
       expect(recipe.tags.length).to.equal(6)
       expect(recipe.tags[0]).to.be.a('string')
     })
-// fix after updating recipe repo
+
     it('Should have a method to return names of ingredients', () => {
       expect(recipe.getIngredientNames()[0]).to.equal('wheat flour')
     })
