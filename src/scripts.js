@@ -44,13 +44,17 @@ asideList.addEventListener('click', () => {
     checkedBoxes.forEach((checkbox) => {
         tags.push(checkbox.value);
     });
-  filterByTag(tags)
+    if (tags.length) {
+        filterByTag(tags)
+    } else {
+        displayRecipes()
+    }
 })
 
 
 function displayRecipes(recipeList = recipes, title = "") {
     let plural = ''
-    if(recipeList.length > 1) plural = 's'
+    if(recipeList.length !== 1) plural = 's'
     detailsTitle.innerText = `${recipeList.length} ${title} recipe${plural}.`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
