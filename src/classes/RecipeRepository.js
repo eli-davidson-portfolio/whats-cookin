@@ -7,6 +7,7 @@ class RecipeRepository {
   constructor(data = recipes.recipeData) {
     this.data = data
     this.recipes = []
+    this.tags = []
     this.ir = new IngredientRepository()
     this.createRecipes()
   }
@@ -24,20 +25,45 @@ class RecipeRepository {
         
         newRecipe.ingredients.push(newIngredient)
       })
+      this.createTags(newRecipe.tags)
+      newRecipe.updateCost()
       this.recipes.push(newRecipe)
     })
   }
-  getRecipes() {
-   return this.recipes
+
+  createTags(tags) {
+    if (tags) {
+      tags.forEach(tag => {
+        if(!this.tags.includes(tag)) {
+          this.tags.push(tag)
+        }
+        this.tags.sort()
+      }) 
+    }
   }
-  filterTag(tag) {
-    return this.recipes.filter(recipe => {
-      recipe.tag.includes(tag)
+  
+
+
+  getRecipeById(id) {
+    console.log('id2', (typeof(id)))
+    return this.recipes.find(recipe => {
+      return recipe.id === id
     })
   }
+
+  getAllRecipes() {
+   return this.recipes
+  }
+
+  filterTag(tag) {
+    return this.recipes.filter(recipe => {
+      return recipe.tags.includes(tag)
+    })
+  }
+
   filterName(name) {
     return this.recipes.filter(recipe => {
-      recipe.name.includes(name)
+      return recipe.name.includes(name)
     })
   }
 }
