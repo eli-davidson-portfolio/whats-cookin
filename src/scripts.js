@@ -107,7 +107,6 @@ function createInstructionsList(instructions) {
 }
 
 function displayTags() {
-
     let tags = ''
     recipeRepository.tags.forEach((tag) => {
         tags += `<div><input type="radio" id="${tag}" name="tags" value="${tag}">
@@ -121,6 +120,12 @@ function displayTags() {
 function filterByTag(tag) {
     displayRecipes(recipeRepository.filterTag(tag), `${tag}`)
 }
+
+function filterByIDList(listData, name) {
+    displayRecipes(recipeRepository.filterList(listData), name)
+}
+
+
 
 function searchByName(name) {
     displayRecipes(recipeRepository.filterName(name), `${name}`)

@@ -14,24 +14,29 @@ class RecipeRepository {
 
   createRecipes() {
     this.data.forEach(recipe => {
-     let newRecipe = new Recipe(recipe)
-
-      newRecipe.ingredientsData.forEach((ingredient, index) => {
-        let newIngredient = this.ir.getIngredient(newRecipe.ingredientsData[index].id)
-        
-        newIngredient.updateAmount(newRecipe.ingredientsData[index].quantity.amount)
-
-        newIngredient.updateUnit(newRecipe.ingredientsData[index].quantity.unit)
-        
-        newRecipe.ingredients.push(newIngredient)
-      })
-      this.createTags(newRecipe.tags)
+      let newRecipe = new Recipe(recipe)
+      this.createTags(newRecipe)
+      this.createIngredients(newRecipe)
       newRecipe.updateCost()
       this.recipes.push(newRecipe)
     })
   }
 
-  createTags(tags) {
+  createIngredients(recipe) {
+    let ingredientsData = recipe.ingredientsData;
+    
+    ingredientsData.forEach((ingredient, index) => {
+      const id = recipe.ingredientsData[index].id;
+      const amount = recipe.ingredientsData[index].quantity.amount;
+      const unit = recipe.ingredientsData[index].quantity.unit;
+
+      recipe.ingredients.push(this.ir.getIngredient(id, amount, unit))
+    })
+    recipe.updateCost()
+  }
+
+  createTags(recipe) {
+    let tags = recipe.tags
     if (tags) {
       tags.forEach(tag => {
         if(!this.tags.includes(tag)) {
@@ -42,8 +47,6 @@ class RecipeRepository {
     }
   }
   
-
-
   getRecipeById(id) {
     console.log('id2', (typeof(id)))
     return this.recipes.find(recipe => {
@@ -61,9 +64,21 @@ class RecipeRepository {
     })
   }
 
+  filterList(list) {
+    return this.recipes.filter(recipe => {
+      list.includes(recipe.id)
+    })
+  }
+
   filterName(name) {
     return this.recipes.filter(recipe => {
-      return recipe.name.includes(name)
+      let response = false
+      name.split(' ').forEach(word => {
+        if (recipe.name.toLowerCase().includes(word.toLowerCase())) {
+          response = true
+        }
+      })
+      return response;
     })
   }
 }

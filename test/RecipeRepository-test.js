@@ -30,7 +30,7 @@ describe('RecipeRepository', () => {
   });
 
   it('Should have a method to return recipes', () => {
-    expect(rr.getRecipes).to.be.a("function");
+    expect(rr.getAllRecipes).to.be.a("function");
   });
 
   it('Should be able to filter recipes by tag', () => {
