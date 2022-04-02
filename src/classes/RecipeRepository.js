@@ -58,9 +58,15 @@ class RecipeRepository {
    return this.recipes
   }
 
-  filterTag(tag) {
+  filterTag(tags) {
     return this.recipes.filter(recipe => {
-      return recipe.tags.includes(tag)
+      let response = false
+      tags.forEach(tag => {
+        if (recipe.tags.includes(tag)) {
+          response = true
+        }
+      })
+      return response;
     })
   }
 

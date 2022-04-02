@@ -39,8 +39,12 @@ search.addEventListener('keyup', (event) => {
 
 asideList.addEventListener('click', () => {
   search.value = ''
-  let tag = document.querySelector('input[name="tags"]:checked').value;
-  filterByTag(tag)
+  let checkedBoxes = document.querySelectorAll('input[name="tags"]:checked');
+  let tags = [];
+    checkedBoxes.forEach((checkbox) => {
+        tags.push(checkbox.value);
+    });
+  filterByTag(tags)
 })
 
 
@@ -109,23 +113,42 @@ function createInstructionsList(instructions) {
 function displayTags() {
     let tags = ''
     recipeRepository.tags.forEach((tag) => {
-        tags += `<div><input type="radio" id="${tag}" name="tags" value="${tag}">
+        tags += `<div><input type="checkbox" id="${tag}" name="tags" value="${tag}">
                 <label for="${tag}">${tag.charAt(0).toUpperCase() + tag.slice(1)}</label></div>`
     })
 
-    asideTitle.innerText = 'Tags'
+    asideTitle.innerText = 'Filter'
     asideList.innerHTML = tags
 }
 
-function filterByTag(tag) {
-    displayRecipes(recipeRepository.filterTag(tag), `${tag}`)
+function filterByTag(tags) {
+    //0 tags
+    if (!tags) return
+    
+    const firstIndex = 0;
+    const lastIndex = tags.length - 1;
+    let title = ''
+    
+    //1 tag
+    if (tags.length <= 1) {
+        title = tags[firstIndex]
+    } 
+
+    //more than 1 tag
+    if (tags.length > 1) {
+        tags.forEach((tag, index) => {
+            if (index === firstIndex) title = tag
+            if (index !== firstIndex && index !== lastIndex) title += `, ${tag}`
+            if (index === lastIndex) title += `, or ${tag}`
+        }) 
+    }
+
+    displayRecipes(recipeRepository.filterTag(tags), title)
 }
 
 function filterByIDList(listData, name) {
     displayRecipes(recipeRepository.filterList(listData), name)
 }
-
-
 
 function searchByName(name) {
     displayRecipes(recipeRepository.filterName(name), `${name}`)
