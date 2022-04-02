@@ -7,13 +7,9 @@ import RecipeRepository from './classes/RecipeRepository.js';
 
 const recipeRepository = new RecipeRepository;
 
-const recipes = recipeRepository.getAllRecipes()
-
 let recipeCardContainer = document.querySelector('.recipe_cards_container')
 let recipeDetailsContainer = document.querySelector('.recipe_details_container')
 let search = document.querySelector('.search')
-
-
 let asideTitle = document.querySelector('.aside_title')
 let asideList = document.querySelector('.aside_information_list')
 let detailsTitle = document.querySelector('.details_title')
@@ -31,17 +27,22 @@ homeButton.addEventListener('click', () => {
     displayTags()
 })
 
-search.addEventListener('keypress', (event) => {
-    if (!search.value) displayRecipes(recipes)
+search.addEventListener('keyup', (event) => {
+  if (!search.value && recipeDetailsContainer.classList.contains('hidden')) {
+    displayRecipes()
+    displayTags()
+  }
     if (event.key === "Enter" && search.value) {
        searchByName(search.value)
    }
 })
 
 asideList.addEventListener('click', () => {
-   let tag = document.querySelector('input[name="tags"]:checked').value;
-   filterByTag(tag)
+  search.value = ''
+  let tag = document.querySelector('input[name="tags"]:checked').value;
+  filterByTag(tag)
 })
+
 
 function displayRecipes(recipeList = recipes, title = "") {
     let plural = ''
@@ -69,24 +70,14 @@ function createRecipeCard(recipe) {
 function showRecipeDetails(id) {
     let result = recipeRepository.getRecipeById(id)
     recipeCardContainer.classList.add('hidden')
-    
-    let ingredients = '<ol>'
-    result.ingredients.forEach((ingredient) => {
-        ingredients += `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`
-    })
-    ingredients += `</ol>`
-    asideTitle.innerText = 'Ingredients'
-    asideList.innerHTML = ingredients
 
-    let instructions = ''
-    result.instructions.forEach((instruction) => {
-        instructions += `<li>${instruction.instruction}</li>`
-    })
+    createIngredientsList(result.ingredients)
+
     detailsTitle.innerHTML = `${result.name}</br>Total cost: $ ${result.totalCost.toFixed(2)}`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
     <section class="recipe_instructions_containter scrollable">
     <ol>
-    ${instructions}
+    ${createInstructionsList(result.instructions)}
     </ol>
     </section>
     <div class="recipe_card_button_container">
@@ -97,18 +88,35 @@ function showRecipeDetails(id) {
     recipeDetailsContainer.classList.remove('hidden')
 }
 
+function createIngredientsList(ingredients) {
+  let ingredientsHTML = '<ul>'
+  ingredients.forEach((ingredient) => {
+      ingredientsHTML += `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`
+  })
+  ingredientsHTML += `</ul>`
+  asideTitle.innerText = 'Ingredients'
+  asideList.innerHTML = ingredientsHTML
+}
+
+function createInstructionsList(instructions) {
+  let instructionsHTML = ''
+  instructions.forEach((instruction) => {
+      instructionsHTML += `<li>${instruction.instruction}</li>`
+  })
+  return instructionsHTML
+}
+
 function displayTags() {
 
     let tags = ''
     recipeRepository.tags.forEach((tag) => {
         tags += `<div><input type="radio" id="${tag}" name="tags" value="${tag}">
-                <label for="${tag}">${tag}</label></div>`
+                <label for="${tag}">${tag.charAt(0).toUpperCase() + tag.slice(1)}</label></div>`
     })
 
     asideTitle.innerText = 'Tags'
     asideList.innerHTML = tags
 }
-
 
 function filterByTag(tag) {
     displayRecipes(recipeRepository.filterTag(tag), `${tag}`)
@@ -117,6 +125,8 @@ function filterByTag(tag) {
 function searchByName(name) {
     displayRecipes(recipeRepository.filterName(name), `${name}`)
 }
+
+const recipes = recipeRepository.getAllRecipes()
 
 displayTags()
 displayRecipes()

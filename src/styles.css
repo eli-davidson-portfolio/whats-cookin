@@ -27,6 +27,17 @@ main {
   width: 100vw;
 
 }
+
+.home_button {
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+}
+
+.icon {
+  font-size: 100px;
+}
+
 .search{
   margin-right: 30px;
  border: 1px black solid;
