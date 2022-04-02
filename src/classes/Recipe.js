@@ -31,6 +31,7 @@ class Recipe {
             sum += ingredient.estimatedCostInCents
             return sum
         }, 0)
+        this.totalCost = this.totalCost / 100
     }
     favorite() {
        if (!this.tags.includes('favorite')) this.tags.push('favorite')
