@@ -1,3 +1,127 @@
+* {
+  border: 1px white solid;
+}
+
 body {
-  background-color: blueviolet;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /*background-color: blueviolet;*/
+  margin: 0
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 3px pink solid;
+  width: 100vw;
+  height: 10vh;
+
+}
+
+main {
+  display: flex;
+  justify-content: space-between;
+  height: 85vh;
+  width: 100vw;
+
+}
+.search{
+ border: 1px black solid;
+}
+
+.title-container {
+  display: flex;
+  align-items: flex-end;
+  border: 3px pink solid;
+  height: 10vh;
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  border: 3px blue solid;
+  width: 33vw;
+}
+
+.aside_information_list {
+  border: 3px purple solid;
+  height: 75%;
+}
+
+.aside_action_button_containter {
+  border: 3px red solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;;
+}
+
+.scrollable {
+  overflow: scroll;
+}
+
+.details {
+  border: 3px green solid;
+  width: 100vw;
+}
+
+.details_information {
+  height: 85%;
+  border: 3px purple solid;
+}
+
+.recipe_cards_container {
+  height: 90%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  grid-auto-rows: minmax(50%, auto);
+}
+
+.recipe_details_container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.recipe_instructions_containter {
+
+}
+
+.recipe_card {
+  border: 3px green solid;
+}
+
+.recipe_card_button_container {
+  float: right;
+  position: relative;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe_card_image {
+  height: auto;
+    width: 100%;
+}
+
+.recipe_details_image {
+  height: 20%;
+  width: 20%;
+}
+.recipe_instructions_containter {
+  border: 1px solid black;
+  width: 90%;
+}
+
+.recipe_card_title {
+  align-self: flex-start;
+}
+
+.hidden {
+  display: none;
 }
