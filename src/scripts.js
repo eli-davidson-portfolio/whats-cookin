@@ -4,8 +4,12 @@ import apiCalls from './apiCalls';
 import './images/turing-logo.png'
 
 import RecipeRepository from './classes/RecipeRepository.js';
+import User from './classes/User.js';
+import usersData from './data/users';
 
-const recipeRepository = new RecipeRepository;
+const recipeRepository = new RecipeRepository();
+const randomIndex = getRandomIndex(usersData.length);
+const currentUser = new User(usersData[randomIndex]);
 
 let recipeCardContainer = document.querySelector('.recipe_cards_container')
 let recipeDetailsContainer = document.querySelector('.recipe_details_container')
@@ -14,6 +18,7 @@ let asideTitle = document.querySelector('.aside_title')
 let asideList = document.querySelector('.aside_information_list')
 let detailsTitle = document.querySelector('.details_title')
 let homeButton = document.querySelector('.home_button')
+let username = document.querySelector('.username')
 
 recipeCardContainer.addEventListener('click', (event) =>{
     if(event.target.parentNode.id) {
@@ -51,6 +56,10 @@ asideList.addEventListener('click', () => {
     }
 })
 
+function displayUsername(name) {
+    if (!name || (typeof (name) !== 'string')) return
+    username.innerText = `${name}?`
+}
 
 function displayRecipes(recipeList = recipes, title = "") {
     let plural = ''
@@ -158,7 +167,13 @@ function searchByName(name) {
     displayRecipes(recipeRepository.filterName(name), `${name}`)
 }
 
+function getRandomIndex(maxIndex) {
+    return Math.floor(Math.random() * maxIndex)
+}
+
 const recipes = recipeRepository.getAllRecipes()
+
 
 displayTags()
 displayRecipes()
+displayUsername(currentUser.name)
