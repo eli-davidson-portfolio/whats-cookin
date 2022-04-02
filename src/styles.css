@@ -28,6 +28,7 @@ main {
 
 }
 .search{
+  margin-right: 30px;
  border: 1px black solid;
 }
 
@@ -74,7 +75,7 @@ main {
 }
 
 .recipe_cards_container {
-  height: 90%;
+  height: 100%;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -93,7 +94,7 @@ main {
 }
 
 .recipe_card {
-  border: 3px green solid;
+  /* border: 3px green solid; */
 }
 
 .recipe_card_button_container {
@@ -106,12 +107,12 @@ main {
 
 .recipe_card_image {
   height: auto;
-    width: 100%;
+  width: 75%;
 }
 
 .recipe_details_image {
-  height: 20%;
-  width: 20%;
+  height: 50%;
+  width: auto;
 }
 .recipe_instructions_containter {
   border: 1px solid black;
