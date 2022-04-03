@@ -72,8 +72,9 @@ class RecipeRepository {
    return this.recipes
   }
 
-  filterTag(tags) {
-    return this.recipes.filter(recipe => {
+  filterTag(tags, baseList) {
+    let filteredList = this.filterList(baseList)
+    return filteredList.filter(recipe => {
       let response = false
       tags.forEach(tag => {
         if (recipe.tags.includes(tag)) {
@@ -90,8 +91,9 @@ class RecipeRepository {
     })
   }
 
-  filterName(name) {
-    return this.recipes.filter(recipe => {
+  filterName(name, baseList) {
+    let filteredList = this.filterList(baseList)
+    return filteredList.filter(recipe => {
       let response = false
       name.split(' ').forEach(word => {
         if (recipe.name.toLowerCase().includes(word.toLowerCase())) {

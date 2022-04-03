@@ -8,9 +8,16 @@ class User {
         this.id = data.id
         this.name = data.name
         this.pantryItems = data.pantry
+        this.currentCategory = 'All Recipes'
+        this.currentList = 'allRecipes'
         this.favorites = []
         this.recipesToCook = []
         this.allRecipes = []
+    }
+
+    setCurrentList(listName, category) {
+        this.currentCategory = category;
+        this.currentList = listName;
     }
 
     updateAllRecipes(ids) {
