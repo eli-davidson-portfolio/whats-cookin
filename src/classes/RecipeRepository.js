@@ -3,7 +3,7 @@ import IngredientRepository from './IngredientRepository.js';
 import Recipe from'./Recipe.js';
 
 class RecipeRepository {
-  constructor(data = {}, ingredientsData) {
+  constructor(data = [], ingredientsData) {
     this.data = data
     this.recipes = []
     this.tags = []
