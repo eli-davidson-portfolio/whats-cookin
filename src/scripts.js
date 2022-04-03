@@ -24,9 +24,11 @@ let recipeCategoryButtons = document.querySelector('.aside_action_button_contain
 
 recipeCategoryButtons.addEventListener('click', (event) => {
   if (event.target.name === "recipe_categories") {
-    displayRecipes(currentUser[event.target.value])
+      currentUser.setCurrentList(event.target.value, event.target.dataset.category)
+    displayRecipes()
     displayTags()
     search.value = ''
+    console.log(currentUser.currentList)
   }
 })
 detailsInformation.addEventListener('click', (event) =>{
@@ -62,6 +64,9 @@ detailsInformation.addEventListener('click', (event) =>{
 })
 
 homeButton.addEventListener('click', () => {
+    document.getElementById("all_recipes").checked = true;
+    currentUser.setCurrentList('allRecipes', 'All Recipes')
+    search.value = ''
     displayRecipes()
     displayTags()
 })
@@ -77,29 +82,33 @@ search.addEventListener('keyup', (event) => {
 })
 
 asideList.addEventListener('click', () => {
-  search.value = ''
-  let checkedBoxes = document.querySelectorAll('input[name="tags"]:checked');
-  let tags = [];
+    filterByTag(getSelectedTags())
+})
+
+function getSelectedTags() {
+    search.value = ''
+    let checkedBoxes = document.querySelectorAll('input[name="tags"]:checked');
+    let tags = [];
     checkedBoxes.forEach((checkbox) => {
         tags.push(checkbox.value);
     });
     if (tags.length) {
-        filterByTag(tags)
+        return tags
     } else {
         displayRecipes()
     }
-})
+}
 
 function displayUsername(name) {
     if (!name || (typeof (name) !== 'string')) return
     username.innerText = `${name}?`
 }
 
-function displayRecipes(recipeList = recipeRepository.ids, title = "") {
+function displayRecipes(recipeList = currentUser[currentUser.currentList], title = "") {
     const recipes = recipeRepository.filterList(recipeList)
     let plural = ''
     if(recipes.length !== 1) plural = 's'
-    detailsTitle.innerText = `${recipes.length} ${title} recipe${plural}.`
+    detailsTitle.innerText = `${currentUser.currentCategory}: ${recipes.length} ${title} recipe${plural}.`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
     recipeCardContainer.innerHTML = ''
@@ -208,8 +217,10 @@ function filterByTag(tags) {
             if (index === lastIndex) title += `, or ${tag}`
         })
     }
-
-    displayRecipes(recipeRepository.filterTag(tags), title)
+    let baselist = currentUser[currentUser.currentList]
+    let filteredRecipes = recipeRepository.filterTag(tags, baselist)
+    let filteredRecipeIds = filteredRecipes.map(recipe => recipe.id)
+    displayRecipes(filteredRecipeIds, title)
 }
 
 function filterByIDList(listData, name) {
@@ -217,15 +228,18 @@ function filterByIDList(listData, name) {
 }
 
 function searchByName(name) {
-    displayRecipes(recipeRepository.filterName(name), `${name}`)
+    let baselist = currentUser[currentUser.currentList]
+    let filteredRecipes = recipeRepository.filterName(name, baselist)
+    let filteredRecipeIds = filteredRecipes.map(recipe => recipe.id)
+    displayRecipes(filteredRecipeIds, `${name}`)
 }
 
 function getRandomIndex(maxIndex) {
     return Math.floor(Math.random() * maxIndex)
 }
 
+currentUser.updateAllRecipes(recipeRepository.getAllIds())
 displayTags()
 displayRecipes()
 displayUsername(currentUser.name)
 
-currentUser.updateAllRecipes(recipeRepository.getAllIds())
