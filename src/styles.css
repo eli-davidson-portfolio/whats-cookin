@@ -62,6 +62,24 @@ main {
   height: 75%;
 }
 
+input[type="radio"] {
+  display: none;
+}
+
+input[type="checkbox"]:not(:checked) {
+  display: none;
+}
+
+input[type="radio"]:checked+label{
+  font-weight: bold;
+  color: blue;
+}
+
+input[type="checkbox"]:checked+label {
+  font-weight: bold;
+  color: green;
+}
+
 .aside_action_button_containter {
   border: 3px red solid;
   display: flex;

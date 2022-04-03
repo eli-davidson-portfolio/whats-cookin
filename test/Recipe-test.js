@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import recipesTestData from '../src/data/recipesTestData.js'
+import ingredients from '../src/data/ingredients.js'
 //Classes
 import RecipeRepository from '../src/classes/RecipeRepository.js';
 import Recipe from'../src/classes/Recipe.js';
@@ -7,9 +9,9 @@ import Recipe from'../src/classes/Recipe.js';
 describe('Recipe', () => {
 
   let recipe, rr
-  
+
   beforeEach(() => {
-    rr = new RecipeRepository()
+    rr = new RecipeRepository(recipesTestData.recipesTestData, ingredients.ingredientsData)
     recipe = rr.recipes[0]
   })
 
@@ -26,7 +28,7 @@ describe('Recipe', () => {
     });
 
     it('Should store an image', () => {
-   
+
         expect(recipe.image).to.equal("https://spoonacular.com/recipeImages/595736-556x370.jpg")
     });
 
@@ -82,7 +84,7 @@ describe('Recipe', () => {
         expect(recipe.tags.includes('favorite')).to.be.true
       })
 
-      it('Should have a method to unfavorite a recipe', () => {   
+      it('Should have a method to unfavorite a recipe', () => {
         recipe.favorite()
         recipe.unfavorite()
         expect(recipe.tags.includes('favorite')).to.be.false
@@ -93,7 +95,7 @@ describe('Recipe', () => {
         expect(recipe.tags.includes('toCook')).to.be.true
       })
 
-      it('Should have a method to remove toCook from a recipe', () => {   
+      it('Should have a method to remove toCook from a recipe', () => {
         recipe.toCook()
         recipe.notToCook()
         expect(recipe.tags.includes('toCook')).to.be.false
