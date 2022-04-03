@@ -8,14 +8,30 @@ class RecipeRepository {
     this.data = data
     this.recipes = []
     this.tags = []
+    this.ids = []
     this.ir = new IngredientRepository()
     this.createRecipes()
+  }
+
+  getAllIds() {
+    return this.ids
+  }
+
+  createIds(recipe) {
+    let id = recipe.id
+    if (id) {
+        if(!this.ids.includes(id)) {
+          this.ids.push(id)
+        }
+        this.ids.sort()
+    }
   }
 
   createRecipes() {
     this.data.forEach(recipe => {
       let newRecipe = new Recipe(recipe)
       this.createTags(newRecipe)
+      this.createIds(newRecipe)
       this.createIngredients(newRecipe)
       newRecipe.updateCost()
       this.recipes.push(newRecipe)
@@ -24,7 +40,7 @@ class RecipeRepository {
 
   createIngredients(recipe) {
     let ingredientsData = recipe.ingredientsData;
-    
+
     ingredientsData.forEach((ingredient, index) => {
       const id = recipe.ingredientsData[index].id;
       const amount = recipe.ingredientsData[index].quantity.amount;
@@ -42,10 +58,10 @@ class RecipeRepository {
           this.tags.push(tag)
         }
         this.tags.sort()
-      }) 
+      })
     }
   }
-  
+
   getRecipeById(id) {
     return this.recipes.find(recipe => {
       return recipe.id === id
@@ -70,7 +86,7 @@ class RecipeRepository {
 
   filterList(list) {
     return this.recipes.filter(recipe => {
-      list.includes(recipe.id)
+      return list.includes(recipe.id)
     })
   }
 
