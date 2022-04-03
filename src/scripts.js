@@ -12,6 +12,7 @@ const randomIndex = getRandomIndex(usersData.length);
 const currentUser = new User(usersData[randomIndex]);
 
 let recipeCardContainer = document.querySelector('.recipe_cards_container')
+let detailsInformation = document.querySelector('.details_information')
 let recipeDetailsContainer = document.querySelector('.recipe_details_container')
 let search = document.querySelector('.search')
 let asideTitle = document.querySelector('.aside_title')
@@ -20,10 +21,34 @@ let detailsTitle = document.querySelector('.details_title')
 let homeButton = document.querySelector('.home_button')
 let username = document.querySelector('.username')
 
-recipeCardContainer.addEventListener('click', (event) =>{
+detailsInformation.addEventListener('click', (event) =>{
+    //if clicking on a picture
     if(event.target.parentNode.id) {
         let id = parseInt(event.target.parentNode.id);
         showRecipeDetails(id);
+    }
+
+    //if clicking on a button
+    if(event.target.classList.contains('favorite_button')) {
+        currentUser.addFavorite(parseInt(event.target.value))
+        event.target.classList.add('unfavorite_button')
+        event.target.classList.remove('favorite_button')
+        event.target.innerText = 'UNFAVORITE'
+    } else if (event.target.classList.contains('toCook_button')) {
+        currentUser.addToCook(parseInt(event.target.value))
+        event.target.classList.add('notToCook_button')
+        event.target.classList.remove('toCook_button')
+        event.target.innerText = 'NOT TO COOK'
+    } else if (event.target.classList.contains('unfavorite_button')) {
+        currentUser.removeFavorite(parseInt(event.target.value))
+        event.target.classList.add('favorite_button')
+        event.target.classList.remove('unfavorite_button')
+        event.target.innerText = 'FAVORITE'
+    } else if (event.target.classList.contains('notToCook_button')) {
+        currentUser.removeToCook(parseInt(event.target.value))
+        event.target.classList.add('toCook_button')
+        event.target.classList.remove('notToCook_button')
+        event.target.innerText = 'TO COOK'
     }
 })
 
@@ -73,11 +98,29 @@ function displayRecipes(recipeList = recipes, title = "") {
     })
 }
 
+function createFavoriteButton(id) {
+    if(!currentUser.favorites.includes(id)) {
+        return `<button class="button favorite_button" value=${id}>FAVORITE</button>`
+    }
+    if (currentUser.favorites.includes(id)) {
+        return `<button class="button unfavorite_button" value=${id}>UNFAVORITE</button>`
+    }
+}
+
+function createToCookButton(id) {
+    if (!currentUser.recipesToCook.includes(id)) {
+        return `<button class="button toCook_button" value=${id}>TO COOK</button>`
+    }
+    if (currentUser.recipesToCook.includes(id)) {
+        return `<button class="button notToCook_button" value=${id}>NOT TO COOK</button>`
+    }
+}
+
 function createRecipeCard(recipe) {
     return `<div class="recipe_card" id="${recipe.id}" >
                 <div class="recipe_card_button_container">
-                    <button>FAVORITE</button>
-                    <button>To Cook</button>
+                    ${createFavoriteButton(recipe.id)}
+                    ${createToCookButton(recipe.id)}
                 </div>
             <img class="recipe_card_image" src=${recipe.image} alt="${recipe.name} image">
                 <label class="recipe_card_title">${recipe.name}</label>
@@ -98,8 +141,8 @@ function showRecipeDetails(id) {
     </ol>
     </section>
     <div class="recipe_card_button_container">
-    <button>FAVORITE</button>
-    <button>To Cook</button>
+       ${createFavoriteButton(id)}
+       ${createToCookButton(id)}
     </div>`
 
     recipeDetailsContainer.classList.remove('hidden')

@@ -29,7 +29,6 @@ class RecipeRepository {
       const id = recipe.ingredientsData[index].id;
       const amount = recipe.ingredientsData[index].quantity.amount;
       const unit = recipe.ingredientsData[index].quantity.unit;
-
       recipe.ingredients.push(this.ir.getIngredient(id, amount, unit))
     })
     recipe.updateCost()
@@ -48,7 +47,6 @@ class RecipeRepository {
   }
   
   getRecipeById(id) {
-    console.log('id2', (typeof(id)))
     return this.recipes.find(recipe => {
       return recipe.id === id
     })
