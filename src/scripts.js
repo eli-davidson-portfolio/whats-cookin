@@ -4,21 +4,51 @@ import apiCalls from './apiCalls';
 import './images/turing-logo.png'
 
 import RecipeRepository from './classes/RecipeRepository.js';
+import User from './classes/User.js';
+import usersData from './data/users';
 
-const recipeRepository = new RecipeRepository;
+const recipeRepository = new RecipeRepository();
+const randomIndex = getRandomIndex(usersData.length);
+const currentUser = new User(usersData[randomIndex]);
 
 let recipeCardContainer = document.querySelector('.recipe_cards_container')
+let detailsInformation = document.querySelector('.details_information')
 let recipeDetailsContainer = document.querySelector('.recipe_details_container')
 let search = document.querySelector('.search')
 let asideTitle = document.querySelector('.aside_title')
 let asideList = document.querySelector('.aside_information_list')
 let detailsTitle = document.querySelector('.details_title')
 let homeButton = document.querySelector('.home_button')
+let username = document.querySelector('.username')
 
-recipeCardContainer.addEventListener('click', (event) =>{
+detailsInformation.addEventListener('click', (event) =>{
+    //if clicking on a picture
     if(event.target.parentNode.id) {
         let id = parseInt(event.target.parentNode.id);
         showRecipeDetails(id);
+    }
+
+    //if clicking on a button
+    if(event.target.classList.contains('favorite_button')) {
+        currentUser.addFavorite(parseInt(event.target.value))
+        event.target.classList.add('unfavorite_button')
+        event.target.classList.remove('favorite_button')
+        event.target.innerText = 'UNFAVORITE'
+    } else if (event.target.classList.contains('toCook_button')) {
+        currentUser.addToCook(parseInt(event.target.value))
+        event.target.classList.add('notToCook_button')
+        event.target.classList.remove('toCook_button')
+        event.target.innerText = 'NOT TO COOK'
+    } else if (event.target.classList.contains('unfavorite_button')) {
+        currentUser.removeFavorite(parseInt(event.target.value))
+        event.target.classList.add('favorite_button')
+        event.target.classList.remove('unfavorite_button')
+        event.target.innerText = 'FAVORITE'
+    } else if (event.target.classList.contains('notToCook_button')) {
+        currentUser.removeToCook(parseInt(event.target.value))
+        event.target.classList.add('toCook_button')
+        event.target.classList.remove('notToCook_button')
+        event.target.innerText = 'TO COOK'
     }
 })
 
@@ -39,14 +69,26 @@ search.addEventListener('keyup', (event) => {
 
 asideList.addEventListener('click', () => {
   search.value = ''
-  let tag = document.querySelector('input[name="tags"]:checked').value;
-  filterByTag(tag)
+  let checkedBoxes = document.querySelectorAll('input[name="tags"]:checked');
+  let tags = [];
+    checkedBoxes.forEach((checkbox) => {
+        tags.push(checkbox.value);
+    });
+    if (tags.length) {
+        filterByTag(tags)
+    } else {
+        displayRecipes()
+    }
 })
 
+function displayUsername(name) {
+    if (!name || (typeof (name) !== 'string')) return
+    username.innerText = `${name}?`
+}
 
 function displayRecipes(recipeList = recipes, title = "") {
     let plural = ''
-    if(recipeList.length > 1) plural = 's'
+    if(recipeList.length !== 1) plural = 's'
     detailsTitle.innerText = `${recipeList.length} ${title} recipe${plural}.`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
@@ -56,11 +98,29 @@ function displayRecipes(recipeList = recipes, title = "") {
     })
 }
 
+function createFavoriteButton(id) {
+    if(!currentUser.favorites.includes(id)) {
+        return `<button class="button favorite_button" value=${id}>FAVORITE</button>`
+    }
+    if (currentUser.favorites.includes(id)) {
+        return `<button class="button unfavorite_button" value=${id}>UNFAVORITE</button>`
+    }
+}
+
+function createToCookButton(id) {
+    if (!currentUser.recipesToCook.includes(id)) {
+        return `<button class="button toCook_button" value=${id}>TO COOK</button>`
+    }
+    if (currentUser.recipesToCook.includes(id)) {
+        return `<button class="button notToCook_button" value=${id}>NOT TO COOK</button>`
+    }
+}
+
 function createRecipeCard(recipe) {
     return `<div class="recipe_card" id="${recipe.id}" >
                 <div class="recipe_card_button_container">
-                    <button>FAVORITE</button>
-                    <button>To Cook</button>
+                    ${createFavoriteButton(recipe.id)}
+                    ${createToCookButton(recipe.id)}
                 </div>
             <img class="recipe_card_image" src=${recipe.image} alt="${recipe.name} image">
                 <label class="recipe_card_title">${recipe.name}</label>
@@ -81,8 +141,8 @@ function showRecipeDetails(id) {
     </ol>
     </section>
     <div class="recipe_card_button_container">
-    <button>FAVORITE</button>
-    <button>To Cook</button>
+       ${createFavoriteButton(id)}
+       ${createToCookButton(id)}
     </div>`
 
     recipeDetailsContainer.classList.remove('hidden')
@@ -107,26 +167,56 @@ function createInstructionsList(instructions) {
 }
 
 function displayTags() {
-
     let tags = ''
     recipeRepository.tags.forEach((tag) => {
-        tags += `<div><input type="radio" id="${tag}" name="tags" value="${tag}">
+        tags += `<div><input type="checkbox" id="${tag}" name="tags" value="${tag}">
                 <label for="${tag}">${tag.charAt(0).toUpperCase() + tag.slice(1)}</label></div>`
     })
 
-    asideTitle.innerText = 'Tags'
+    asideTitle.innerText = 'Filter'
     asideList.innerHTML = tags
 }
 
-function filterByTag(tag) {
-    displayRecipes(recipeRepository.filterTag(tag), `${tag}`)
+function filterByTag(tags) {
+    //0 tags
+    if (!tags) return
+    
+    const firstIndex = 0;
+    const lastIndex = tags.length - 1;
+    let title = ''
+    
+    //1 tag
+    if (tags.length <= 1) {
+        title = tags[firstIndex]
+    } 
+
+    //more than 1 tag
+    if (tags.length > 1) {
+        tags.forEach((tag, index) => {
+            if (index === firstIndex) title = tag
+            if (index !== firstIndex && index !== lastIndex) title += `, ${tag}`
+            if (index === lastIndex) title += `, or ${tag}`
+        }) 
+    }
+
+    displayRecipes(recipeRepository.filterTag(tags), title)
+}
+
+function filterByIDList(listData, name) {
+    displayRecipes(recipeRepository.filterList(listData), name)
 }
 
 function searchByName(name) {
     displayRecipes(recipeRepository.filterName(name), `${name}`)
 }
 
+function getRandomIndex(maxIndex) {
+    return Math.floor(Math.random() * maxIndex)
+}
+
 const recipes = recipeRepository.getAllRecipes()
+
 
 displayTags()
 displayRecipes()
+displayUsername(currentUser.name)

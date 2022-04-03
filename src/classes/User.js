@@ -44,6 +44,7 @@ class User {
         if (typeof(id) === 'string') return
         if (this.favorites.includes(id)) return
         this.favorites.push(id)
+        console.log("new Favorite Added:", this.favorites)
     }
     removeFavorite(id) {
         if (!id) return 
@@ -60,6 +61,7 @@ class User {
         if (typeof(id) === 'string') return
         if (this.recipesToCook.includes(id)) return
         this.recipesToCook.push(id)
+        console.log("new to Cook Added:", this.recipesToCook)
     }
     removeToCook(id) {
         if (!id) return 
