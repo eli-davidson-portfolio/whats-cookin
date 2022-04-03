@@ -20,12 +20,21 @@ let asideList = document.querySelector('.aside_information_list')
 let detailsTitle = document.querySelector('.details_title')
 let homeButton = document.querySelector('.home_button')
 let username = document.querySelector('.username')
+let recipeCategoryButtons = document.querySelector('.aside_action_button_container')
 
+recipeCategoryButtons.addEventListener('click', (event) => {
+  if (event.target.name === "recipe_categories") {
+    displayRecipes(currentUser[event.target.value])
+    displayTags()
+    search.value = ''
+  }
+})
 detailsInformation.addEventListener('click', (event) =>{
     //if clicking on a picture
     if(event.target.parentNode.id) {
         let id = parseInt(event.target.parentNode.id);
         showRecipeDetails(id);
+
     }
 
     //if clicking on a button
@@ -86,14 +95,15 @@ function displayUsername(name) {
     username.innerText = `${name}?`
 }
 
-function displayRecipes(recipeList = recipes, title = "") {
+function displayRecipes(recipeList = recipeRepository.ids, title = "") {
+    const recipes = recipeRepository.filterList(recipeList)
     let plural = ''
-    if(recipeList.length !== 1) plural = 's'
-    detailsTitle.innerText = `${recipeList.length} ${title} recipe${plural}.`
+    if(recipes.length !== 1) plural = 's'
+    detailsTitle.innerText = `${recipes.length} ${title} recipe${plural}.`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
     recipeCardContainer.innerHTML = ''
-    recipeList.forEach(recipe => {
+    recipes.forEach(recipe => {
       recipeCardContainer.innerHTML += createRecipeCard(recipe)
     })
 }
@@ -180,15 +190,15 @@ function displayTags() {
 function filterByTag(tags) {
     //0 tags
     if (!tags) return
-    
+
     const firstIndex = 0;
     const lastIndex = tags.length - 1;
     let title = ''
-    
+
     //1 tag
     if (tags.length <= 1) {
         title = tags[firstIndex]
-    } 
+    }
 
     //more than 1 tag
     if (tags.length > 1) {
@@ -196,7 +206,7 @@ function filterByTag(tags) {
             if (index === firstIndex) title = tag
             if (index !== firstIndex && index !== lastIndex) title += `, ${tag}`
             if (index === lastIndex) title += `, or ${tag}`
-        }) 
+        })
     }
 
     displayRecipes(recipeRepository.filterTag(tags), title)
@@ -214,9 +224,8 @@ function getRandomIndex(maxIndex) {
     return Math.floor(Math.random() * maxIndex)
 }
 
-const recipes = recipeRepository.getAllRecipes()
-
-
 displayTags()
 displayRecipes()
 displayUsername(currentUser.name)
+
+currentUser.updateAllRecipes(recipeRepository.getAllIds())

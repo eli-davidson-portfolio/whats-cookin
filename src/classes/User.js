@@ -10,6 +10,11 @@ class User {
         this.pantryItems = data.pantry
         this.favorites = []
         this.recipesToCook = []
+        this.allRecipes = []
+    }
+
+    updateAllRecipes(ids) {
+      this.allRecipes = ids
     }
     getId() {
         return this.id
@@ -34,20 +39,20 @@ class User {
         .reduce((sum, item) =>  sum += item.amount, 0)
     }
     addItemsToPantry(id, amount) {
-        
+
     }
     removeItemsFromPantry(id, amount) {
-        
+
     }
     addFavorite(id) {
-        if (!id) return 
+        if (!id) return
         if (typeof(id) === 'string') return
         if (this.favorites.includes(id)) return
         this.favorites.push(id)
         console.log("new Favorite Added:", this.favorites)
     }
     removeFavorite(id) {
-        if (!id) return 
+        if (!id) return
         if (typeof(id) === 'string') return
         if (!this.favorites.includes(id)) return
         this.favorites.forEach((favorite, index) => {
@@ -57,14 +62,14 @@ class User {
         })
     }
     addToCook(id) {
-        if (!id) return 
+        if (!id) return
         if (typeof(id) === 'string') return
         if (this.recipesToCook.includes(id)) return
         this.recipesToCook.push(id)
         console.log("new to Cook Added:", this.recipesToCook)
     }
     removeToCook(id) {
-        if (!id) return 
+        if (!id) return
         if (typeof(id) === 'string') return
         if (!this.recipesToCook.includes(id)) return
         this.recipesToCook.forEach((favorite, index) => {
