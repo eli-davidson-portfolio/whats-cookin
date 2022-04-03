@@ -1,15 +1,14 @@
 //Classes
 import IngredientRepository from './IngredientRepository.js';
 import Recipe from'./Recipe.js';
-//Data
-import recipes from'../data/recipes.js'
+
 class RecipeRepository {
-  constructor(data = recipes.recipeData) {
+  constructor(data = {}, ingredientsData) {
     this.data = data
     this.recipes = []
     this.tags = []
     this.ids = []
-    this.ir = new IngredientRepository()
+    this.ir = new IngredientRepository(ingredientsData)
     this.createRecipes()
   }
 

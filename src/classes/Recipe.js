@@ -15,7 +15,6 @@ class Recipe {
     updateIngredients() {
       let data = this.ingredients.shift()
       this.ingredients.push()
-      console.log(data, ' DATA')
     }
 
     getInstructions() {

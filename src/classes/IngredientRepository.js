@@ -1,11 +1,9 @@
 
 //Classes
 import Ingredient from './Ingredient.js';
-//Data
-import ingredients from'../data/ingredients.js';
 
 class IngredientRepository {
-    constructor(data = ingredients.ingredientsData) {
+    constructor(data = {}) {
         this.data = data;
         this.newIngredient = {}
     }
