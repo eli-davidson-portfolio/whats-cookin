@@ -1,16 +1,11 @@
 import './styles.css';
-import apiCalls from './apiCalls';
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
+import {ingredients,recipes,usersData} from './apiCalls';
 import './images/turing-logo.png'
-
 import RecipeRepository from './classes/RecipeRepository.js';
 import User from './classes/User.js';
-import usersData from './data/users';
 
-const recipeRepository = new RecipeRepository();
-const randomIndex = getRandomIndex(usersData.length);
-const currentUser = new User(usersData[randomIndex]);
-
+let recipeRepository = {}
+let currentUser = {}
 let recipeCardContainer = document.querySelector('.recipe_cards_container')
 let detailsInformation = document.querySelector('.details_information')
 let recipeDetailsContainer = document.querySelector('.recipe_details_container')
@@ -28,7 +23,6 @@ recipeCategoryButtons.addEventListener('click', (event) => {
     displayRecipes()
     displayTags()
     search.value = ''
-    console.log(currentUser.currentList)
   }
 })
 detailsInformation.addEventListener('click', (event) =>{
@@ -84,6 +78,7 @@ search.addEventListener('keyup', (event) => {
 asideList.addEventListener('click', () => {
     filterByTag(getSelectedTags())
 })
+
 
 function getSelectedTags() {
     search.value = ''
@@ -238,8 +233,13 @@ function getRandomIndex(maxIndex) {
     return Math.floor(Math.random() * maxIndex)
 }
 
-currentUser.updateAllRecipes(recipeRepository.getAllIds())
+Promise.all([usersData, ingredients, recipes]).then((values) => {
+    recipeRepository = new RecipeRepository(values[2], values[1]);
+    const randomIndex = getRandomIndex(values[0].length);
+    currentUser = new User(values[0][randomIndex]);
+    currentUser.updateAllRecipes(recipeRepository.getAllIds())
 displayTags()
 displayRecipes()
 displayUsername(currentUser.name)
+  });
 
