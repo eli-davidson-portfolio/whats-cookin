@@ -3,7 +3,7 @@
 import Ingredient from './Ingredient.js';
 
 class IngredientRepository {
-    constructor(data = {}) {
+    constructor(data = []) {
         this.data = data;
         this.newIngredient = {}
     }
