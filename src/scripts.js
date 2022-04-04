@@ -4,6 +4,7 @@ import './images/turing-logo.png'
 import RecipeRepository from './classes/RecipeRepository.js';
 import User from './classes/User.js';
 
+let fracty = require('fracty');
 let recipeRepository = {}
 let currentUser = {}
 let recipeCardContainer = document.querySelector('.recipe_cards_container')
@@ -27,7 +28,7 @@ recipeCategoryButtons.addEventListener('click', (event) => {
 })
 
 detailsInformation.addEventListener('click', (event) =>{
-    
+
     //if clicking on a picture
     if(event.target.parentNode.id) {
         let id = parseInt(event.target.parentNode.id);
@@ -39,8 +40,8 @@ detailsInformation.addEventListener('click', (event) =>{
         currentUser.addFavorite(parseInt(event.target.value))
         event.target.classList.add('unfavorite_button')
         event.target.classList.remove('favorite_button')
-        event.target.innerHTML = '&#10084;&#65039;' 
-    } else if (event.target.classList.contains('toCook_button')) { 
+        event.target.innerHTML = '&#10084;&#65039;'
+    } else if (event.target.classList.contains('toCook_button')) {
         currentUser.addToCook(parseInt(event.target.value))
         event.target.classList.add('notToCook_button')
         event.target.classList.remove('toCook_button')
@@ -171,7 +172,7 @@ function showRecipeDetails(id) {
 function createIngredientsList(ingredients) {
   let ingredientsHTML = '<ul>'
   ingredients.forEach((ingredient) => {
-      ingredientsHTML += `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`
+      ingredientsHTML += `<li>${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
   })
   ingredientsHTML += `</ul>`
   asideTitle.innerText = 'Ingredients'
@@ -244,4 +245,3 @@ Promise.all([usersData, ingredients, recipes]).then((values) => {
     displayRecipes()
     displayUsername(currentUser.name)
   });
-
