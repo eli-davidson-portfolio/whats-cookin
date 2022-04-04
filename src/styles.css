@@ -166,12 +166,13 @@ input[type="checkbox"]:checked+label {
   position: absolute;
   flex: 1;
   top: 70%;
-  left: 5%;
+  left: -1%;
   font-size: 1.5vw;
   z-index: 1;
   width: 90%;
   padding-left: 5px;
   text-align: center;
+  border-radius: 5px;
 }
 
 .recipe_card_button_container {
@@ -197,8 +198,8 @@ input[type="checkbox"]:checked+label {
   background: linear-gradient(to bottom right,
       rgba(255, 255, 255, 0.2),
       rgba(255, 255, 255, 0.05));
-  /* box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.9), -1px -1px 2px #aaa,
-    1px 1px 2px #555; */
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.9), -1px -1px 2px #aaa,
+    1px 1px 2px #555;
   backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
 }
 
