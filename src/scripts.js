@@ -32,7 +32,6 @@ detailsInformation.addEventListener('click', (event) =>{
     if(event.target.parentNode.id) {
         let id = parseInt(event.target.parentNode.id);
         showRecipeDetails(id);
-
     }
 
     //if clicking on a button
@@ -80,7 +79,6 @@ search.addEventListener('keyup', (event) => {
 asideList.addEventListener('click', () => {
     filterByTag(getSelectedTags())
 })
-
 
 function getSelectedTags() {
     search.value = ''
@@ -218,10 +216,6 @@ function filterByTag(tags) {
     let filteredRecipes = recipeRepository.filterTag(tags, baselist)
     let filteredRecipeIds = filteredRecipes.map(recipe => recipe.id)
     displayRecipes(filteredRecipeIds, title)
-}
-
-function filterByIDList(listData, name) {
-    displayRecipes(recipeRepository.filterList(listData), name)
 }
 
 function searchByName(name) {
