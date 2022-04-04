@@ -110,6 +110,10 @@ function displayRecipes(recipeList = currentUser[currentUser.currentList], title
     recipes.forEach(recipe => {
       recipeCardContainer.innerHTML += createRecipeCard(recipe)
     })
+    //Add 3 empty divs to make sure all elements display correctly.
+    for (let i = 0; i < 3; i++) {
+        recipeCardContainer.innerHTML += `<div class="recipe_card" ></div>`
+    }
 }
 
 function createFavoriteButton(id) {
