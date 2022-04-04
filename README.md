@@ -5,11 +5,13 @@
 - [About the Project](#about-the-project)
 - [Contributors](#contributors)
 - [Technologies Used](#technologies-used)
+- [Organizational Resources](#organizational-resources)
 - [Set Up](#set-up)
 - [Operating Instructions](#operating-instructions)
 - [Application in Action](#application-in-action)
 - [Future Goals](#future-goals)
 - [Testing](#testing)
+- [Extensions Completed](#extensions-completed)
 
 
 ## About the Project 
@@ -36,6 +38,9 @@ The details of this project are outlined in the project spec [here](https://fron
 5. Webpack
 6. NPM
 
+## Organizational Resources
+
+The project utilizes a detailed [project board](https://github.com/elleshadow/whats-cookin-starter-kit/projects/1) to facilitate smooth feature implementation.
 
 ## Set Up
 
@@ -76,3 +81,11 @@ This is a basic gif demonstration of feature. We will provide a full gif walkthr
 ## Testing
 
 Mocha and chai are already set up. You may run npm test to check that all the test suites are passing. 
+
+## Extensions Completed
+
+1. Installed 3rd party decimal to fraction formatter, npm [Fracty](https://www.npmjs.com/package/fracty).
+2. Application can filter by multiple tags
+3. Application can search by names or ingredients.
+
+
