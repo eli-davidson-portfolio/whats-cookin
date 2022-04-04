@@ -101,6 +101,7 @@ function displayUsername(name) {
 
 function displayRecipes(recipeList = currentUser[currentUser.currentList], title = "") {
     const recipes = recipeRepository.filterList(recipeList)
+    recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
     let plural = ''
     if(recipes.length !== 1) plural = 's'
     detailsTitle.innerText = `${currentUser.currentCategory}: ${recipes.length} ${title} recipe${plural}.`
