@@ -1,4 +1,5 @@
 //Classes
+
 import IngredientRepository from './IngredientRepository.js';
 import Recipe from'./Recipe.js';
 
@@ -38,13 +39,38 @@ class RecipeRepository {
   }
 
   createIngredients(recipe) {
-    let ingredientsData = recipe.ingredientsData;
+    let ingredientsData = recipe.ingredientsData.reduce((acc, ingredient) => {
+      const id = ingredient.id;
+      const amount = ingredient.quantity.amount;
+      const unit = ingredient.quantity.unit;
 
-    ingredientsData.forEach((ingredient, index) => {
-      const id = recipe.ingredientsData[index].id;
-      const amount = recipe.ingredientsData[index].quantity.amount;
-      const unit = recipe.ingredientsData[index].quantity.unit;
-      recipe.ingredients.push(this.ir.getIngredient(id, amount, unit))
+      if (acc[id]) {
+        acc[id].quantity.amount += amount;
+        if (acc[id].quantity.unit.length < unit.length) {
+          acc[id].quantity.unit = unit
+        }  
+      }
+      if (!acc[id]) {
+        acc[id] = {} 
+        acc[id].id = id
+        acc[id].quantity = {}
+        acc[id].quantity.amount = amount;
+        acc[id].quantity.unit = unit;
+      }
+      return acc
+    }, {})
+
+    let uniqueIngredients = Object.keys(ingredientsData).reduce((acc, key) => {
+      acc.push(ingredientsData[key])
+      return acc
+    }, [])
+
+    uniqueIngredients.forEach((ingredient) => {
+      const id = ingredient.id;
+      const amount = ingredient.quantity.amount;
+      const unit = ingredient.quantity.unit;
+      const ingredientPrototype = this.ir.getIngredient(id, amount, unit)
+      recipe.ingredients.push(ingredientPrototype)
     })
     recipe.updateCost()
   }
@@ -95,9 +121,14 @@ class RecipeRepository {
     return filteredList.filter(recipe => {
       let response = false
       name.split(' ').forEach(word => {
-        if (recipe.name.toLowerCase().includes(word.toLowerCase())) {
+        if (recipe.name.toLowerCase().includes(word.toLowerCase()) || recipe.getIngredientwords().includes(word.toLowerCase())) {
           response = true
         }
+        recipe.getIngredientwords().forEach(ingredient => {
+          if (ingredient.includes(word.toLowerCase())) {
+            response = true
+          }
+        })
       })
       return response;
     })
