@@ -39,7 +39,6 @@ class RecipeRepository {
 
   createIngredients(recipe) {
     let ingredientsData = recipe.ingredientsData;
-
     ingredientsData.forEach((ingredient, index) => {
       const id = recipe.ingredientsData[index].id;
       const amount = recipe.ingredientsData[index].quantity.amount;
@@ -95,7 +94,7 @@ class RecipeRepository {
     return filteredList.filter(recipe => {
       let response = false
       name.split(' ').forEach(word => {
-        if (recipe.name.toLowerCase().includes(word.toLowerCase())) {
+        if (recipe.name.toLowerCase().includes(word.toLowerCase()) || recipe.getIngredientwords().includes(word)) {
           response = true
         }
       })
