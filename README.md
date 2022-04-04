@@ -21,12 +21,11 @@ The details of this project are outlined in the project spec [here](https://fron
 
 ## Contributors
 
-### Eli Davidson
-### Rio Foster
-### Daniel Neer
+### [Eli Davidson](https://github.com/elleshadow)
+### [Rio Foster](https://github.com/friotious)
+### [Daniel Neer](https://gist.github.com/DanielN88)
 
 ### Project Manger - Jeramiah Black
-
 
 ## Technologies Used
 
