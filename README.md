@@ -61,8 +61,11 @@ Once in the application you will see many options. Each step will outline a feat
 
 ## Application in Action
 
-Screenshot provided of application, full gif walkthroughs will be provided after full CSS styling in round 2 of the project. 
-![Screen Shot 2022-04-03 at 4 49 33 PM](https://user-images.githubusercontent.com/92230099/161454421-67aa1c22-c97d-4ef7-aa02-de7d21bfe976.png)
+This is a basic gif demonstration of feature. We will provide a full gif walkthrough after completing basic CSS styling.  
+1. Filtering through tags and adding recipes to favorites/ready to cook list.
+![Apr-03-2022 21-57-13](https://user-images.githubusercontent.com/92230099/161476829-db31542f-85ff-4e51-ad32-233c0903c5bb.gif)
+2. Using the search box to query by name and ingredient. 
+![Apr-03-2022 22-18-18](https://user-images.githubusercontent.com/92230099/161478659-07310431-cb4d-4dd6-9ab9-0fda7070f0fc.gif)
 
 
 ## Future Goals
