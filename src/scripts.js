@@ -240,8 +240,8 @@ Promise.all([usersData, ingredients, recipes]).then((values) => {
     const randomIndex = getRandomIndex(values[0].length);
     currentUser = new User(values[0][randomIndex]);
     currentUser.updateAllRecipes(recipeRepository.getAllIds())
-displayTags()
-displayRecipes()
-displayUsername(currentUser.name)
+    displayTags()
+    displayRecipes()
+    displayUsername(currentUser.name)
   });
 
