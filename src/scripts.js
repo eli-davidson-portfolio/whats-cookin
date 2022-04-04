@@ -73,6 +73,7 @@ search.addEventListener('keyup', (event) => {
   }
     if (event.key === "Enter" && search.value) {
        searchByName(search.value)
+        displayTags()
    }
 })
 
