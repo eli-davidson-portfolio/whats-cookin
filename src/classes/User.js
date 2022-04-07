@@ -1,14 +1,14 @@
 
 class User {
     constructor(data) {
-        this.id = data.id
-        this.name = data.name
-        this.pantryItems = data.pantry
-        this.currentCategory = 'All Recipes'
-        this.currentList = 'allRecipes'
-        this.favorites = []
-        this.recipesToCook = []
-        this.allRecipes = []
+        this.id = data.id;
+        this.name = data.name;
+        this.pantryItems = data.pantry;
+        this.currentCategory = 'All Recipes';
+        this.currentList = 'allRecipes';
+        this.favorites = [];
+        this.recipesToCook = [];
+        this.allRecipes = [];
     }
 
     setCurrentList(listName, category) {
@@ -17,34 +17,34 @@ class User {
     }
 
     updateAllRecipes(ids) {
-      this.allRecipes = ids
+      this.allRecipes = ids;
     }
 
     getId() {
-        return this.id
+        return this.id;
     }
 
     getName() {
-        return this.name
+        return this.name;
     }
 
     getPantryItems() {
-        return this.pantryItems
+        return this.pantryItems;
     }
 
     getFavorites() {
-        return  this.favorites
+        return  this.favorites;
     }
 
     getRecipesToCook() {
-        return this.recipesToCook
+        return this.recipesToCook;
     }
 
     getPantryItemAmount(id) {
         if (!id || typeof (id) !== 'number') return;
         return this.pantryItems
         .filter((item) =>  item.ingredient == id )
-        .reduce((sum, item) =>  sum += item.amount, 0)
+        .reduce((sum, item) =>  sum += item.amount, 0);
     }
 
     addItemsToPantry(id, amount) {
