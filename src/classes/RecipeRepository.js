@@ -121,10 +121,10 @@ class RecipeRepository {
     return filteredList.filter(recipe => {
       let response = false
       name.split(' ').forEach(word => {
-        if (recipe.name.toLowerCase().includes(word.toLowerCase()) || recipe.getIngredientwords().includes(word.toLowerCase())) {
+        if (recipe.name.toLowerCase().includes(word.toLowerCase()) || recipe.getIngredientWords().includes(word.toLowerCase())) {
           response = true
         }
-        recipe.getIngredientwords().forEach(ingredient => {
+        recipe.getIngredientWords().forEach(ingredient => {
           if (ingredient.includes(word.toLowerCase())) {
             response = true
           }
