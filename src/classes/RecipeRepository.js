@@ -75,15 +75,13 @@ class RecipeRepository {
   }
 
   createTags(recipe) {
-    let tags = recipe.tags
-    if (tags) {
-      tags.forEach(tag => {
-        if(!this.tags.includes(tag)) {
-          this.tags.push(tag)
-        }
-        this.tags.sort()
-      })
-    }
+    if (!recipe.tags) return;
+    recipe.tags.forEach(tag => {
+      if(!this.tags.includes(tag)) {
+        this.tags.push(tag);
+      }
+    })
+    this.tags.sort();
   }
 
   getRecipeById(id) {
