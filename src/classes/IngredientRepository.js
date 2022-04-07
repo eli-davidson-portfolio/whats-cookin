@@ -5,7 +5,6 @@ import Ingredient from './Ingredient.js';
 class IngredientRepository {
     constructor(data = []) {
         this.data = data;
-        this.newIngredient = {};
     }
 
     getIngredient(id, amount = 1, unit = 'serving') {
