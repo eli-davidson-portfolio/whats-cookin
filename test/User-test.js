@@ -155,16 +155,36 @@ describe('Users', () => {
         })
     })
 
-      it('Should be a function', () => {
-          expect(User).to.be.a('function');
-      });
+    it('Should be a function', () => {
+        expect(User).to.be.a('function');
+    });
 
-      it('Should be an instance of recipe', () => {
-          expect(user).to.be.instanceOf(User)
-      });
+    it('Should be an instance of recipe', () => {
+        expect(user).to.be.instanceOf(User)
+    });
 
-      it('Should have a method to return id', () => {
-        expect(user.getId()).to.equal(1)
+    it('Should store an id number', () => {
+      expect(user.id).to.be.a("number")
+    });
+
+    it('Should store a name string', () => {
+      expect(user.name).to.be.a("string")
+    });
+
+    it('Should store an array of pantry items', () => {
+      expect(user.pantryItems).to.be.a("array")
+    });
+
+    it('Should store and array of favorite recipes', () => {
+      expect(user.favorites).to.be.an("array")
+    });
+
+    it('Should store and array of recipes to cook', () => {
+      expect(user.recipesToCook).to.be.an("array")
+    });
+
+    it('Should have a method to return id', () => {
+      expect(user.getId()).to.equal(1)
     });
 
     it('Should have a method to return name', () => {
@@ -184,25 +204,6 @@ describe('Users', () => {
     it('Should have a method to return recipes to cook', () => {
         user.addToCook(54321)
         expect(user.getRecipesToCook()[0]).to.equal(54321)
-    });
-
-      it('Should store an id number', () => {
-        expect(user.id).to.be.a("number")
-    });
-    it('Should store a name string', () => {
-        expect(user.name).to.be.a("string")
-    });
-
-    it('Should store an array of pantry items', () => {
-        expect(user.pantryItems).to.be.a("array")
-    });
-
-    it('Should store and array of favorite recipes', () => {
-        expect(user.favorites).to.be.an("array")
-    });
-
-    it('Should store and array of recipes to cook', () => {
-        expect(user.recipesToCook).to.be.an("array")
     });
 
     it('Should have a method to get the pantry item amount', () => {
