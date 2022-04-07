@@ -19,65 +19,62 @@ class User {
     updateAllRecipes(ids) {
       this.allRecipes = ids
     }
+
     getId() {
         return this.id
     }
+
     getName() {
         return this.name
     }
+
     getPantryItems() {
         return this.pantryItems
     }
+
     getFavorites() {
         return  this.favorites
     }
+
     getRecipesToCook() {
         return this.recipesToCook
     }
+
     getPantryItemAmount(id) {
-        if (!id) return 'no id'
-        if (typeof id === 'string') return "string"
+        if (!id || typeof (id) !== 'number') return;
         return this.pantryItems
         .filter((item) =>  item.ingredient == id )
         .reduce((sum, item) =>  sum += item.amount, 0)
     }
+
     addItemsToPantry(id, amount) {
 
     }
+
     removeItemsFromPantry(id, amount) {
 
     }
+
     addFavorite(id) {
-        if (!id) return
-        if (typeof(id) === 'string') return
-        if (this.favorites.includes(id)) return
-        this.favorites.push(id)
+        if (!id || typeof (id) !== 'number' || this.favorites.includes(id)) return;
+        this.favorites.push(id);
     }
+
     removeFavorite(id) {
-        if (!id) return
-        if (typeof(id) === 'string') return
-        if (!this.favorites.includes(id)) return
-        this.favorites.forEach((favorite, index) => {
-            if (this.favorites[index] === id) {
-                this.favorites.splice(index, 1)
-            }
-        })
+        if (!id || typeof (id) !== 'number' || !this.favorites.includes(id)) return;
+        let index = this.favorites.indexOf(id);
+        this.favorites.splice(index, 1);
     }
+
     addToCook(id) {
-        if (!id) return
-        if (typeof(id) === 'string') return
-        if (this.recipesToCook.includes(id)) return
-        this.recipesToCook.push(id)
+        if (!id || typeof (id) !== 'number' || this.recipesToCook.includes(id)) return;
+        this.recipesToCook.push(id);
     }
+
     removeToCook(id) {
-        if (!id) return
-        if (typeof(id) === 'string') return
-        if (!this.recipesToCook.includes(id)) return
-        this.recipesToCook.forEach((favorite, index) => {
-            if (this.recipesToCook[index] === id) {
-                this.recipesToCook.splice(index, 1)
-            }
-        })
+        if (!id || typeof (id) !== 'number' || !this.recipesToCook.includes(id)) return;
+        let index = this.recipesToCook.indexOf(id);
+        this.recipesToCook.splice(index, 1);
     }
 }
 export default User;
