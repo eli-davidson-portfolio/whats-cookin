@@ -5,7 +5,7 @@ class Ingredient {
         this.name = name;
         this.amount = amount;
         this.unit = unit;
-        this.estimatedCostInCents = estimatedCostInCents;
+        this.estimatedCostInCents = estimatedCostInCents * amount;
     }
 
     getId() {
