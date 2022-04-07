@@ -79,25 +79,4 @@ describe('Recipe', () => {
       })
     })
 
-    it('Should have a method to favorite a recipe', () => {
-        recipe.favorite()
-        expect(recipe.tags.includes('favorite')).to.be.true
-      })
-
-      it('Should have a method to unfavorite a recipe', () => {
-        recipe.favorite()
-        recipe.unfavorite()
-        expect(recipe.tags.includes('favorite')).to.be.false
-      })
-
-      it('Should have a method to add toCook tag to a recipe', () => {
-        recipe.toCook()
-        expect(recipe.tags.includes('toCook')).to.be.true
-      })
-
-      it('Should have a method to remove toCook from a recipe', () => {
-        recipe.toCook()
-        recipe.notToCook()
-        expect(recipe.tags.includes('toCook')).to.be.false
-      })
 })
