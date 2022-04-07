@@ -5,26 +5,25 @@ import Recipe from'./Recipe.js';
 
 class RecipeRepository {
   constructor(data = [], ingredientsData) {
-    this.data = data
-    this.recipes = []
-    this.tags = []
-    this.ids = []
-    this.ir = new IngredientRepository(ingredientsData)
-    this.createRecipes()
+    this.data = data;
+    this.recipes = [];
+    this.tags = [];
+    this.ids = [];
+    this.ir = new IngredientRepository(ingredientsData);
+    this.createRecipes();
   }
 
   getAllIds() {
-    return this.ids
+    return this.ids;
   }
 
   createIds(recipe) {
-    let id = recipe.id
-    if (id) {
-        if(!this.ids.includes(id)) {
-          this.ids.push(id)
-        }
-        this.ids.sort()
+    if (!recipe.id) return;
+
+    if (!this.ids.includes(recipe.id)) {
+      this.ids.push(recipe.id);
     }
+    this.ids.sort();
   }
 
   createRecipes() {
