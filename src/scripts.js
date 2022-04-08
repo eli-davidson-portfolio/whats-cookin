@@ -68,14 +68,14 @@ homeButton.addEventListener('click', () => {
 })
 
 search.addEventListener('keyup', (event) => {
-  if (!search.value && recipeDetailsContainer.classList.contains('hidden')) {
-    displayRecipes()
-    displayTags()
-  }
-    if (event.key === "Enter" && search.value) {
-       searchByName(search.value)
+    if (!search.value && recipeDetailsContainer.classList.contains('hidden')) {
+        displayRecipes()
         displayTags()
-   }
+    }
+    if (event.key === "Enter" && search.value) {
+        searchByName(search.value)
+        displayTags()
+    }
 })
 
 asideList.addEventListener('click', () => {
@@ -243,5 +243,5 @@ Promise.all([usersData, ingredients, recipes]).then((values) => {
     currentUser.updateAllRecipes(recipeRepository.getAllIds())
     displayTags()
     displayRecipes()
-    displayUsername(currentUser.name)
+    displayUsername(currentUser.getName())
   });

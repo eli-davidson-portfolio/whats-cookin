@@ -84,17 +84,19 @@ class RecipeRepository {
     this.tags.sort();
   }
 
+  getAllRecipes() {
+   return this.recipes;
+  }
+
   getRecipeById(id) {
+    if (!id) return;
     return this.recipes.find(recipe => {
       return recipe.id === id
     })
   }
 
-  getAllRecipes() {
-   return this.recipes
-  }
-
   filterTag(tags, baseList) {
+    if (!baseList) return;
     let filteredList = this.filterList(baseList)
     return filteredList.filter(recipe => {
       let response = false
