@@ -99,16 +99,18 @@ function displayUsername(name) {
 
 function displayRecipes() {
     let recipeIds = currentUser[currentUser.currentList];
-    let title = "amazing"
     let tags = getSelectedTags();
     let query = search.value;
     const recipes = recipeRepository.getRecipes(recipeIds, query, tags);
-    let plural = 's'
     if(!!recipes) {
         recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
     } 
-    if (recipes.length !== 1) plural = 's'
-    detailsTitle.innerText = `${currentUser.currentCategory}: ${recipes.length} ${title} recipe${plural}.`
+    
+    let plural = 's'
+    if (!!recipes && recipes.length === 1) plural = ''
+    let title = getTitle(tags, query, plural)
+    
+    detailsTitle.innerText = `${currentUser.currentCategory.toUpperCase()}: ${recipes.length} ${title}.`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
     recipeCardContainer.innerHTML = ''
@@ -201,27 +203,32 @@ function displayTags() {
     asideList.innerHTML = tags
 }
 
-function getTitle(tags) {
-    //0 tags
-    if (!tags) return
-
-    const firstIndex = 0;
-    const lastIndex = tags.length - 1;
+function getTitle(tags, query, plural) {
+    
     let title = ''
+    
+    if (tags) {
+        const firstIndex = 0;
+        const lastIndex = tags.length - 1;
 
-    //1 tag
-    if (tags.length <= 1) {
-        title = tags[firstIndex]
+        if (tags.length <= 1) {
+            title = tags[firstIndex]
+        }
+
+        if (tags.length > 1) {
+            tags.forEach((tag, index) => {
+                if (index === firstIndex) title = tag
+                if (index !== firstIndex && index !== lastIndex) title += `, ${tag}`
+                if (index === lastIndex) title += `, or ${tag}`
+            })
+        }
     }
 
-    //more than 1 tag
-    if (tags.length > 1) {
-        tags.forEach((tag, index) => {
-            if (index === firstIndex) title = tag
-            if (index !== firstIndex && index !== lastIndex) title += `, ${tag}`
-            if (index === lastIndex) title += `, or ${tag}`
-        })
-    }
+    title += ` recipe${plural}`
+    
+    if (!!query) title += `, matching search "${query}"`
+
+    return title;
 }
 
 function getRandomIndex(maxIndex) {

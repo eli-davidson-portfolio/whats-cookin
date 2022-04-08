@@ -13,10 +13,6 @@ class RecipeRepository {
     this.createRecipes();
   }
 
-  getAllIds() {
-    return this.ids;
-  }
-
   createIds(recipe) {
     if (!recipe.id) return;
 
@@ -82,6 +78,10 @@ class RecipeRepository {
       recipe.ingredients.push(ingredientPrototype)
     })
     recipe.updateCost()
+  }
+
+  getAllIds() {
+    return this.ids;
   }
 
   getRecipeById(id) {
