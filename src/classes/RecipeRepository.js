@@ -5,26 +5,31 @@ import Recipe from'./Recipe.js';
 
 class RecipeRepository {
   constructor(data = [], ingredientsData) {
-    this.data = data
-    this.recipes = []
-    this.tags = []
-    this.ids = []
-    this.ir = new IngredientRepository(ingredientsData)
-    this.createRecipes()
-  }
-
-  getAllIds() {
-    return this.ids
+    this.data = data;
+    this.recipes = [];
+    this.tags = [];
+    this.ids = [];
+    this.ir = new IngredientRepository(ingredientsData);
+    this.createRecipes();
   }
 
   createIds(recipe) {
-    let id = recipe.id
-    if (id) {
-        if(!this.ids.includes(id)) {
-          this.ids.push(id)
-        }
-        this.ids.sort()
+    if (!recipe.id) return;
+
+    if (!this.ids.includes(recipe.id)) {
+      this.ids.push(recipe.id);
     }
+    this.ids.sort();
+  }
+
+  createTags(recipe) {
+    if (!recipe.tags) return;
+    recipe.tags.forEach(tag => {
+      if (!this.tags.includes(tag)) {
+        this.tags.push(tag);
+      }
+    })
+    this.tags.sort();
   }
 
   createRecipes() {
@@ -75,39 +80,45 @@ class RecipeRepository {
     recipe.updateCost()
   }
 
-  createTags(recipe) {
-    let tags = recipe.tags
-    if (tags) {
-      tags.forEach(tag => {
-        if(!this.tags.includes(tag)) {
-          this.tags.push(tag)
-        }
-        this.tags.sort()
-      })
-    }
+  getAllIds() {
+    return this.ids;
   }
 
   getRecipeById(id) {
+    if (!id) return;
     return this.recipes.find(recipe => {
       return recipe.id === id
     })
   }
 
-  getAllRecipes() {
-   return this.recipes
-  }
+  getRecipes(recipeIds, query, tags) {
+    let recipes = this.filterList(recipeIds);
 
-  filterTag(tags, baseList) {
-    let filteredList = this.filterList(baseList)
-    return filteredList.filter(recipe => {
-      let response = false
-      tags.forEach(tag => {
-        if (recipe.tags.includes(tag)) {
-          response = true
-        }
+    if (!!query && !!tags){
+      let queryWords = query.split(' ')
+      return recipes.filter(recipe => {
+        let name = recipe.name.toLowerCase()
+        let ingredients = recipe.getIngredientWords().join().toLowerCase()
+        return queryWords.some(word => name.includes(word) || ingredients.includes(word)) && tags.some(tag => recipe.tags.includes(tag));
       })
-      return response;
-    })
+    }
+
+    if (!!query && !tags) {
+      let queryWords = query.toLowerCase().split(' ')
+      return recipes.filter(recipe => {
+        let name = recipe.name.toLowerCase()
+        let ingredients = recipe.getIngredientWords().join().toLowerCase()
+        return queryWords.some(word => name.includes(word) || ingredients.includes(word));
+      })
+    }
+    
+    if (!query, !!tags) {
+      return recipes.filter(recipe => {
+        return tags.some(tag => recipe.tags.includes(tag));
+      })
+    }
+
+    return recipes;
   }
 
   filterList(list) {
@@ -116,22 +127,5 @@ class RecipeRepository {
     })
   }
 
-  filterName(name, baseList) {
-    let filteredList = this.filterList(baseList)
-    return filteredList.filter(recipe => {
-      let response = false
-      name.split(' ').forEach(word => {
-        if (recipe.name.toLowerCase().includes(word.toLowerCase()) || recipe.getIngredientwords().includes(word.toLowerCase())) {
-          response = true
-        }
-        recipe.getIngredientwords().forEach(ingredient => {
-          if (ingredient.includes(word.toLowerCase())) {
-            response = true
-          }
-        })
-      })
-      return response;
-    })
-  }
 }
 export default RecipeRepository;

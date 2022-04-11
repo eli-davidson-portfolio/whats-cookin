@@ -20,10 +20,12 @@ let recipeCategoryButtons = document.querySelector('.aside_action_button_contain
 
 recipeCategoryButtons.addEventListener('click', (event) => {
   if (event.target.name === "recipe_categories") {
-      currentUser.setCurrentList(event.target.value, event.target.dataset.category)
+    currentUser.setCurrentList(event.target.value, event.target.dataset.category)
+    if (recipeCardContainer.classList.contains('hidden')) {
+        displayTags()
+        search.value = ''
+    }
     displayRecipes()
-    displayTags()
-    search.value = ''
   }
 })
 
@@ -63,37 +65,31 @@ homeButton.addEventListener('click', () => {
     document.getElementById("all_recipes").checked = true;
     currentUser.setCurrentList('allRecipes', 'All Recipes')
     search.value = ''
-    displayRecipes()
     displayTags()
+    displayRecipes()
 })
 
 search.addEventListener('keyup', (event) => {
-  if (!search.value && recipeDetailsContainer.classList.contains('hidden')) {
-    displayRecipes()
-    displayTags()
-  }
+    if (!search.value && recipeDetailsContainer.classList.contains('hidden')) {
+        displayRecipes()
+    }
     if (event.key === "Enter" && search.value) {
-       searchByName(search.value)
         displayTags()
-   }
+        displayRecipes()
+    }
 })
 
 asideList.addEventListener('click', () => {
-    filterByTag(getSelectedTags())
+    displayRecipes()
 })
 
 function getSelectedTags() {
-    search.value = ''
     let checkedBoxes = document.querySelectorAll('input[name="tags"]:checked');
     let tags = [];
     checkedBoxes.forEach((checkbox) => {
         tags.push(checkbox.value);
     });
-    if (tags.length) {
-        return tags
-    } else {
-        displayRecipes()
-    }
+    return (tags.length) ? tags : null;
 }
 
 function displayUsername(name) {
@@ -101,17 +97,25 @@ function displayUsername(name) {
     username.innerText = `${name}?`
 }
 
-function displayRecipes(recipeList = currentUser[currentUser.currentList], title = "") {
-    const recipes = recipeRepository.filterList(recipeList)
-    recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
-    let plural = ''
-    if(recipes.length !== 1) plural = 's'
-    detailsTitle.innerText = `${currentUser.currentCategory}: ${recipes.length} ${title} recipe${plural}.`
+function displayRecipes() {
+    let recipeIds = currentUser[currentUser.currentList];
+    let tags = getSelectedTags();
+    let query = search.value;
+    const recipes = recipeRepository.getRecipes(recipeIds, query, tags);
+    if(!!recipes) {
+        recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+    } 
+    
+    let plural = 's'
+    if (!!recipes && recipes.length === 1) plural = ''
+    let title = getTitle(tags, query, plural)
+    
+    detailsTitle.innerText = `${currentUser.currentCategory.toUpperCase()}: ${recipes.length} ${title}.`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
     recipeCardContainer.innerHTML = ''
     recipes.forEach(recipe => {
-      recipeCardContainer.innerHTML += createRecipeCard(recipe)
+        recipeCardContainer.innerHTML += createRecipeCard(recipe)
     })
     //Add 3 empty divs to make sure all elements display correctly.
     for (let i = 0; i < 3; i++) {
@@ -150,6 +154,7 @@ function createRecipeCard(recipe) {
 
 function showRecipeDetails(id) {
     let result = recipeRepository.getRecipeById(id)
+    search.value = ''
     recipeCardContainer.classList.add('hidden')
 
     createIngredientsList(result.ingredients)
@@ -198,38 +203,32 @@ function displayTags() {
     asideList.innerHTML = tags
 }
 
-function filterByTag(tags) {
-    //0 tags
-    if (!tags) return
-
-    const firstIndex = 0;
-    const lastIndex = tags.length - 1;
+function getTitle(tags, query, plural) {
+    
     let title = ''
+    
+    if (tags) {
+        const firstIndex = 0;
+        const lastIndex = tags.length - 1;
 
-    //1 tag
-    if (tags.length <= 1) {
-        title = tags[firstIndex]
+        if (tags.length <= 1) {
+            title = tags[firstIndex]
+        }
+
+        if (tags.length > 1) {
+            tags.forEach((tag, index) => {
+                if (index === firstIndex) title = tag
+                if (index !== firstIndex && index !== lastIndex) title += `, ${tag}`
+                if (index === lastIndex) title += `, or ${tag}`
+            })
+        }
     }
 
-    //more than 1 tag
-    if (tags.length > 1) {
-        tags.forEach((tag, index) => {
-            if (index === firstIndex) title = tag
-            if (index !== firstIndex && index !== lastIndex) title += `, ${tag}`
-            if (index === lastIndex) title += `, or ${tag}`
-        })
-    }
-    let baselist = currentUser[currentUser.currentList]
-    let filteredRecipes = recipeRepository.filterTag(tags, baselist)
-    let filteredRecipeIds = filteredRecipes.map(recipe => recipe.id)
-    displayRecipes(filteredRecipeIds, title)
-}
+    title += ` recipe${plural}`
+    
+    if (!!query) title += `, matching search "${query}"`
 
-function searchByName(name) {
-    let baselist = currentUser[currentUser.currentList]
-    let filteredRecipes = recipeRepository.filterName(name, baselist)
-    let filteredRecipeIds = filteredRecipes.map(recipe => recipe.id)
-    displayRecipes(filteredRecipeIds, `${name}`)
+    return title;
 }
 
 function getRandomIndex(maxIndex) {
@@ -243,5 +242,5 @@ Promise.all([usersData, ingredients, recipes]).then((values) => {
     currentUser.updateAllRecipes(recipeRepository.getAllIds())
     displayTags()
     displayRecipes()
-    displayUsername(currentUser.name)
+    displayUsername(currentUser.getName())
   });
