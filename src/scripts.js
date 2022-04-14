@@ -240,6 +240,9 @@ Promise.all([usersData, ingredients, recipes]).then((values) => {
     const randomIndex = getRandomIndex(values[0].length);
     currentUser = new User(values[0][randomIndex]);
     currentUser.updateAllRecipes(recipeRepository.getAllIds())
+    let pantryData = currentUser.getPantryItems()
+    let pantryItems = recipeRepository.getPantryItems(pantryData)
+    currentUser.fillPantry(pantryItems)
     displayTags()
     displayRecipes()
     displayUsername(currentUser.getName())
