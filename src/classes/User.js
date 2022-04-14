@@ -1,3 +1,4 @@
+import Pantry from './Pantry.js';
 
 class User {
     constructor(data) {
@@ -9,6 +10,12 @@ class User {
         this.favorites = [];
         this.recipesToCook = [];
         this.allRecipes = [];
+        this.pantry = new Pantry()
+        // console.log(this.pantry.ingredients)
+    }
+    fillPantry(pantryIngredients) {
+        // console.log(pantryIngredients)
+       this.pantry.addIngredientObjects(pantryIngredients)
     }
 
     setCurrentList(listName, category) {
@@ -48,7 +55,7 @@ class User {
     }
 
     addItemsToPantry(id, amount) {
-
+        
     }
 
     removeItemsFromPantry(id, amount) {

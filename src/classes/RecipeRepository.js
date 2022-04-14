@@ -126,6 +126,13 @@ class RecipeRepository {
       return list.includes(recipe.id)
     })
   }
+  getPantryItems(pantryItems) {
+   let pantryObjects = []
+   pantryItems.forEach((item) => {
+      pantryObjects.push(this.ir.getIngredient(item.ingredient, item.amount))
+    })
+    return pantryObjects
+  }
 
 }
 export default RecipeRepository;
