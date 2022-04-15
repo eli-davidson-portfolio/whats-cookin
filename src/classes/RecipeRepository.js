@@ -53,10 +53,10 @@ class RecipeRepository {
         acc[id].quantity.amount += amount;
         if (acc[id].quantity.unit.length < unit.length) {
           acc[id].quantity.unit = unit
-        }  
+        }
       }
       if (!acc[id]) {
-        acc[id] = {} 
+        acc[id] = {}
         acc[id].id = id
         acc[id].quantity = {}
         acc[id].quantity.amount = amount;
@@ -111,7 +111,7 @@ class RecipeRepository {
         return queryWords.some(word => name.includes(word) || ingredients.includes(word));
       })
     }
-    
+
     if (!query, !!tags) {
       return recipes.filter(recipe => {
         return tags.some(tag => recipe.tags.includes(tag));

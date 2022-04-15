@@ -18,6 +18,10 @@ class User {
        this.pantry.addIngredientObjects(pantryIngredients)
     }
 
+    checkIngredients(ingredients) {
+      return this.pantry.evaluateIngredients(ingredients)
+    }
+
     setCurrentList(listName, category) {
         this.currentCategory = category;
         this.currentList = listName;
@@ -55,7 +59,7 @@ class User {
     }
 
     addItemsToPantry(id, amount) {
-        
+
     }
 
     removeItemsFromPantry(id, amount) {

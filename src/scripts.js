@@ -104,12 +104,12 @@ function displayRecipes() {
     const recipes = recipeRepository.getRecipes(recipeIds, query, tags);
     if(!!recipes) {
         recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
-    } 
-    
+    }
+
     let plural = 's'
     if (!!recipes && recipes.length === 1) plural = ''
     let title = getTitle(tags, query, plural)
-    
+
     detailsTitle.innerText = `${currentUser.currentCategory.toUpperCase()}: ${recipes.length} ${title}.`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
@@ -154,11 +154,12 @@ function createRecipeCard(recipe) {
 
 function showRecipeDetails(id) {
     let result = recipeRepository.getRecipeById(id)
+    console.log(result, 'result')
     search.value = ''
     recipeCardContainer.classList.add('hidden')
 
     createIngredientsList(result.ingredients)
-
+    user.checkIngredients(result.ingredients)
     detailsTitle.innerHTML = `${result.name}</br>Total cost: $ ${result.totalCost.toFixed(2)}`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
     <section class="recipe_instructions_containter scrollable">
@@ -204,9 +205,9 @@ function displayTags() {
 }
 
 function getTitle(tags, query, plural) {
-    
+
     let title = ''
-    
+
     if (tags) {
         const firstIndex = 0;
         const lastIndex = tags.length - 1;
@@ -225,7 +226,7 @@ function getTitle(tags, query, plural) {
     }
 
     title += ` recipe${plural}`
-    
+
     if (!!query) title += `, matching search "${query}"`
 
     return title;

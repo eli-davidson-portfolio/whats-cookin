@@ -5,7 +5,7 @@ import Pantry from '../src/classes/Pantry.js'
 
 
 describe('Pantry', () => {
-   
+
     let user
     let pantry
 
@@ -176,4 +176,9 @@ describe('Pantry', () => {
         user.fillPantry(newIngredients)
         expect(user.pantry.ingredients[0]).to.deep.equal({ ingredient: 11297, amount: 4 })
       });
+
+      it('Should determine if a user can cook a recipe', () => {
+        let ingredients = 
+        expect(pantry.evaluateIngredients(ingredients).to.equal([0]))
+      })
 })
