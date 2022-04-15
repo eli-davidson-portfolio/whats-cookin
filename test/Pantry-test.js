@@ -2,10 +2,11 @@ import { expect } from 'chai';
 // //Classes
 import User from '../src/classes/User.js';
 import Pantry from '../src/classes/Pantry.js'
+import Ingredient from '../src/classes/Ingredient.js';
 
 
 describe('Pantry', () => {
-   
+
     let user
     let pantry
 
@@ -176,4 +177,14 @@ describe('Pantry', () => {
         user.fillPantry(newIngredients)
         expect(user.pantry.ingredients[0]).to.deep.equal({ ingredient: 11297, amount: 4 })
       });
+
+      it('Should determine if a user can cook a recipe', () => {
+          let ingredientsArray= [] 
+          ingredientsArray.push(new Ingredient(20081, "wheat flour", 142, 'serving', 1))
+          ingredientsArray.push(new Ingredient(18372, "bicarbonate of soda", 582, 'serving', 1))
+          ingredientsArray.push(new Ingredient(1123, "eggs", 472, 'serving', 1))
+     
+
+        expect(user.checkIngredients(ingredientsArray)).to.deep.equal([ 1, 1 ,1])
+      })
 })
