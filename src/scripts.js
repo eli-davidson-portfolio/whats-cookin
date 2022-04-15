@@ -154,12 +154,12 @@ function createRecipeCard(recipe) {
 
 function showRecipeDetails(id) {
     let result = recipeRepository.getRecipeById(id)
-    console.log(result, 'result')
     search.value = ''
     recipeCardContainer.classList.add('hidden')
 
     createIngredientsList(result.ingredients)
-    user.checkIngredients(result.ingredients)
+    console.log(result.ingredients)
+    currentUser.checkIngredients(result.ingredients)
     detailsTitle.innerHTML = `${result.name}</br>Total cost: $ ${result.totalCost.toFixed(2)}`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
     <section class="recipe_instructions_containter scrollable">

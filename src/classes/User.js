@@ -19,6 +19,7 @@ class User {
     }
 
     checkIngredients(ingredients) {
+        // console.log(ingredients)
       return this.pantry.evaluateIngredients(ingredients)
     }
 

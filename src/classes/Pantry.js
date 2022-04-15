@@ -19,14 +19,27 @@ class Pantry {
 // take in an array of recipe ingredients and the quantity you need and return the qauntity that
 // you are missing from your pantry for each ingredient
     evaluateIngredients(ingredients){
-    ingredients.map(ingredient => {
-      if (ingredients.id === this.ingredients.id) {
-      return  ingredients.amount - this.ingredients.amount
-      }
+    return ingredients.map((ingredientOne) => {
+        let ingredientTwo = this.findIngredientById(ingredientOne.id) 
+        if (!ingredientTwo) {
+            var ingredientAmountNeeded = ingredientOne.amount
+        } else {
+            var ingredientAmountNeeded = ingredientOne.amount - ingredientTwo.amount
+        }
+       if (ingredientAmountNeeded < 0) {
+           ingredientAmountNeeded = 0
+       }
+       console.log(ingredientAmountNeeded)
+       return ingredientAmountNeeded
     })
     }
     ingredientsToCook() {
         // if (RecipeRepository.recipes.ingredients)
+    }
+    findIngredientById(ingredientOneId) {
+        return this.ingredients.find((ingredientTwo) => {
+            return ingredientTwo.id === ingredientOneId
+        })
     }
     getMissingIngredients() {
 
