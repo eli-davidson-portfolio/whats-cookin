@@ -12,11 +12,15 @@ let detailsInformation = document.querySelector('.details_information')
 let recipeDetailsContainer = document.querySelector('.recipe_details_container')
 let search = document.querySelector('.search')
 let asideTitle = document.querySelector('.aside_title')
+let asideTabText = document.querySelector('.aside_Tab_Ingredients_Filter')
 let asideList = document.querySelector('.aside_information_list')
+let pantryTitle = document.querySelector('.pantry_title')
+let pantryList = document.querySelector('.pantry_information_list')
 let detailsTitle = document.querySelector('.details_title')
 let homeButton = document.querySelector('.home_button')
 let username = document.querySelector('.username')
-let recipeCategoryButtons = document.querySelector('.aside_action_button_container')
+let recipeCategoryButtons = document.querySelector('.nav_action_button_container')
+let asideCategoryButtons = document.querySelector(".aside-title-container")
 
 recipeCategoryButtons.addEventListener('click', (event) => {
   if (event.target.name === "recipe_categories") {
@@ -26,6 +30,16 @@ recipeCategoryButtons.addEventListener('click', (event) => {
         search.value = ''
     }
     displayRecipes()
+  }
+})
+
+asideCategoryButtons.addEventListener('click', (event) => {
+  if (event.target.id === 'recipeID_ingredients') {
+    pantryList.classList.add('hidden')
+    asideList.classList.remove('hidden')
+  } else if (event.target.id === 'pantryID_ingredients') {
+    asideList.classList.add('hidden')
+    pantryList.classList.remove('hidden')
   }
 })
 
@@ -110,7 +124,7 @@ function displayRecipes() {
     if (!!recipes && recipes.length === 1) plural = ''
     let title = getTitle(tags, query, plural)
 
-    detailsTitle.innerText = `${currentUser.currentCategory.toUpperCase()}: ${recipes.length} ${title}.`
+    detailsTitle.innerText = `${recipes.length} ${title}`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
     recipeCardContainer.innerHTML = ''
@@ -156,9 +170,8 @@ function showRecipeDetails(id) {
     let result = recipeRepository.getRecipeById(id)
     search.value = ''
     recipeCardContainer.classList.add('hidden')
-
     createIngredientsList(result.ingredients)
-    console.log(result.ingredients)
+    asideTabText.innerText = "Ingredients"
     currentUser.checkIngredients(result.ingredients)
     detailsTitle.innerHTML = `${result.name}</br>Total cost: $ ${result.totalCost.toFixed(2)}`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
@@ -171,7 +184,6 @@ function showRecipeDetails(id) {
        ${createFavoriteButton(id)}
        ${createToCookButton(id)}
     </div>`
-
     recipeDetailsContainer.classList.remove('hidden')
 }
 
@@ -181,8 +193,19 @@ function createIngredientsList(ingredients) {
       ingredientsHTML += `<li>${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
   })
   ingredientsHTML += `</ul>`
-  asideTitle.innerText = 'Ingredients'
+  asideTabText.innerText = 'Ingredients'
   asideList.innerHTML = ingredientsHTML
+}
+
+function createPantryList() {
+  let userPantry = currentUser.getAllPantry()
+  let pantryHTML = '<ul>'
+  userPantry.forEach((ingredient) => {
+      pantryHTML += `<li>${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
+  })
+  pantryHTML += `</ul>`
+  pantryTitle.innerText = 'Pantry'
+  pantryList.innerHTML = pantryHTML
 }
 
 function createInstructionsList(instructions) {
@@ -200,7 +223,7 @@ function displayTags() {
                 <label for="${tag}">${tag.charAt(0).toUpperCase() + tag.slice(1)}</label></div>`
     })
 
-    asideTitle.innerText = 'Filter'
+    asideTabText.innerText = 'Filter'
     asideList.innerHTML = tags
 }
 
@@ -244,6 +267,7 @@ Promise.all([usersData, ingredients, recipes]).then((values) => {
     let pantryData = currentUser.getPantryItems()
     let pantryItems = recipeRepository.getPantryItems(pantryData)
     currentUser.fillPantry(pantryItems)
+    createPantryList()
     displayTags()
     displayRecipes()
     displayUsername(currentUser.getName())

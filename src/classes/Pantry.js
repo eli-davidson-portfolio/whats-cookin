@@ -20,7 +20,7 @@ class Pantry {
 // you are missing from your pantry for each ingredient
     evaluateIngredients(ingredients){
     return ingredients.map((ingredientOne) => {
-        let ingredientTwo = this.findIngredientById(ingredientOne.id) 
+        let ingredientTwo = this.findIngredientById(ingredientOne.id)
         if (!ingredientTwo) {
             var ingredientAmountNeeded = ingredientOne.amount
         } else {
@@ -29,7 +29,6 @@ class Pantry {
        if (ingredientAmountNeeded < 0) {
            ingredientAmountNeeded = 0
        }
-       console.log(ingredientAmountNeeded)
        return ingredientAmountNeeded
     })
     }

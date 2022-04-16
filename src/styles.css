@@ -1,6 +1,6 @@
-/* * {
+* {
   border: 1px black solid;
-} */
+}
 
 body {
   width: 100vw;
@@ -8,7 +8,7 @@ body {
   overflow: hidden;
   /*background-color: blueviolet;*/
   margin: 0;
-  background-color: #dde3e0;
+  background-color: darkgray;
 }
 
 nav {
@@ -59,7 +59,7 @@ cursor: pointer;
 
 
 .icon {
-  
+
 }
 
 .search{
@@ -68,12 +68,24 @@ cursor: pointer;
 }
 
 .title-container {
-  display: flex;
-  align-items: flex-end;
-  height: 10vh;
+display: flex;
+align-items: flex-end;
+justify-content: flex-start;
+height: 10vh;
+width: 50vw;
+font-size: 30px;
 }
 
-.title, 
+.aside-title-container {
+display: flex;
+align-items: flex-end;
+justify-content: flex-start;
+height: 10vh;
+width: 50vw;
+font-size: 30px;
+}
+
+.title,
 .username {
   font-size: 25px;
 }
@@ -98,14 +110,31 @@ input[type="radio"] {
   display: none;
 }
 
+input[type="radio"]+label {
+  border: 1px solid black;
+  margin-right: 15px;
+  white-space: nowrap;
+  padding: 3%;
+  border-top-left-radius: .5em;
+  border-top-right-radius: .5em;
+  background-color: gray;
+  color: white;
+}
+
 input[type="checkbox"]:not(:checked) {
   display: none;
 }
 
 input[type="radio"]:checked+label{
+  font-size: 32px;
+  margin-right: 15px;
+  padding: 3%;
+  border-top-left-radius: .5em;
+  border-top-right-radius: .5em;
+  background-color: white;
   font-weight: bold;
   border-bottom: solid 2px blue;
-  color: blue;
+  color: black;
 }
 
 input[type="checkbox"]:checked+label {
@@ -113,14 +142,14 @@ input[type="checkbox"]:checked+label {
   color: green;
 }
 
-.aside_action_button_container {
+.nav_action_button_container {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: 10vh;
   width: 50vw;
   font-size: 30px;
-  
+
 }
 
 .scrollable {
@@ -128,6 +157,9 @@ input[type="checkbox"]:checked+label {
 }
 
 .details {
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
+  background-color: white;
   height: 100%;
   width: 100%;
 }
@@ -137,10 +169,19 @@ input[type="checkbox"]:checked+label {
   width: 100%;
 }
 
+.details_title {
+  margin: 10px;
+  font-size: 2em;
+}
+
 .recipe_cards_container {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 2em;
   height: 100%;
   width: 100%;
   display: grid;
+  grid-gap: 5px;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: minmax(50%, auto);
 }
@@ -152,12 +193,13 @@ input[type="checkbox"]:checked+label {
 }
 
 .recipe_card {
+  border-radius: 1em;
   display: flex;
   position: relative;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border: 2px #dde3e0 solid;
+  border: 2px solid white;
 }
 
 .recipe_card_image {
@@ -221,4 +263,3 @@ input[type="checkbox"]:checked+label {
 .hidden {
   display: none;
 }
-
