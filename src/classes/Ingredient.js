@@ -6,6 +6,7 @@ class Ingredient {
         this.amount = amount;
         this.unit = unit;
         this.estimatedCostInCents = estimatedCostInCents * amount;
+        this.estimatedCostInDollars = estimatedCostInCents * amount / 100
     }
 
     getId() {
@@ -42,6 +43,7 @@ class Ingredient {
     updateCost(amount) {
         if (!amount || typeof (amount) !== 'number') return;
         this.estimatedCostInCents = this.getCost() * amount;
+        this.estimatedCostInDollars = estimatedCostInCents / 100
     }
 
     updateUnit(unit) {
@@ -51,4 +53,3 @@ class Ingredient {
 
  };
  export default Ingredient;
-

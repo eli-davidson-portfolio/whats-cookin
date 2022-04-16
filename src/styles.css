@@ -260,6 +260,15 @@ input[type="checkbox"]:checked+label {
   backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
 }
 
+.enough {
+  color: green;
+}
+
+.not_enough {
+  color: red;
+  font-weight: bold;
+}
+
 .hidden {
   display: none;
 }

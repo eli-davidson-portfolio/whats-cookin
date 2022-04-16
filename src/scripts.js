@@ -16,6 +16,7 @@ let asideTabText = document.querySelector('.aside_Tab_Ingredients_Filter')
 let asideList = document.querySelector('.aside_information_list')
 let pantryTitle = document.querySelector('.pantry_title')
 let pantryList = document.querySelector('.pantry_information_list')
+let groceryList = document.querySelector('.grocery_information_list')
 let detailsTitle = document.querySelector('.details_title')
 let homeButton = document.querySelector('.home_button')
 let username = document.querySelector('.username')
@@ -170,9 +171,9 @@ function showRecipeDetails(id) {
     let result = recipeRepository.getRecipeById(id)
     search.value = ''
     recipeCardContainer.classList.add('hidden')
-    createIngredientsList(result.ingredients)
     asideTabText.innerText = "Ingredients"
-    currentUser.checkIngredients(result.ingredients)
+    let enoughArray = currentUser.checkIngredients(result.ingredients)
+    createIngredientsList(result.ingredients, enoughArray)
     detailsTitle.innerHTML = `${result.name}</br>Total cost: $ ${result.totalCost.toFixed(2)}`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
     <section class="recipe_instructions_containter scrollable">
@@ -187,12 +188,31 @@ function showRecipeDetails(id) {
     recipeDetailsContainer.classList.remove('hidden')
 }
 
-function createIngredientsList(ingredients) {
+function createIngredientsList(ingredients, enoughArray) {
+  let shoppingList = []
+
   let ingredientsHTML = '<ul>'
-  ingredients.forEach((ingredient) => {
-      ingredientsHTML += `<li>${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
+  let shoppingListHTML = '<ul>'
+  ingredients.forEach((ingredient, index) => {
+      if (enoughArray[index] === 0) {
+        ingredientsHTML += `<li class="enough">${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
+      } else {
+        let shoppingItem = recipeRepository.getIngredient(ingredient.id, enoughArray[index], ingredient.unit)
+        shoppingList.push(shoppingItem)
+      ingredientsHTML += `<li class="not_enough">${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
+      shoppingListHTML += `<li>${fracty(shoppingItem.amount)} ${shoppingItem.unit} ${shoppingItem.name} $${shoppingItem.estimatedCostInDollars.toFixed(2)}</li>`
+    }
   })
+  let shoppingTotal = () => {
+    let total = shoppingList.reduce((acc, item) => {
+      acc += item.estimatedCostInDollars
+      return acc
+    }, 0)
+    return Math.round(total)
+  }
   ingredientsHTML += `</ul>`
+  shoppingListHTML += `<li>TOTAL: $${shoppingTotal()}`
+  groceryList.innerHTML = shoppingListHTML
   asideTabText.innerText = 'Ingredients'
   asideList.innerHTML = ingredientsHTML
 }

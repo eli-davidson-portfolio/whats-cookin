@@ -13,6 +13,10 @@ class RecipeRepository {
     this.createRecipes();
   }
 
+  getIngredient(id, amount, unit) {
+  return this.ir.getIngredient(id, amount, unit)
+}
+
   createIds(recipe) {
     if (!recipe.id) return;
 
