@@ -18,6 +18,10 @@ class User {
        this.pantry.addIngredientObjects(pantryIngredients)
     }
 
+    getAllPantry() {
+      return this.pantry.ingredients
+    }
+
     checkIngredients(ingredients) {
         // console.log(ingredients)
       return this.pantry.evaluateIngredients(ingredients)

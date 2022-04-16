@@ -11,7 +11,7 @@
         <label class="title">What's cookin, </label>
         <label class="username">Good Lookin?</label>
       </section>
-      <section class="aside_action_button_container">
+      <section class="nav_action_button_container">
         <div>
           <input type="radio" name="recipe_categories" id="all_recipes" data-category="All Recipes" value="allRecipes" checked></input>
           <label for="all_recipes">All Recipes</label>
@@ -31,11 +31,17 @@
     </nav>
     <main>
       <section class="aside">
-        <section class="title-container">
-          <label class="aside_title">
-          </label>
+        <section class="aside-title-container">
+          <input class="aside_title" type="radio" name="pantry_ingredients" id="recipeID_ingredients" data-category="Ingredients" value="ingredients" checked></input>
+          <label class='aside_Tab_Ingredients_Filter' for="recipeID_ingredients">Filter</label>
+          <input class="pantry_title" type="radio" name="pantry_ingredients" id="pantryID_ingredients" data-category="Pantry" value="pantry"></input>
+          <label for="pantryID_ingredients">Pantry</label>
+
+
         </section>
         <section class="aside_information_list scrollable">
+        </section>
+        <section class="pantry_information_list scrollable hidden">
         </section>
       </section>
       <section class="details">
@@ -45,7 +51,7 @@
         </section>
         <section class="details_information">
           <section class="recipe_cards_container scrollable"></section>
-          <section class="recipe_details_container hidden"></section>
+          <section class="recipe_details_container"></section>
         </section>
         </section>
       </section>
