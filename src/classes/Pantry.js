@@ -32,6 +32,19 @@ class Pantry {
        return ingredientAmountNeeded
     })
     }
+
+    addIngredient(ingredientID, ingredientModification) {
+
+        let ingredient = this.ingredients.find(ingredient => {
+            return ingredient.id === ingredientID
+        })
+        if(ingredient) {
+            let have = ingredient.amount
+            let add = ingredientModification
+            ingredient.updateAmount(have + add)
+        }
+
+    }
     ingredientsToCook() {
         // if (RecipeRepository.recipes.ingredients)
     }

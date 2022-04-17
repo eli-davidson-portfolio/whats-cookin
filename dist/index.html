@@ -11,6 +11,9 @@
         <label class="title">What's cookin, </label>
         <label class="username">Good Lookin?</label>
       </section>
+      <section>
+        <input class="search" type="text" placeholder="Search...">
+      </section>
       <section class="nav_action_button_container">
         <div>
           <input type="radio" name="recipe_categories" id="all_recipes" data-category="All Recipes" value="allRecipes" checked></input>
@@ -25,26 +28,27 @@
           <label for="to_cook_recipes">Recipes to Cook</label>
         </div>
       </section>
-      <section>
-        <input class="search" type="text" placeholder="Search..." >
-      </section>
+     
     </nav>
     <main>
       <section class="aside">
         <section class="aside-title-container">
-          <input class="aside_title" type="radio" name="pantry_ingredients" id="recipeID_ingredients" data-category="Ingredients" value="ingredients" checked></input>
-          <label class='aside_Tab_Ingredients_Filter' for="recipeID_ingredients">Filter</label>
           <input class="pantry_title" type="radio" name="pantry_ingredients" id="pantryID_ingredients" data-category="Pantry" value="pantry"></input>
           <label for="pantryID_ingredients">Pantry</label>
+          <input class="aside_title" type="radio" name="pantry_ingredients" id="recipeID_ingredients" data-category="Ingredients" value="ingredients" checked></input>
+          <label class='aside_Tab_Ingredients_Filter' for="recipeID_ingredients">Filter</label>
           <input class="cart_title" type="radio" name="pantry_ingredients" id="cartID_ingredients" data-category="Cart" value="cart"></input>
-          <label for="cartID_ingredients">Cart</label>
+          <label class="cart-tab hidden" for="cartID_ingredients">Cart</label>
         </section>
-        <section class="aside_information_list scrollable">
+
+        <section class="information-list aside_information_list scrollable">
         </section>
-        <section class="pantry_information_list scrollable hidden">
+        <section class="information-list pantry_information_list scrollable hidden">
         </section>
-        <section class="grocery_information_list scrollable">
+        <section class="information-list grocery_information_list scrollable hidden">
         </section>
+        <button class="add_ingredients hidden">Add missing ingredients to cart</button>
+        <button class="buy_ingredients hidden">BUY BUY BUY!</button>
       </section>
       <section class="details">
         <section class="title-container">

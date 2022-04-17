@@ -10,12 +10,23 @@ class User {
         this.favorites = [];
         this.recipesToCook = [];
         this.allRecipes = [];
-        this.pantry = new Pantry()
+        this.pantry = new Pantry();
+        this.shoppingList = [];
         // console.log(this.pantry.ingredients)
     }
     fillPantry(pantryIngredients) {
         // console.log(pantryIngredients)
        this.pantry.addIngredientObjects(pantryIngredients)
+    }
+
+    addIngredientToPantry(somedata) {
+        if (!somedata) return
+        return this.pantry.addIngredient(somedata.ingredientID, somedata.ingredientModification)
+
+    }
+
+    getShoppingList() {
+        return this.shoppingList
     }
 
     getAllPantry() {

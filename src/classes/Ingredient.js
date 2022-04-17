@@ -5,7 +5,7 @@ class Ingredient {
         this.name = name;
         this.amount = amount;
         this.unit = unit;
-        this.estimatedCostInCents = estimatedCostInCents * amount;
+        this.estimatedCostInCents = estimatedCostInCents * amount || 0;
         this.estimatedCostInDollars = estimatedCostInCents * amount / 100
     }
 
@@ -32,7 +32,7 @@ class Ingredient {
     updateAmount(amount) {
         if (!amount || typeof (amount) !== 'number') return;
         this.amount = amount;
-        this.updateCost(amount);
+        return this.updateCost(amount);
     }
 
     updateName(name) {
@@ -41,9 +41,11 @@ class Ingredient {
     }
 
     updateCost(amount) {
+        console.log(amount)
         if (!amount || typeof (amount) !== 'number') return;
         this.estimatedCostInCents = this.getCost() * amount;
-        this.estimatedCostInDollars = estimatedCostInCents / 100
+        this.estimatedCostInDollars = this.estimatedCostInCents / 100
+        return "success"
     }
 
     updateUnit(unit) {

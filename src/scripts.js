@@ -1,5 +1,5 @@
 import './styles.css';
-import {ingredients,recipes,usersData} from './apiCalls';
+import {ingredients,pantryPost,recipes,usersData} from './apiCalls';
 import './images/turing-logo.png'
 import RecipeRepository from './classes/RecipeRepository.js';
 import User from './classes/User.js';
@@ -16,12 +16,38 @@ let asideTabText = document.querySelector('.aside_Tab_Ingredients_Filter')
 let asideList = document.querySelector('.aside_information_list')
 let pantryTitle = document.querySelector('.pantry_title')
 let pantryList = document.querySelector('.pantry_information_list')
+let cartTab = document.querySelector('.cart-tab')
+let groceryTitle = document.querySelector('.cart_title')
 let groceryList = document.querySelector('.grocery_information_list')
 let detailsTitle = document.querySelector('.details_title')
 let homeButton = document.querySelector('.home_button')
 let username = document.querySelector('.username')
 let recipeCategoryButtons = document.querySelector('.nav_action_button_container')
 let asideCategoryButtons = document.querySelector(".aside-title-container")
+let addIngredientsToCart = document.querySelector('.add_ingredients')
+let buyIngredientsButton = document.querySelector(".buy_ingredients")
+
+buyIngredientsButton.addEventListener('click', (event)=> {
+    hideCart()
+    let recipeID = event.target.id
+    let shoppinglist = currentUser.getShoppingList() 
+    let userID = currentUser.getId();
+    shoppinglist.forEach((shoppingListItem) =>  {
+        let ingredientID = shoppingListItem.id
+        let ingredientModification = shoppingListItem.amount
+        let somedata = {
+            "userID" : userID, 
+            "ingredientID" : ingredientID, 
+            "ingredientModification" : ingredientModification
+        }
+        let response = pantryPost(somedata)
+        response.then(data => {
+             currentUser.addIngredientToPantry(somedata)
+        }).then(message => {
+        showRecipeDetails(parseInt(recipeID))
+        })
+    })
+})
 
 recipeCategoryButtons.addEventListener('click', (event) => {
   if (event.target.name === "recipe_categories") {
@@ -34,13 +60,26 @@ recipeCategoryButtons.addEventListener('click', (event) => {
   }
 })
 
+addIngredientsToCart.addEventListener('click', () => {
+    addIngredientsToCart.classList.add('hidden')
+    cartTab.classList.remove('hidden')
+    buyIngredientsButton.classList.remove('hidden')
+    cartTab.click()
+})
+
 asideCategoryButtons.addEventListener('click', (event) => {
   if (event.target.id === 'recipeID_ingredients') {
     pantryList.classList.add('hidden')
+    groceryList.classList.add('hidden')
     asideList.classList.remove('hidden')
   } else if (event.target.id === 'pantryID_ingredients') {
     asideList.classList.add('hidden')
+    groceryList.classList.add('hidden')
     pantryList.classList.remove('hidden')
+  } else if (event.target.id === 'cartID_ingredients') {
+    asideList.classList.add('hidden')
+    pantryList.classList.add('hidden')
+    groceryList.classList.remove('hidden')
   }
 })
 
@@ -98,6 +137,10 @@ asideList.addEventListener('click', () => {
     displayRecipes()
 })
 
+function buyIngredients() {
+
+}
+
 function getSelectedTags() {
     let checkedBoxes = document.querySelectorAll('input[name="tags"]:checked');
     let tags = [];
@@ -113,6 +156,9 @@ function displayUsername(name) {
 }
 
 function displayRecipes() {
+    asideTabText.click()
+    addIngredientsToCart.classList.add("hidden")
+    hideCart()
     let recipeIds = currentUser[currentUser.currentList];
     let tags = getSelectedTags();
     let query = search.value;
@@ -168,13 +214,18 @@ function createRecipeCard(recipe) {
 }
 
 function showRecipeDetails(id) {
+    buyIngredientsButton.classList.add('hidden')
+    buyIngredientsButton.id = id;
+    asideTitle.click()
+
     let result = recipeRepository.getRecipeById(id)
+    if (!result) return
     search.value = ''
     recipeCardContainer.classList.add('hidden')
     asideTabText.innerText = "Ingredients"
     let enoughArray = currentUser.checkIngredients(result.ingredients)
-    createIngredientsList(result.ingredients, enoughArray)
-    detailsTitle.innerHTML = `${result.name}</br>Total cost: $ ${result.totalCost.toFixed(2)}`;
+    let shoppingList = createIngredientsList(result.ingredients, enoughArray)
+    detailsTitle.innerHTML = `${result.name}: $ ${result.totalCost.toFixed(2)}`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
     <section class="recipe_instructions_containter scrollable">
     <ol>
@@ -188,21 +239,28 @@ function showRecipeDetails(id) {
     recipeDetailsContainer.classList.remove('hidden')
 }
 
-function createIngredientsList(ingredients, enoughArray) {
+function createIngredientsList(unsortedIngredients, enoughArray) {
   let shoppingList = []
-
-  let ingredientsHTML = '<ul>'
-  let shoppingListHTML = '<ul>'
+   let ingredients = unsortedIngredients.sort((a,b) => {
+            return a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+        })
+  let ingredientsHTML = '<table>'
+    let shoppingListHTML = '<table>'
   ingredients.forEach((ingredient, index) => {
       if (enoughArray[index] === 0) {
-        ingredientsHTML += `<li class="enough">${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
+          ingredientsHTML += `<tr class="enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
       } else {
         let shoppingItem = recipeRepository.getIngredient(ingredient.id, enoughArray[index], ingredient.unit)
         shoppingList.push(shoppingItem)
-      ingredientsHTML += `<li class="not_enough">${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
-      shoppingListHTML += `<li>${fracty(shoppingItem.amount)} ${shoppingItem.unit} ${shoppingItem.name} $${shoppingItem.estimatedCostInDollars.toFixed(2)}</li>`
+          ingredientsHTML += `<tr class="not_enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
+          shoppingListHTML += `<tr><td class="fraction">${fracty(shoppingItem.amount)}</td><td>${shoppingItem.unit}</td><td> ${shoppingItem.name}</td><td>$</td><td class='fraction'>${shoppingItem.estimatedCostInDollars.toFixed(2)}</td><tr>`
     }
+    currentUser.shoppingList = shoppingList;
   })
+  ingredientsHTML += `</table>`
+  asideTabText.innerText = 'Ingredients'
+  asideList.innerHTML = ingredientsHTML
+
   let shoppingTotal = () => {
     let total = shoppingList.reduce((acc, item) => {
       acc += item.estimatedCostInDollars
@@ -210,20 +268,29 @@ function createIngredientsList(ingredients, enoughArray) {
     }, 0)
     return Math.round(total)
   }
-  ingredientsHTML += `</ul>`
-  shoppingListHTML += `<li>TOTAL: $${shoppingTotal()}`
-  groceryList.innerHTML = shoppingListHTML
-  asideTabText.innerText = 'Ingredients'
-  asideList.innerHTML = ingredientsHTML
+  
+  if(shoppingTotal()) {
+      addIngredientsToCart.classList.remove('hidden')
+      shoppingListHTML += `<tr style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
+      groceryList.innerHTML = shoppingListHTML
+  }
+}
+
+function hideCart() {
+    cartTab.classList.add('hidden')
 }
 
 function createPantryList() {
   let userPantry = currentUser.getAllPantry()
-  let pantryHTML = '<ul>'
-  userPantry.forEach((ingredient) => {
-      pantryHTML += `<li>${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
+    let ingredients = userPantry.sort((a, b) => {
+        return a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+    })
+
+  let pantryHTML = '<table>'
+    ingredients.forEach((ingredient) => {
+      pantryHTML += `<tr><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
   })
-  pantryHTML += `</ul>`
+  pantryHTML += `<table>`
   pantryTitle.innerText = 'Pantry'
   pantryList.innerHTML = pantryHTML
 }
