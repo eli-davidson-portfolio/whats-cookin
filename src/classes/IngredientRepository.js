@@ -28,6 +28,11 @@ class IngredientRepository {
         let { name, estimatedCostInCents } = this.data.find(ingredient => ingredient.id === id);
         return new Ingredient(id, name, estimatedCostInCents, unit, amount);
     }
+    getAllIngredientIds() {
+        return this.ingredients.map((ingredient) => {
+            return ingredient.id
+        })
+    }
 }
 
 export default IngredientRepository;

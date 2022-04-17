@@ -43,6 +43,10 @@ class Pantry {
             let add = ingredientModification
             ingredient.updateAmount(have + add)
         }
+        if(!ingredient) {
+            
+            this.addIngredientObjects(ingredientObject)
+        }
 
     }
     ingredientsToCook() {

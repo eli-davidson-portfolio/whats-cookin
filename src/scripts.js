@@ -32,6 +32,7 @@ buyIngredientsButton.addEventListener('click', (event)=> {
     let recipeID = event.target.id
     let shoppinglist = currentUser.getShoppingList() 
     let userID = currentUser.getId();
+    console.log(currentUser.pantry.ingredients, 'before')
     shoppinglist.forEach((shoppingListItem) =>  {
         let ingredientID = shoppingListItem.id
         let ingredientModification = shoppingListItem.amount
@@ -45,6 +46,8 @@ buyIngredientsButton.addEventListener('click', (event)=> {
              currentUser.addIngredientToPantry(somedata)
         }).then(message => {
         showRecipeDetails(parseInt(recipeID))
+        createPantryList()
+        console.log(currentUser.pantry.ingredients, 'after')
         })
     })
 })

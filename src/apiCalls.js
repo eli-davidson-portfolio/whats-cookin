@@ -43,7 +43,7 @@ const ingredients = fetch("http://localhost:3001/api/v1/ingredients")
   }).then(response => {
       if (response.ok) {
         console.log(response.json())
-        return {ok: true, data: response.json()}
+        return {ok: true}
       } else {
         throw Error(response.statusText)
       }
