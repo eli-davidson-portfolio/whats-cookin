@@ -32,7 +32,14 @@ class Ingredient {
     updateAmount(amount) {
         if (!amount || typeof (amount) !== 'number') return;
         this.amount = amount;
-        return this.updateCost(amount);
+        if (amount > 0) {
+          this.updateCost(amount)
+        }
+        //return this.updateCost(amount);
+    }
+
+    reduceAmount(amount) {
+      this.amount += amount // -->amount will be negative<-- (legit comment...  dope..)
     }
 
     updateName(name) {

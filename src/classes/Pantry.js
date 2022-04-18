@@ -14,7 +14,7 @@ import RecipeRepository from './RecipeRepository.js';
 class Pantry {
     constructor() {
         this.ingredients = []
-        
+
     }
 // take in an array of recipe ingredients and the quantity you need and return the qauntity that
 // you are missing from your pantry for each ingredient
@@ -49,6 +49,18 @@ class Pantry {
             this.addIngredientObjects(ingredientObject)
         }
 
+    }
+
+    reduceIngrendientAmount(ingredientId, ingredientModification) {
+      if (!ingredientId) {
+        return
+      }
+      let ingredient = this.ingredients.find(ingredient => {
+          return ingredient.id === ingredientId
+      })
+      if(ingredient) {
+          ingredient.reduceAmount(ingredientModification)
+      }
     }
     ingredientsToCook() {
         // if (RecipeRepository.recipes.ingredients)

@@ -19,6 +19,11 @@ class User {
        this.pantry.addIngredientObjects(pantryIngredients)
     }
 
+    reduceIngredientFromPantry(somedata) {
+      if (!somedata) return
+        return this.pantry.reduceIngrendientAmount(somedata.ingredientID, somedata.ingredientModification)
+    }
+    
     addIngredientToPantry(somedata) {
         if (!somedata) return
         return this.pantry.addIngredient(somedata.ingredientID, somedata.ingredientModification)
