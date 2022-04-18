@@ -79,7 +79,6 @@ recipeCategoryButtons.addEventListener('click', (event) => {
   if (event.target.name === "recipe_categories") {
     currentUser.setCurrentList(event.target.value, event.target.dataset.category)
     if (recipeCardContainer.classList.contains('hidden')) {
-        displayTags()
         search.value = ''
     }
     displayRecipes()
@@ -149,7 +148,6 @@ homeButton.addEventListener('click', () => {
     document.getElementById("all_recipes").checked = true;
     currentUser.setCurrentList('allRecipes', 'All Recipes')
     search.value = ''
-    displayTags()
     displayRecipes()
 })
 
@@ -158,7 +156,6 @@ search.addEventListener('keyup', (event) => {
         displayRecipes()
     }
     if (event.key === "Enter" && search.value) {
-        displayTags()
         displayRecipes()
     }
 })
@@ -197,22 +194,30 @@ function displayRecipes() {
     if(!!recipes) {
         recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
     }
-
+    
     let plural = 's'
     if (!!recipes && recipes.length === 1) plural = ''
     let title = getTitle(tags, query, plural)
-
+    
     detailsTitle.innerText = `${recipes.length} ${title}`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
     recipeCardContainer.innerHTML = ''
+    let tagList = {}
     recipes.forEach(recipe => {
+        recipe.tags.forEach(tag => {
+            if (!tagList[tag]) {
+                tagList[tag] = 0
+            }
+            tagList[tag]++
+        })
         recipeCardContainer.innerHTML += createRecipeCard(recipe)
     })
     //Add 3 empty divs to make sure all elements display correctly.
     for (let i = 0; i < 3; i++) {
         recipeCardContainer.innerHTML += `<div class="recipe_card" ></div>`
     }
+    if (!tags) displayTags(tagList)
 }
 
 function createFavoriteButton(id) {
@@ -347,15 +352,19 @@ function createInstructionsList(instructions) {
   return instructionsHTML
 }
 
-function displayTags() {
-    let tags = ''
-    recipeRepository.tags.forEach((tag) => {
-        tags += `<div><input type="checkbox" id="${tag}" name="tags" value="${tag}">
-                <label for="${tag}">${tag.charAt(0).toUpperCase() + tag.slice(1)}</label></div>`
-    })
+function displayTags(tagList) {
 
     asideTabText.innerText = 'Filter'
-    asideList.innerHTML = tags
+    asideList.innerHTML = "No tags"
+    if(tagList) {
+        let keys = Object.keys(tagList)
+        let tagsHTML = ''
+        keys.forEach((key) => {
+            tagsHTML += `<div><input type="checkbox" id="${key}" name="tags" value="${key}">
+                    <label for="${key}">${key.charAt(0).toUpperCase() + key.slice(1)} (${tagList[key]})</label></div>`
+        })
+        asideList.innerHTML = tagsHTML
+    }
 }
 
 function getTitle(tags, query, plural) {
@@ -399,7 +408,6 @@ Promise.all([usersData, ingredients, recipes]).then((values) => {
     let pantryItems = recipeRepository.getPantryItems(pantryData)
     currentUser.fillPantry(pantryItems)
     createPantryList()
-    displayTags()
     displayRecipes()
     displayUsername(currentUser.getName())
   });
