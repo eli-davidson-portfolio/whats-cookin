@@ -31,6 +31,7 @@ buyIngredientsButton.addEventListener('click', (event)=> {
     hideCart()
     let recipeID = event.target.id
     let shoppinglist = currentUser.getShoppingList() 
+    console.log(currentUser.shoppingList, 'shoppingList')
     let userID = currentUser.getId();
     console.log(currentUser.pantry.ingredients, 'before')
     shoppinglist.forEach((shoppingListItem) =>  {
@@ -227,6 +228,7 @@ function showRecipeDetails(id) {
     recipeCardContainer.classList.add('hidden')
     asideTabText.innerText = "Ingredients"
     let enoughArray = currentUser.checkIngredients(result.ingredients)
+    console.log(enoughArray, 'enough')
     let shoppingList = createIngredientsList(result.ingredients, enoughArray)
     detailsTitle.innerHTML = `${result.name}: $ ${result.totalCost.toFixed(2)}`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
@@ -242,18 +244,21 @@ function showRecipeDetails(id) {
     recipeDetailsContainer.classList.remove('hidden')
 }
 
-function createIngredientsList(unsortedIngredients, enoughArray) {
+function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
   let shoppingList = []
    let ingredients = unsortedIngredients.sort((a,b) => {
+            return a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+        })
+        let enoughArray = unsortedEnoughArray.sort((a,b) => {
             return a.name > b.name ? 1 : a.name < b.name ? -1 : 0
         })
   let ingredientsHTML = '<table>'
     let shoppingListHTML = '<table>'
   ingredients.forEach((ingredient, index) => {
-      if (enoughArray[index] === 0) {
+      if (enoughArray[index].amount === 0) {
           ingredientsHTML += `<tr class="enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
       } else {
-        let shoppingItem = recipeRepository.getIngredient(ingredient.id, enoughArray[index], ingredient.unit)
+        let shoppingItem = recipeRepository.getIngredient(ingredient.id, enoughArray[index].amount, ingredient.unit)
         shoppingList.push(shoppingItem)
           ingredientsHTML += `<tr class="not_enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
           shoppingListHTML += `<tr><td class="fraction">${fracty(shoppingItem.amount)}</td><td>${shoppingItem.unit}</td><td> ${shoppingItem.name}</td><td>$</td><td class='fraction'>${shoppingItem.estimatedCostInDollars.toFixed(2)}</td><tr>`
