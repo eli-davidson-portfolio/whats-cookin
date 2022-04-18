@@ -300,26 +300,26 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
   })
   ingredientsHTML += `</table>`
   asideTabText.innerText = 'Ingredients'
-  asideList.innerHTML = ingredientsHTML
-
+  
   let shoppingTotal = () => {
-    let total = shoppingList.reduce((acc, item) => {
-      acc += item.estimatedCostInDollars
-      return acc
-    }, 0)
-    return total
-  }
-console.log(shoppingTotal())
-  if(shoppingTotal() > 0) {
-      addIngredientsToCart.classList.remove('hidden')
-      makeRecipeButton.classList.add('hidden')
-
-      shoppingListHTML += `<tr  class="not_enough" style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
-      groceryList.innerHTML = shoppingListHTML
-  } else {
-    addIngredientsToCart.classList.add('hidden')
-    makeRecipeButton.classList.remove('hidden')
-  }
+      let total = shoppingList.reduce((acc, item) => {
+          acc += item.estimatedCostInDollars
+          return acc
+        }, 0)
+        return total
+    }
+    if(shoppingTotal() > 0) {
+        ingredientsHTML = `&#9888;&#65039; You don't have enough ingredients to make this recipe. &#9888;&#65039;</br></br>` + ingredientsHTML
+        addIngredientsToCart.classList.remove('hidden')
+        makeRecipeButton.classList.add('hidden')
+        
+        shoppingListHTML += `<tr  class="not_enough" style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
+        groceryList.innerHTML = shoppingListHTML
+    } else {
+        addIngredientsToCart.classList.add('hidden')
+        makeRecipeButton.classList.remove('hidden')
+    }
+    asideList.innerHTML = ingredientsHTML
 }
 
 function hideCart() {
