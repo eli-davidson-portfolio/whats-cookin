@@ -222,24 +222,24 @@ function displayRecipes() {
 
 function createFavoriteButton(id) {
     if(!currentUser.favorites.includes(id)) {
-        return `<button class="button frosted favorite_button" value=${id}>&#129293;</button>`
+        return `<button class="button frosted favorite_button" title = "Favorite" value=${id}>&#129293;</button>`
     }
     if (currentUser.favorites.includes(id)) {
-        return `<button class="button frosted unfavorite_button" value=${id}>&#10084;&#65039;</button>`
+        return `<button class="button frosted unfavorite_button" title = "Unfavorite" value=${id}>&#10084;&#65039;</button>`
     }
 }
 
 function createToCookButton(id) {
     if (!currentUser.recipesToCook.includes(id)) {
-        return `<button class="button frosted toCook_button" value=${id}>&#10133;</button>`
+        return `<button class="button frosted toCook_button" title = "To cook" value=${id}>&#10133;</button>`
     }
     if (currentUser.recipesToCook.includes(id)) {
-        return `<button class="button frosted notToCook_button" value=${id}>&#10134;</button>`
+        return `<button class="button frosted notToCook_button" title = "Not to cook" value=${id}>&#10134;</button>`
     }
 }
 
 function createRecipeCard(recipe) {
-    return `<div class="recipe_card" role="button" tabindex="0" id="${recipe.id}" >
+    return `<div class="recipe_card" title="${recipe.name}" role="button" tabindex="0" id="${recipe.id}" >
     <label class="recipe_card_title frosted">${recipe.name}</label>
     <div class="recipe_card_button_container">
     ${createFavoriteButton(recipe.id)}
