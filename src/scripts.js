@@ -120,22 +120,26 @@ detailsInformation.addEventListener('click', (event) =>{
     //if clicking on a button
     if(event.target.classList.contains('favorite_button')) {
         currentUser.addFavorite(parseInt(event.target.value))
+        event.target.title = "Unfavorite"
         event.target.classList.add('unfavorite_button')
         event.target.classList.remove('favorite_button')
         event.target.innerHTML = '&#10084;&#65039;'
     } else if (event.target.classList.contains('toCook_button')) {
         currentUser.addToCook(parseInt(event.target.value))
         event.target.classList.add('notToCook_button')
+        event.target.title = "Not to cook"
         event.target.classList.remove('toCook_button')
         event.target.innerHTML = '&#10134;'
     } else if (event.target.classList.contains('unfavorite_button')) {
         currentUser.removeFavorite(parseInt(event.target.value))
         event.target.classList.add('favorite_button')
+        event.target.title = "Favorite"
         event.target.classList.remove('unfavorite_button')
         event.target.innerHTML = '&#129293;'
     } else if (event.target.classList.contains('notToCook_button')) {
         currentUser.removeToCook(parseInt(event.target.value))
         event.target.classList.add('toCook_button')
+        event.target.title = "Add to cook"
         event.target.classList.remove('notToCook_button')
         event.target.innerHTML = '&#10133;'
     }
@@ -253,14 +257,15 @@ function showRecipeDetails(id) {
     let enoughArray = currentUser.checkIngredients(result.ingredients)
     let shoppingList = createIngredientsList(result.ingredients, enoughArray)
     console.log(shoppingList)
-    detailsTitle.innerHTML = `${result.name}: $ ${result.totalCost.toFixed(2)}`;
+    detailsTitle.innerHTML = `${result.name}</br><span class="price"> $ ${result.totalCost.toFixed(2)}</span>`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
-    <section class="recipe_instructions_containter scrollable">
+    <section class="recipe_instructions_containter frosted scrollable">
+    Instructions:
     <ol>
     ${createInstructionsList(result.instructions)}
     </ol>
     </section>
-    <div class="recipe_card_button_container">
+    <div class="recipe_details_button_container">
        ${createFavoriteButton(id)}
        ${createToCookButton(id)}
     </div>`
@@ -279,11 +284,11 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
     let shoppingListHTML = '<table>'
   ingredients.forEach((ingredient, index) => {
       if (enoughArray[index].amount === 0) {
-          ingredientsHTML += `<tr class="enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
+          ingredientsHTML += `<tr><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><td>&#9989;</td><tr>`
       } else {
         let shoppingItem = recipeRepository.getIngredient(ingredient.id, enoughArray[index].amount, ingredient.unit)
         shoppingList.push(shoppingItem)
-          ingredientsHTML += `<tr class="not_enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
+          ingredientsHTML += `<tr class=><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><td>&#9888;&#65039;</td><tr>`
           shoppingListHTML += `<tr><td class="fraction">${fracty(shoppingItem.amount)}</td><td>${shoppingItem.unit}</td><td> ${shoppingItem.name}</td><td>$</td><td class='fraction'>${shoppingItem.estimatedCostInDollars.toFixed(2)}</td><tr>`
     }
     currentUser.shoppingList = shoppingList;
@@ -297,14 +302,14 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
       acc += item.estimatedCostInDollars
       return acc
     }, 0)
-    return Math.round(total)
+    return total
   }
 console.log(shoppingTotal())
   if(shoppingTotal() > 0) {
       addIngredientsToCart.classList.remove('hidden')
       makeRecipeButton.classList.add('hidden')
 
-      shoppingListHTML += `<tr style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
+      shoppingListHTML += `<tr  class="not_enough" style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
       groceryList.innerHTML = shoppingListHTML
   } else {
     addIngredientsToCart.classList.add('hidden')
@@ -314,6 +319,7 @@ console.log(shoppingTotal())
 
 function hideCart() {
     cartTab.classList.add('hidden')
+    buyIngredientsButton.classList.add('hidden')
 }
 
 function createPantryList() {
@@ -336,7 +342,7 @@ function createPantryList() {
 function createInstructionsList(instructions) {
   let instructionsHTML = ''
   instructions.forEach((instruction) => {
-      instructionsHTML += `<li>${instruction.instruction}</li>`
+      instructionsHTML += `<li>${instruction.instruction}</li></br>`
   })
   return instructionsHTML
 }

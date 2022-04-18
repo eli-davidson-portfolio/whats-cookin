@@ -1,4 +1,6 @@
-/* * {
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+/* 
+* {
   border: 1px black solid;
 } */
 
@@ -9,7 +11,11 @@ body {
   /*background-color: blueviolet;*/
   margin-right: 50px;
   background-color: rgb(215, 213, 213);
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background-image: url('./images/background.jpg');
+  background-position: center;
+  background-size: cover;
+font-family: 'Special Elite',
+cursive;
 }
 
 table {
@@ -39,7 +45,7 @@ nav {
 
 main {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: 85vh;
   width: 100vw;
   overflow: hidden;
@@ -53,6 +59,55 @@ main {
   border-radius: 50px;
   font-size: 30px;
   margin: 5px;
+}
+.aside-button {
+  height: 10%;
+  width: 66%;
+  position: absolute;
+  bottom: 40px;
+  align-self: center;
+  border-radius: 15px;
+  font-size: 38px;
+
+}
+.add_ingredients {
+  border: 2px solid black;
+  color: black;
+}
+
+.add_ingredients:hover {
+  border: 2px solid black;
+  color: black;
+  background-color: yellow;
+  cursor: pointer;
+}
+
+.buy_ingredients {
+  border: 2px solid red;
+  color: red;
+}
+
+.home_button {
+  margin-left: 10px;
+}
+
+.buy_ingredients:hover {
+  border: 2px solid rgba(255, 0, 0, 0.761);
+  color: white;
+  background-color: rgba(255, 0, 0, 0.732);
+  cursor: pointer;
+}
+
+.make_recipe {
+  border: 2px solid green;
+  color: green;
+}
+
+.make_recipe:hover {
+  border: 2px solid green;
+  color: white;
+  background-color: green;
+  cursor: pointer;
 }
 
 .button:hover {
@@ -82,8 +137,15 @@ cursor: pointer;
 }
 
 .search{
- width: 100%;
- border: 1px black solid;
+  width: 15vw;
+  height: 3vh;
+  border-radius: 50px;
+ border: 2px black solid;
+ padding: 3%;
+ font-size: 1.3em;
+  box-shadow: 0 .2rem 1rem rgba(0, 0, 0, 0.9),
+  -1px -1px 2px #aaa,
+  1px 1px 2px #555;
 }
 
 .title-container {
@@ -101,21 +163,28 @@ align-items: flex-end;
 justify-content: flex-start;
 height: 10%;
 width: 50vw;
-background-color:rgb(215, 213, 213);
+background-color:transparent;
 }
 
 .title,
 .username {
-  font-size: 25px;
+  font-size: 32px;
+  color: white;
+  text-shadow: 4px 4px 4px rgb(0, 0, 0),
+   -4px -4px 4px rgb(0, 0, 0),
+ -4px 4px 4px rgb(0, 0, 0), 4px -4px 4px rgb(0, 0, 0);
+  /* background-color: rgba(0, 0, 0, 0.164); */
+  font-weight: 900;
 }
 
 .aside {
-
+position: relative;
   display: flex;
   flex-direction: column;
   width: 33vw;
   background-color: transparent;
   margin-right: 20px;
+  overflow: hidden;
 }
 
 .aside_title {
@@ -123,13 +192,14 @@ background-color:rgb(215, 213, 213);
   /* margin-bottom: 7px; */
 
 }
-
+.pantry_title_label{
+  margin-left:20px;
+}
 .information-list {
 
-    border-top-right-radius: 20px;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-box-shadow: rgba(0, 0, 0, 0.15) 10px 5px 5px;
+    border-radius: 20px;
+
+/* box-shadow: rgba(0, 0, 0, 0.15) 10px 5px 5px; */
   padding: 30px;
   height: 75%;
 }
@@ -140,6 +210,7 @@ input[type="radio"] {
 
 input[type="radio"]+label {
 box-shadow: inset rgba(0, 0, 0, .3) 0px -15px 5px;
+height: 30%;
   font-size: 30px;
   margin-right: 15px;
   white-space: nowrap;
@@ -151,12 +222,20 @@ box-shadow: inset rgba(0, 0, 0, .3) 0px -15px 5px;
 }
 
 input[type="checkbox"]:not(:checked) {
-  /* display: none; */
-  font-size: 2em;
+width: 1.5em;
+height: 1.5em;
+
+
+}
+
+input[type="checkbox"]+label {
+
+font-size: 1.5em;
 }
 
 input[type="radio"]:checked+label{
 box-shadow: rgba(0, 0, 0, 0.15) 10px 5px 5px;
+
 font-size: 32px;
   margin-right: 15px;
   padding: 10px;
@@ -165,6 +244,12 @@ font-size: 32px;
   background-color: white;
   font-weight: bold;
   color: black;
+}
+input[type="checkbox"]:checked {
+  width: 1.5em;
+  height: 1.5em;
+ background: none;
+ background-color: green;
 }
 
 input[type="checkbox"]:checked+label {
@@ -175,6 +260,7 @@ input[type="checkbox"]:checked+label {
 .nav_action_button_container {
   display: flex;
   align-items: flex-end;
+  padding-right: 3%;
   justify-content: flex-end;
   height: 10vh;
   width: 50vw;
@@ -183,7 +269,7 @@ input[type="checkbox"]:checked+label {
 }
 
 .scrollable {
-  height: 100%;
+  height: 80%;
   overflow: auto;
   background-color: white;
 
@@ -194,7 +280,7 @@ input[type="checkbox"]:checked+label {
   overflow: hidden;
   background-color: white;
   height: 100%;
-  width: 100%;
+  width: 60%;
 }
 
 .details_information {
@@ -203,21 +289,28 @@ input[type="checkbox"]:checked+label {
 }
 
 .details_title {
-  margin: 10px;
+  margin-left:25px;
   white-space: nowrap;
-  font-size: 1.3em;
+  font-size: 1em;
+}
+.price {
+    font-size: .7em;
+    font-weight: bold;
+    color: gray;
 }
 
 .recipe_cards_container {
-  padding-left: 5px;
-  padding-right: 5px;
+  /* padding-left: 5px;
+  margin-right: 45px; */
   border-radius: 2em;
-  height: 100%;
+  height: 88%;
   width: 100%;
   display: grid;
-  grid-gap: 5px;
+  grid-gap: 2px;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: minmax(50%, auto);
+  overflow: scroll;
+
 }
 
 .recipe_details_container {
@@ -246,11 +339,16 @@ input[type="checkbox"]:checked+label {
   transform: scale(1.00);
   transition: transform .2s;
   z-index: 0;
+  filter: grayscale(.8);
+  filter: brightness(.7)
 }
 
 .recipe_card_image:hover {
   transform: scale(1.05);
   transition: transform .2s;
+
+  filter: grayscale(0);
+  filter: brightness(1)
 }
 
 .recipe_card_title {
@@ -258,12 +356,15 @@ input[type="checkbox"]:checked+label {
   flex: 1;
   top: 70%;
   left: -1%;
-  font-size: 1.5vw;
+  font-size: 1.3vw;
   z-index: 1;
   width: 90%;
-  padding-left: 5px;
+  padding: 10px;
   text-align: center;
   border-radius: 5px;
+}
+.recipe_card_title:hover {
+  cursor: pointer;
 }
 
 .recipe_card_button_container {
@@ -276,20 +377,44 @@ input[type="checkbox"]:checked+label {
   z-index: 1;
 }
 
+.recipe_details_button_container {
+  position: absolute;
+  top: 23%;
+  left: 89%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 1;
+}
+
 
 .recipe_details_image {
-  height: 50%;
-  width: auto;
+  position: absolute;
+  left: 43%;
+  border: 1px solid black;
+  border-radius: 1em;
+  /* height: auto; */
+  width: 50%;
+  margin: 10px;
+
 }
 .recipe_instructions_containter {
-  width: 90%;
+  border-radius: 1em;
+  width: 45%;
+  height: 45%;
+  left: 41%;
+  top: 40%;
+  font-size: 1.4em;
+  padding: 2%;
+  position:absolute;
+  background-color: transparent;
 }
 
 .frosted {
   background: linear-gradient(to bottom right,
       rgba(255, 255, 255, 0.2),
       rgba(255, 255, 255, 0.05));
-  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.9), -1px -1px 2px #aaa,
+  box-shadow: 0 .2rem 1rem rgba(0, 0, 0, 0.9), -1px -1px 2px #aaa,
     1px 1px 2px #555;
   backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
 }
