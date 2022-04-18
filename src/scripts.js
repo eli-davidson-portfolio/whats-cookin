@@ -284,11 +284,11 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
     let shoppingListHTML = '<table>'
   ingredients.forEach((ingredient, index) => {
       if (enoughArray[index].amount === 0) {
-          ingredientsHTML += `<tr><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><td>&#9989;</td><tr>`
+          ingredientsHTML += `<tr><td>&#9989;</td><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
       } else {
         let shoppingItem = recipeRepository.getIngredient(ingredient.id, enoughArray[index].amount, ingredient.unit)
         shoppingList.push(shoppingItem)
-          ingredientsHTML += `<tr class=><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><td>&#9888;&#65039;</td><tr>`
+          ingredientsHTML += `<tr><td>&#9888;&#65039;</td><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
           shoppingListHTML += `<tr><td class="fraction">${fracty(shoppingItem.amount)}</td><td>${shoppingItem.unit}</td><td> ${shoppingItem.name}</td><td>$</td><td class='fraction'>${shoppingItem.estimatedCostInDollars.toFixed(2)}</td><tr>`
     }
     currentUser.shoppingList = shoppingList;
