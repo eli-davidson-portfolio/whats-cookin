@@ -234,7 +234,7 @@ function createToCookButton(id) {
 }
 
 function createRecipeCard(recipe) {
-    return `<div class="recipe_card" id="${recipe.id}" >
+    return `<div class="recipe_card" role="button" tabindex="0" id="${recipe.id}" >
     <label class="recipe_card_title frosted">${recipe.name}</label>
     <div class="recipe_card_button_container">
     ${createFavoriteButton(recipe.id)}

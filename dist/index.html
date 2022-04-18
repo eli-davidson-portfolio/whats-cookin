@@ -17,15 +17,15 @@
       <section class="nav_action_button_container">
         <div>
           <input type="radio" name="recipe_categories" id="all_recipes" data-category="All Recipes" value="allRecipes" checked></input>
-          <label for="all_recipes">All Recipes</label>
+          <label role="button" tabindex="0" for="all_recipes">All Recipes</label>
         </div>
         <div>
           <input type="radio" name="recipe_categories" id="favorite_recipes" data-category="Favorite Recipes" value="favorites"></input>
-          <label for="favorite_recipes">Favorite Recipes</label>
+          <label role="button" tabindex="0" for="favorite_recipes">Favorite Recipes</label>
         </div>
         <div>
-          <input type="radio" name="recipe_categories" id="to_cook_recipes" data-category="Recipes to Cook" value="recipesToCook"></input>
-          <label for="to_cook_recipes">Recipes to Cook</label>
+          <input type="radio" tabindex="0" name="recipe_categories" id="to_cook_recipes" data-category="Recipes to Cook" value="recipesToCook"></input>
+          <label role="button" tabindex="0" for="to_cook_recipes">Recipes to Cook</label>
         </div>
       </section>
 
@@ -34,11 +34,11 @@
       <section class="aside">
         <section class="aside-title-container">
           <input class="pantry_title" type="radio" name="pantry_ingredients" id="pantryID_ingredients" data-category="Pantry" value="pantry"></input>
-          <label class="pantry_title_label" for="pantryID_ingredients">Pantry</label>
+          <label role="button" tabindex="0" class="pantry_title_label" for="pantryID_ingredients">Pantry</label>
           <input class="aside_title" type="radio" name="pantry_ingredients" id="recipeID_ingredients" data-category="Ingredients" value="ingredients" checked></input>
-          <label class='aside_Tab_Ingredients_Filter' for="recipeID_ingredients">Filter</label>
+          <label role="button" tabindex="0" class='aside_Tab_Ingredients_Filter' for="recipeID_ingredients">Filter</label>
           <input class="cart_title" type="radio" name="pantry_ingredients" id="cartID_ingredients" data-category="Cart" value="cart"></input>
-          <label class="cart-tab hidden" for="cartID_ingredients">Cart</label>
+          <label role="button" tabindex="0" class="cart-tab hidden" for="cartID_ingredients">Cart</label>
         </section>
 
         <section class="information-list aside_information_list scrollable">
