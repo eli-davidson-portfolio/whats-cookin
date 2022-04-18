@@ -1,4 +1,3 @@
-
 class Recipe {
   constructor(recipe) {
     this.id = recipe.id;
@@ -16,19 +15,17 @@ class Recipe {
     return this.instructions.map((instruction) => {
       return {
         step: instruction.number,
-        instruction: instruction.instruction
-      }
-    })
+        instruction: instruction.instruction,
+      };
+    });
   }
 
   updateCost() {
     if (!this.ingredients.length) return;
-
     this.totalCost = this.ingredients.reduce((sum, ingredient) => {
       sum += ingredient.estimatedCostInCents;
       return sum;
     }, 0);
-
     this.totalCost = this.totalCost / 100;
     this.UpdateIngredientWords();
   }
@@ -41,18 +38,18 @@ class Recipe {
     if (!this.ingredients.length) return;
     return this.ingredients.map((ingredient) => {
       return ingredient.name;
-    })
+    });
   }
 
   UpdateIngredientWords() {
     if (!this.ingredients.length) return;
     this.ingredients.forEach((ingredient) => {
-      ingredient.name.split(' ').forEach(word => {
+      ingredient.name.split(" ").forEach((word) => {
         if (!this.ingredientWords.includes(word)) {
           this.ingredientWords.push(word);
         }
-      })
-    })
+      });
+    });
     this.ingredientWords.sort();
   }
 }

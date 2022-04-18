@@ -3,7 +3,7 @@ const ingredients = fetch("http://localhost:3001/api/v1/ingredients")
   .then(response => {
     if (response.ok) {
       return response.json()
-    } else { 
+    } else {
       throw Error(response.statusText)
     }
   }).then(data => data)
@@ -31,10 +31,10 @@ const ingredients = fetch("http://localhost:3001/api/v1/ingredients")
 
 
   const pantryPost = (somedata) => fetch("http://localhost:3001/api/v1/users", {
-    method:"POST", 
+    method:"POST",
     body: JSON.stringify({
-      'userID' : somedata.userID, 
-      'ingredientID' : somedata.ingredientID, 
+      'userID' : somedata.userID,
+      'ingredientID' : somedata.ingredientID,
       'ingredientModification' : somedata.ingredientModification
     }),
     headers: {
@@ -42,7 +42,6 @@ const ingredients = fetch("http://localhost:3001/api/v1/ingredients")
     }
   }).then(response => {
       if (response.ok) {
-        console.log(response.json())
         return {ok: true}
       } else {
         throw Error(response.statusText)
@@ -50,4 +49,4 @@ const ingredients = fetch("http://localhost:3001/api/v1/ingredients")
     }).catch(err => console.log(err))
 
 
-export { ingredients, recipes, usersData, pantryPost} 
+export { ingredients, recipes, usersData, pantryPost}

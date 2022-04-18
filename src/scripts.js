@@ -32,10 +32,10 @@ makeRecipeButton.addEventListener('click', (event) => {
   let recipeID = parseInt(event.target.id)
   let userID = currentUser.getId();
   let recipe = recipeRepository.getRecipeById(recipeID)
+
   recipe.ingredients.forEach((ingredient) =>  {
       let ingredientID = ingredient.id
       let ingredientModification = ingredient.amount * -1
-      console.log(ingredientModification)
       let somedata = {
           "userID" : userID,
           "ingredientID" : ingredientID,
@@ -48,7 +48,6 @@ makeRecipeButton.addEventListener('click', (event) => {
       createPantryList()
       })
   })
-  //createPantryList()
   homeButton.click()
 })
 
@@ -57,6 +56,7 @@ buyIngredientsButton.addEventListener('click', (event)=> {
     let recipeID = event.target.id
     let shoppinglist = currentUser.getShoppingList()
     let userID = currentUser.getId();
+
     shoppinglist.forEach((shoppingListItem) =>  {
         let ingredientID = shoppingListItem.id
         let ingredientModification = shoppingListItem.amount
@@ -352,7 +352,6 @@ function createInstructionsList(instructions) {
 }
 
 function displayTags(tagList) {
-
     asideTabText.innerText = 'Filter'
     asideList.innerHTML = "No tags"
     if(tagList) {
@@ -367,7 +366,6 @@ function displayTags(tagList) {
 }
 
 function getTitle(tags, query, plural) {
-
     let title = ''
 
     if (tags) {
@@ -386,11 +384,8 @@ function getTitle(tags, query, plural) {
             })
         }
     }
-
     title += ` recipe${plural}`
-
     if (!!query) title += `, matching search "${query}"`
-
     return title;
 }
 

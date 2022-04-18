@@ -38,6 +38,4 @@ describe('IngredientRepository', () => {
         expect(result.unit).to.equal('slices');
         expect(result.estimatedCostInCents).to.equal(5178);
     });
-
-
 })
