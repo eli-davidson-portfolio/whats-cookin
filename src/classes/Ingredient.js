@@ -48,7 +48,6 @@ class Ingredient {
     }
 
     updateCost(amount) {
-        console.log(amount)
         if (!amount || typeof (amount) !== 'number') return;
         this.estimatedCostInCents = this.getCost() * amount;
         this.estimatedCostInDollars = this.estimatedCostInCents / 100

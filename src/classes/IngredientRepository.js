@@ -10,6 +10,7 @@ class IngredientRepository {
     }
 
     createIngredients() {
+      //console.log(this.data, 'test')
         this.data.forEach(item => {
             this.ingredients.push(new Ingredient(item.id, item.name, item.estimatedCostInCents))
         })

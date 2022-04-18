@@ -64,7 +64,7 @@ describe('Recipe', () => {
     })
 
     it('Should have a method to return names of ingredients', () => {
-      expect(recipe.getIngredientNames()[0]).to.equal('eggs')
+      expect(recipe.getIngredientNames()[0]).to.equal('Eggs')
     })
 
     it('Should have a method to determine the cost of ingredients', () => {

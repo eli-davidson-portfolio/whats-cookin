@@ -194,11 +194,11 @@ function displayRecipes() {
     if(!!recipes) {
         recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
     }
-    
+
     let plural = 's'
     if (!!recipes && recipes.length === 1) plural = ''
     let title = getTitle(tags, query, plural)
-    
+
     detailsTitle.innerText = `${recipes.length} ${title}`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
@@ -261,7 +261,6 @@ function showRecipeDetails(id) {
     asideTabText.innerText = "Ingredients"
     let enoughArray = currentUser.checkIngredients(result.ingredients)
     let shoppingList = createIngredientsList(result.ingredients, enoughArray)
-    console.log(shoppingList)
     detailsTitle.innerHTML = `${result.name}</br><span class="price"> $ ${result.totalCost.toFixed(2)}</span>`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
     <section class="recipe_instructions_containter frosted scrollable">
@@ -300,7 +299,7 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
   })
   ingredientsHTML += `</table>`
   asideTabText.innerText = 'Ingredients'
-  
+
   let shoppingTotal = () => {
       let total = shoppingList.reduce((acc, item) => {
           acc += item.estimatedCostInDollars
@@ -312,7 +311,7 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
         ingredientsHTML = `&#9888;&#65039; You don't have enough ingredients to make this recipe. &#9888;&#65039;</br></br>` + ingredientsHTML
         addIngredientsToCart.classList.remove('hidden')
         makeRecipeButton.classList.add('hidden')
-        
+
         shoppingListHTML += `<tr  class="not_enough" style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
         groceryList.innerHTML = shoppingListHTML
     } else {
