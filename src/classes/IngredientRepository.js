@@ -26,7 +26,7 @@ class IngredientRepository {
         if (!id || typeof (id) !== 'number') return;
 
         let { name, estimatedCostInCents } = this.data.find(ingredient => ingredient.id === id);
-        return new Ingredient(id, name, estimatedCostInCents, unit, amount);
+        return new Ingredient(id, name.charAt(0).toUpperCase() + name.slice(1), estimatedCostInCents, unit, amount);
     }
     getAllIngredientIds() {
         return this.ingredients.map((ingredient) => {

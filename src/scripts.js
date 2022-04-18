@@ -79,7 +79,6 @@ recipeCategoryButtons.addEventListener('click', (event) => {
   if (event.target.name === "recipe_categories") {
     currentUser.setCurrentList(event.target.value, event.target.dataset.category)
     if (recipeCardContainer.classList.contains('hidden')) {
-        displayTags()
         search.value = ''
     }
     displayRecipes()
@@ -120,22 +119,26 @@ detailsInformation.addEventListener('click', (event) =>{
     //if clicking on a button
     if(event.target.classList.contains('favorite_button')) {
         currentUser.addFavorite(parseInt(event.target.value))
+        event.target.title = "Unfavorite"
         event.target.classList.add('unfavorite_button')
         event.target.classList.remove('favorite_button')
         event.target.innerHTML = '&#10084;&#65039;'
     } else if (event.target.classList.contains('toCook_button')) {
         currentUser.addToCook(parseInt(event.target.value))
         event.target.classList.add('notToCook_button')
+        event.target.title = "Not to cook"
         event.target.classList.remove('toCook_button')
         event.target.innerHTML = '&#10134;'
     } else if (event.target.classList.contains('unfavorite_button')) {
         currentUser.removeFavorite(parseInt(event.target.value))
         event.target.classList.add('favorite_button')
+        event.target.title = "Favorite"
         event.target.classList.remove('unfavorite_button')
         event.target.innerHTML = '&#129293;'
     } else if (event.target.classList.contains('notToCook_button')) {
         currentUser.removeToCook(parseInt(event.target.value))
         event.target.classList.add('toCook_button')
+        event.target.title = "Add to cook"
         event.target.classList.remove('notToCook_button')
         event.target.innerHTML = '&#10133;'
     }
@@ -145,7 +148,6 @@ homeButton.addEventListener('click', () => {
     document.getElementById("all_recipes").checked = true;
     currentUser.setCurrentList('allRecipes', 'All Recipes')
     search.value = ''
-    displayTags()
     displayRecipes()
 })
 
@@ -154,7 +156,6 @@ search.addEventListener('keyup', (event) => {
         displayRecipes()
     }
     if (event.key === "Enter" && search.value) {
-        displayTags()
         displayRecipes()
     }
 })
@@ -193,44 +194,52 @@ function displayRecipes() {
     if(!!recipes) {
         recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
     }
-
+    
     let plural = 's'
     if (!!recipes && recipes.length === 1) plural = ''
     let title = getTitle(tags, query, plural)
-
+    
     detailsTitle.innerText = `${recipes.length} ${title}`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
     recipeCardContainer.innerHTML = ''
+    let tagList = {}
     recipes.forEach(recipe => {
+        recipe.tags.forEach(tag => {
+            if (!tagList[tag]) {
+                tagList[tag] = 0
+            }
+            tagList[tag]++
+        })
         recipeCardContainer.innerHTML += createRecipeCard(recipe)
     })
     //Add 3 empty divs to make sure all elements display correctly.
     for (let i = 0; i < 3; i++) {
         recipeCardContainer.innerHTML += `<div class="recipe_card" ></div>`
     }
+    if (!tags) displayTags(tagList)
 }
 
 function createFavoriteButton(id) {
     if(!currentUser.favorites.includes(id)) {
-        return `<button class="button frosted favorite_button" value=${id}>&#129293;</button>`
+        return `<button class="button frosted favorite_button" title = "Favorite" value=${id}>&#129293;</button>`
     }
     if (currentUser.favorites.includes(id)) {
-        return `<button class="button frosted unfavorite_button" value=${id}>&#10084;&#65039;</button>`
+        return `<button class="button frosted unfavorite_button" title = "Unfavorite" value=${id}>&#10084;&#65039;</button>`
     }
 }
 
 function createToCookButton(id) {
     if (!currentUser.recipesToCook.includes(id)) {
-        return `<button class="button frosted toCook_button" value=${id}>&#10133;</button>`
+        return `<button class="button frosted toCook_button" title = "To cook" value=${id}>&#10133;</button>`
     }
     if (currentUser.recipesToCook.includes(id)) {
-        return `<button class="button frosted notToCook_button" value=${id}>&#10134;</button>`
+        return `<button class="button frosted notToCook_button" title = "Not to cook" value=${id}>&#10134;</button>`
     }
 }
 
 function createRecipeCard(recipe) {
-    return `<div class="recipe_card" id="${recipe.id}" >
+    return `<div class="recipe_card" title="${recipe.name}" role="button" tabindex="0" id="${recipe.id}" >
     <label class="recipe_card_title frosted">${recipe.name}</label>
     <div class="recipe_card_button_container">
     ${createFavoriteButton(recipe.id)}
@@ -253,14 +262,15 @@ function showRecipeDetails(id) {
     let enoughArray = currentUser.checkIngredients(result.ingredients)
     let shoppingList = createIngredientsList(result.ingredients, enoughArray)
     console.log(shoppingList)
-    detailsTitle.innerHTML = `${result.name}: $ ${result.totalCost.toFixed(2)}`;
+    detailsTitle.innerHTML = `${result.name}</br><span class="price"> $ ${result.totalCost.toFixed(2)}</span>`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
-    <section class="recipe_instructions_containter scrollable">
+    <section class="recipe_instructions_containter frosted scrollable">
+    Instructions:
     <ol>
     ${createInstructionsList(result.instructions)}
     </ol>
     </section>
-    <div class="recipe_card_button_container">
+    <div class="recipe_details_button_container">
        ${createFavoriteButton(id)}
        ${createToCookButton(id)}
     </div>`
@@ -279,41 +289,42 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
     let shoppingListHTML = '<table>'
   ingredients.forEach((ingredient, index) => {
       if (enoughArray[index].amount === 0) {
-          ingredientsHTML += `<tr class="enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
+          ingredientsHTML += `<tr><td>&#9989;</td><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
       } else {
         let shoppingItem = recipeRepository.getIngredient(ingredient.id, enoughArray[index].amount, ingredient.unit)
         shoppingList.push(shoppingItem)
-          ingredientsHTML += `<tr class="not_enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
+          ingredientsHTML += `<tr><td>&#9888;&#65039;</td><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
           shoppingListHTML += `<tr><td class="fraction">${fracty(shoppingItem.amount)}</td><td>${shoppingItem.unit}</td><td> ${shoppingItem.name}</td><td>$</td><td class='fraction'>${shoppingItem.estimatedCostInDollars.toFixed(2)}</td><tr>`
     }
     currentUser.shoppingList = shoppingList;
   })
   ingredientsHTML += `</table>`
   asideTabText.innerText = 'Ingredients'
-  asideList.innerHTML = ingredientsHTML
-
+  
   let shoppingTotal = () => {
-    let total = shoppingList.reduce((acc, item) => {
-      acc += item.estimatedCostInDollars
-      return acc
-    }, 0)
-    return Math.round(total)
-  }
-console.log(shoppingTotal())
-  if(shoppingTotal() > 0) {
-      addIngredientsToCart.classList.remove('hidden')
-      makeRecipeButton.classList.add('hidden')
-
-      shoppingListHTML += `<tr style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
-      groceryList.innerHTML = shoppingListHTML
-  } else {
-    addIngredientsToCart.classList.add('hidden')
-    makeRecipeButton.classList.remove('hidden')
-  }
+      let total = shoppingList.reduce((acc, item) => {
+          acc += item.estimatedCostInDollars
+          return acc
+        }, 0)
+        return total
+    }
+    if(shoppingTotal() > 0) {
+        ingredientsHTML = `&#9888;&#65039; You don't have enough ingredients to make this recipe. &#9888;&#65039;</br></br>` + ingredientsHTML
+        addIngredientsToCart.classList.remove('hidden')
+        makeRecipeButton.classList.add('hidden')
+        
+        shoppingListHTML += `<tr  class="not_enough" style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
+        groceryList.innerHTML = shoppingListHTML
+    } else {
+        addIngredientsToCart.classList.add('hidden')
+        makeRecipeButton.classList.remove('hidden')
+    }
+    asideList.innerHTML = ingredientsHTML
 }
 
 function hideCart() {
     cartTab.classList.add('hidden')
+    buyIngredientsButton.classList.add('hidden')
 }
 
 function createPantryList() {
@@ -336,20 +347,24 @@ function createPantryList() {
 function createInstructionsList(instructions) {
   let instructionsHTML = ''
   instructions.forEach((instruction) => {
-      instructionsHTML += `<li>${instruction.instruction}</li>`
+      instructionsHTML += `<li>${instruction.instruction}</li></br>`
   })
   return instructionsHTML
 }
 
-function displayTags() {
-    let tags = ''
-    recipeRepository.tags.forEach((tag) => {
-        tags += `<div><input type="checkbox" id="${tag}" name="tags" value="${tag}">
-                <label for="${tag}">${tag.charAt(0).toUpperCase() + tag.slice(1)}</label></div>`
-    })
+function displayTags(tagList) {
 
     asideTabText.innerText = 'Filter'
-    asideList.innerHTML = tags
+    asideList.innerHTML = "No tags"
+    if(tagList) {
+        let keys = Object.keys(tagList)
+        let tagsHTML = ''
+        keys.forEach((key) => {
+            tagsHTML += `<div><input type="checkbox" id="${key}" name="tags" value="${key}">
+                    <label for="${key}">${key.charAt(0).toUpperCase() + key.slice(1)} (${tagList[key]})</label></div>`
+        })
+        asideList.innerHTML = tagsHTML
+    }
 }
 
 function getTitle(tags, query, plural) {
@@ -393,7 +408,6 @@ Promise.all([usersData, ingredients, recipes]).then((values) => {
     let pantryItems = recipeRepository.getPantryItems(pantryData)
     currentUser.fillPantry(pantryItems)
     createPantryList()
-    displayTags()
     displayRecipes()
     displayUsername(currentUser.getName())
   });
