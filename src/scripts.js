@@ -1,5 +1,5 @@
 import './styles.css';
-import {ingredients,recipes,usersData} from './apiCalls';
+import {ingredients,pantryPost,recipes,usersData} from './apiCalls';
 import './images/turing-logo.png'
 import RecipeRepository from './classes/RecipeRepository.js';
 import User from './classes/User.js';
@@ -16,11 +16,64 @@ let asideTabText = document.querySelector('.aside_Tab_Ingredients_Filter')
 let asideList = document.querySelector('.aside_information_list')
 let pantryTitle = document.querySelector('.pantry_title')
 let pantryList = document.querySelector('.pantry_information_list')
+let cartTab = document.querySelector('.cart-tab')
+let groceryTitle = document.querySelector('.cart_title')
+let groceryList = document.querySelector('.grocery_information_list')
 let detailsTitle = document.querySelector('.details_title')
 let homeButton = document.querySelector('.home_button')
 let username = document.querySelector('.username')
 let recipeCategoryButtons = document.querySelector('.nav_action_button_container')
 let asideCategoryButtons = document.querySelector(".aside-title-container")
+let addIngredientsToCart = document.querySelector('.add_ingredients')
+let buyIngredientsButton = document.querySelector(".buy_ingredients")
+let makeRecipeButton = document.querySelector(".make_recipe")
+
+makeRecipeButton.addEventListener('click', (event) => {
+  let recipeID = parseInt(event.target.id)
+  let userID = currentUser.getId();
+  let recipe = recipeRepository.getRecipeById(recipeID)
+  recipe.ingredients.forEach((ingredient) =>  {
+      let ingredientID = ingredient.id
+      let ingredientModification = ingredient.amount * -1
+      console.log(ingredientModification)
+      let somedata = {
+          "userID" : userID,
+          "ingredientID" : ingredientID,
+          "ingredientModification" : ingredientModification
+      }
+      let response = pantryPost(somedata)
+      response.then(data => {
+           currentUser.reduceIngredientFromPantry(somedata)
+      }).then(message => {
+      createPantryList()
+      })
+  })
+  //createPantryList()
+  homeButton.click()
+})
+
+buyIngredientsButton.addEventListener('click', (event)=> {
+    hideCart()
+    let recipeID = event.target.id
+    let shoppinglist = currentUser.getShoppingList()
+    let userID = currentUser.getId();
+    shoppinglist.forEach((shoppingListItem) =>  {
+        let ingredientID = shoppingListItem.id
+        let ingredientModification = shoppingListItem.amount
+        let somedata = {
+            "userID" : userID,
+            "ingredientID" : ingredientID,
+            "ingredientModification" : ingredientModification
+        }
+        let response = pantryPost(somedata)
+        response.then(data => {
+             currentUser.addIngredientToPantry(somedata)
+        }).then(message => {
+        showRecipeDetails(parseInt(recipeID))
+        createPantryList()
+        })
+    })
+})
 
 recipeCategoryButtons.addEventListener('click', (event) => {
   if (event.target.name === "recipe_categories") {
@@ -33,13 +86,26 @@ recipeCategoryButtons.addEventListener('click', (event) => {
   }
 })
 
+addIngredientsToCart.addEventListener('click', () => {
+    addIngredientsToCart.classList.add('hidden')
+    cartTab.classList.remove('hidden')
+    buyIngredientsButton.classList.remove('hidden')
+    cartTab.click()
+})
+
 asideCategoryButtons.addEventListener('click', (event) => {
   if (event.target.id === 'recipeID_ingredients') {
     pantryList.classList.add('hidden')
+    groceryList.classList.add('hidden')
     asideList.classList.remove('hidden')
   } else if (event.target.id === 'pantryID_ingredients') {
     asideList.classList.add('hidden')
+    groceryList.classList.add('hidden')
     pantryList.classList.remove('hidden')
+  } else if (event.target.id === 'cartID_ingredients') {
+    asideList.classList.add('hidden')
+    pantryList.classList.add('hidden')
+    groceryList.classList.remove('hidden')
   }
 })
 
@@ -97,6 +163,10 @@ asideList.addEventListener('click', () => {
     displayRecipes()
 })
 
+function buyIngredients() {
+
+}
+
 function getSelectedTags() {
     let checkedBoxes = document.querySelectorAll('input[name="tags"]:checked');
     let tags = [];
@@ -112,6 +182,10 @@ function displayUsername(name) {
 }
 
 function displayRecipes() {
+    asideTabText.click()
+    addIngredientsToCart.classList.add("hidden")
+    hideCart()
+    makeRecipeButton.classList.add('hidden')
     let recipeIds = currentUser[currentUser.currentList];
     let tags = getSelectedTags();
     let query = search.value;
@@ -167,13 +241,19 @@ function createRecipeCard(recipe) {
 }
 
 function showRecipeDetails(id) {
+    makeRecipeButton.id = id
+    buyIngredientsButton.classList.add('hidden')
+    buyIngredientsButton.id = id;
+    asideTitle.click()
     let result = recipeRepository.getRecipeById(id)
+    if (!result) return
     search.value = ''
     recipeCardContainer.classList.add('hidden')
-    createIngredientsList(result.ingredients)
     asideTabText.innerText = "Ingredients"
-    currentUser.checkIngredients(result.ingredients)
-    detailsTitle.innerHTML = `${result.name}</br>Total cost: $ ${result.totalCost.toFixed(2)}`;
+    let enoughArray = currentUser.checkIngredients(result.ingredients)
+    let shoppingList = createIngredientsList(result.ingredients, enoughArray)
+    console.log(shoppingList)
+    detailsTitle.innerHTML = `${result.name}: $ ${result.totalCost.toFixed(2)}`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
     <section class="recipe_instructions_containter scrollable">
     <ol>
@@ -187,23 +267,68 @@ function showRecipeDetails(id) {
     recipeDetailsContainer.classList.remove('hidden')
 }
 
-function createIngredientsList(ingredients) {
-  let ingredientsHTML = '<ul>'
-  ingredients.forEach((ingredient) => {
-      ingredientsHTML += `<li>${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
+function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
+  let shoppingList = []
+   let ingredients = unsortedIngredients.sort((a,b) => {
+            return a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+        })
+        let enoughArray = unsortedEnoughArray.sort((a,b) => {
+            return a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+        })
+  let ingredientsHTML = '<table>'
+    let shoppingListHTML = '<table>'
+  ingredients.forEach((ingredient, index) => {
+      if (enoughArray[index].amount === 0) {
+          ingredientsHTML += `<tr class="enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
+      } else {
+        let shoppingItem = recipeRepository.getIngredient(ingredient.id, enoughArray[index].amount, ingredient.unit)
+        shoppingList.push(shoppingItem)
+          ingredientsHTML += `<tr class="not_enough"><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
+          shoppingListHTML += `<tr><td class="fraction">${fracty(shoppingItem.amount)}</td><td>${shoppingItem.unit}</td><td> ${shoppingItem.name}</td><td>$</td><td class='fraction'>${shoppingItem.estimatedCostInDollars.toFixed(2)}</td><tr>`
+    }
+    currentUser.shoppingList = shoppingList;
   })
-  ingredientsHTML += `</ul>`
+  ingredientsHTML += `</table>`
   asideTabText.innerText = 'Ingredients'
   asideList.innerHTML = ingredientsHTML
+
+  let shoppingTotal = () => {
+    let total = shoppingList.reduce((acc, item) => {
+      acc += item.estimatedCostInDollars
+      return acc
+    }, 0)
+    return Math.round(total)
+  }
+console.log(shoppingTotal())
+  if(shoppingTotal() > 0) {
+      addIngredientsToCart.classList.remove('hidden')
+      makeRecipeButton.classList.add('hidden')
+
+      shoppingListHTML += `<tr style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
+      groceryList.innerHTML = shoppingListHTML
+  } else {
+    addIngredientsToCart.classList.add('hidden')
+    makeRecipeButton.classList.remove('hidden')
+  }
+}
+
+function hideCart() {
+    cartTab.classList.add('hidden')
 }
 
 function createPantryList() {
   let userPantry = currentUser.getAllPantry()
-  let pantryHTML = '<ul>'
-  userPantry.forEach((ingredient) => {
-      pantryHTML += `<li>${fracty(ingredient.amount)} ${ingredient.unit} ${ingredient.name}</li>`
+    let ingredients = userPantry.sort((a, b) => {
+        return a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+    })
+
+  let pantryHTML = '<table>'
+    ingredients.forEach((ingredient) => {
+      if (ingredient.amount > 0) {
+        pantryHTML += `<tr><td> ${ingredient.name}</td><td class="fraction">${fracty(ingredient.amount)}</td><td> ${ingredient.unit}</td><tr>`
+      }
   })
-  pantryHTML += `</ul>`
+  pantryHTML += `<table>`
   pantryTitle.innerText = 'Pantry'
   pantryList.innerHTML = pantryHTML
 }

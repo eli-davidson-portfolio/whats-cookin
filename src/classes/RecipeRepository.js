@@ -13,6 +13,10 @@ class RecipeRepository {
     this.createRecipes();
   }
 
+  getIngredient(id, amount, unit) {
+  return this.ir.getIngredient(id, amount, unit)
+}
+
   createIds(recipe) {
     if (!recipe.id) return;
 
@@ -128,8 +132,16 @@ class RecipeRepository {
   }
   getPantryItems(pantryItems) {
    let pantryObjects = []
+   let ingredientIds = this.ir.getAllIngredientIds()
    pantryItems.forEach((item) => {
       pantryObjects.push(this.ir.getIngredient(item.ingredient, item.amount))
+    })
+    ingredientIds.forEach(id => {
+      if (!pantryObjects.some((object) => {
+        return object.id === id
+      })) {
+        pantryObjects.push(this.ir.getIngredient(id, 0))
+        }
     })
     return pantryObjects
   }
