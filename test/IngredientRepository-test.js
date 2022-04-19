@@ -33,11 +33,9 @@ describe('IngredientRepository', () => {
         result.updateAmount(6)
         result.updateUnit('slices')
         expect(result.id).to.equal(18069);
-        expect(result.name).to.equal('gluten-free white sandwich bread');
+        expect(result.name).to.equal('Gluten-free white sandwich bread');
         expect(result.amount).to.equal(6);
         expect(result.unit).to.equal('slices');
         expect(result.estimatedCostInCents).to.equal(5178);
     });
-
-
 })

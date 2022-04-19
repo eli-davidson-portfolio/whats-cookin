@@ -32,10 +32,10 @@ makeRecipeButton.addEventListener('click', (event) => {
   let recipeID = parseInt(event.target.id)
   let userID = currentUser.getId();
   let recipe = recipeRepository.getRecipeById(recipeID)
+
   recipe.ingredients.forEach((ingredient) =>  {
       let ingredientID = ingredient.id
       let ingredientModification = ingredient.amount * -1
-      console.log(ingredientModification)
       let somedata = {
           "userID" : userID,
           "ingredientID" : ingredientID,
@@ -48,7 +48,6 @@ makeRecipeButton.addEventListener('click', (event) => {
       createPantryList()
       })
   })
-  //createPantryList()
   homeButton.click()
 })
 
@@ -57,6 +56,7 @@ buyIngredientsButton.addEventListener('click', (event)=> {
     let recipeID = event.target.id
     let shoppinglist = currentUser.getShoppingList()
     let userID = currentUser.getId();
+
     shoppinglist.forEach((shoppingListItem) =>  {
         let ingredientID = shoppingListItem.id
         let ingredientModification = shoppingListItem.amount
@@ -194,11 +194,11 @@ function displayRecipes() {
     if(!!recipes) {
         recipes.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
     }
-    
+
     let plural = 's'
     if (!!recipes && recipes.length === 1) plural = ''
     let title = getTitle(tags, query, plural)
-    
+
     detailsTitle.innerText = `${recipes.length} ${title}`
     recipeCardContainer.classList.remove('hidden')
     recipeDetailsContainer.classList.add('hidden')
@@ -261,7 +261,6 @@ function showRecipeDetails(id) {
     asideTabText.innerText = "Ingredients"
     let enoughArray = currentUser.checkIngredients(result.ingredients)
     let shoppingList = createIngredientsList(result.ingredients, enoughArray)
-    console.log(shoppingList)
     detailsTitle.innerHTML = `${result.name}</br><span class="price"> $ ${result.totalCost.toFixed(2)}</span>`;
     recipeDetailsContainer.innerHTML = `<img class="recipe_details_image" src="${result.image}" alt="${result.name} image">
     <section class="recipe_instructions_containter frosted scrollable">
@@ -300,7 +299,7 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
   })
   ingredientsHTML += `</table>`
   asideTabText.innerText = 'Ingredients'
-  
+
   let shoppingTotal = () => {
       let total = shoppingList.reduce((acc, item) => {
           acc += item.estimatedCostInDollars
@@ -312,7 +311,7 @@ function createIngredientsList(unsortedIngredients, unsortedEnoughArray) {
         ingredientsHTML = `&#9888;&#65039; You don't have enough ingredients to make this recipe. &#9888;&#65039;</br></br>` + ingredientsHTML
         addIngredientsToCart.classList.remove('hidden')
         makeRecipeButton.classList.add('hidden')
-        
+
         shoppingListHTML += `<tr  class="not_enough" style="font-weight: bold;"><td></td><td></td><td> TOTAL:</td><td>$</td><td class='fraction'>${shoppingTotal().toFixed(2)}</td><tr></table>`
         groceryList.innerHTML = shoppingListHTML
     } else {
@@ -353,7 +352,6 @@ function createInstructionsList(instructions) {
 }
 
 function displayTags(tagList) {
-
     asideTabText.innerText = 'Filter'
     asideList.innerHTML = "No tags"
     if(tagList) {
@@ -368,7 +366,6 @@ function displayTags(tagList) {
 }
 
 function getTitle(tags, query, plural) {
-
     let title = ''
 
     if (tags) {
@@ -387,11 +384,8 @@ function getTitle(tags, query, plural) {
             })
         }
     }
-
     title += ` recipe${plural}`
-
     if (!!query) title += `, matching search "${query}"`
-
     return title;
 }
 

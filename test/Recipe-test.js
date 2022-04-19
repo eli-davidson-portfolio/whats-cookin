@@ -64,7 +64,7 @@ describe('Recipe', () => {
     })
 
     it('Should have a method to return names of ingredients', () => {
-      expect(recipe.getIngredientNames()[0]).to.equal('eggs')
+      expect(recipe.getIngredientNames()[0]).to.equal('Eggs')
     })
 
     it('Should have a method to determine the cost of ingredients', () => {
@@ -78,5 +78,4 @@ describe('Recipe', () => {
         instruction: `In a large mixing bowl, whisk together the dry ingredients (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl of a stand mixer, cream butter for 30 seconds. Gradually add granulated sugar and brown sugar and cream until light and fluffy.`
       })
     })
-
 })

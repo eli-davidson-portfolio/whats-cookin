@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
-/* 
+/*
 * {
   border: 1px black solid;
 } */
@@ -8,14 +8,13 @@ body {
   width: 90vw;
   height: 100vh;
   overflow: hidden;
-  /*background-color: blueviolet;*/
   margin-right: 50px;
   background-color: rgb(215, 213, 213);
   background-image: url('./images/background.jpg');
   background-position: center;
   background-size: cover;
-font-family: 'Special Elite',
-cursive;
+  font-family: 'Special Elite',
+  cursive;
 }
 
 table {
@@ -60,6 +59,7 @@ main {
   font-size: 30px;
   margin: 5px;
 }
+
 .aside-button {
   height: 10%;
   width: 66%;
@@ -68,8 +68,8 @@ main {
   align-self: center;
   border-radius: 15px;
   font-size: 38px;
-
 }
+
 .add_ingredients {
   border: 2px solid black;
   color: black;
@@ -115,28 +115,7 @@ transform: scale(1.1);
 cursor: pointer;
 }
 
-.favorite_button {
-
-}
-
-.toCook_button {
-
-}
-
-.unfavorite_button {
-
-}
-
-.notToCook_button {
-
-}
-
-
-.icon {
-
-}
-
-.search{
+.search {
   width: 15vw;
   height: 3vh;
   border-radius: 50px;
@@ -187,19 +166,12 @@ position: relative;
   overflow: hidden;
 }
 
-.aside_title {
-  /* border-bottom: solid 2px black; */
-  /* margin-bottom: 7px; */
-
-}
 .pantry_title_label{
   margin-left:20px;
 }
+
 .information-list {
-
-    border-radius: 20px;
-
-/* box-shadow: rgba(0, 0, 0, 0.15) 10px 5px 5px; */
+  border-radius: 20px;
   padding: 30px;
   height: 75%;
 }
@@ -209,8 +181,8 @@ input[type="radio"] {
 }
 
 input[type="radio"]+label {
-box-shadow: inset rgba(0, 0, 0, .3) 0px -15px 5px;
-height: 30%;
+  box-shadow: inset rgba(0, 0, 0, .3) 0px -15px 5px;
+  height: 30%;
   font-size: 30px;
   margin-right: 15px;
   white-space: nowrap;
@@ -222,21 +194,17 @@ height: 30%;
 }
 
 input[type="checkbox"]:not(:checked) {
-width: 1.5em;
-height: 1.5em;
-
-
+  width: 1.5em;
+  height: 1.5em;
 }
 
 input[type="checkbox"]+label {
-
-font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 input[type="radio"]:checked+label{
-box-shadow: rgba(0, 0, 0, 0.15) 10px 5px 5px;
-
-font-size: 32px;
+  box-shadow: rgba(0, 0, 0, 0.15) 10px 5px 5px;
+  font-size: 32px;
   margin-right: 15px;
   padding: 10px;
   border-top-left-radius: .5em;
@@ -245,11 +213,12 @@ font-size: 32px;
   font-weight: bold;
   color: black;
 }
+
 input[type="checkbox"]:checked {
   width: 1.5em;
   height: 1.5em;
- background: none;
- background-color: green;
+  background: none;
+  background-color: green;
 }
 
 input[type="checkbox"]:checked+label {
@@ -272,7 +241,6 @@ input[type="checkbox"]:checked+label {
   height: 80%;
   overflow: auto;
   background-color: white;
-
 }
 
 .details {
@@ -293,6 +261,7 @@ input[type="checkbox"]:checked+label {
   white-space: nowrap;
   font-size: 1em;
 }
+
 .price {
     font-size: .7em;
     font-weight: bold;
@@ -300,8 +269,6 @@ input[type="checkbox"]:checked+label {
 }
 
 .recipe_cards_container {
-  /* padding-left: 5px;
-  margin-right: 45px; */
   border-radius: 2em;
   height: 88%;
   width: 100%;
@@ -310,7 +277,6 @@ input[type="checkbox"]:checked+label {
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: minmax(50%, auto);
   overflow: scroll;
-
 }
 
 .recipe_details_container {
@@ -346,7 +312,6 @@ input[type="checkbox"]:checked+label {
 .recipe_card_image:hover {
   transform: scale(1.05);
   transition: transform .2s;
-
   filter: grayscale(0);
   filter: brightness(1)
 }
@@ -363,6 +328,7 @@ input[type="checkbox"]:checked+label {
   text-align: center;
   border-radius: 5px;
 }
+
 .recipe_card_title:hover {
   cursor: pointer;
 }
@@ -387,13 +353,11 @@ input[type="checkbox"]:checked+label {
   z-index: 1;
 }
 
-
 .recipe_details_image {
   position: absolute;
   left: 43%;
   border: 1px solid black;
   border-radius: 1em;
-  /* height: auto; */
   width: 50%;
   margin: 10px;
 
