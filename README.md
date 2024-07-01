@@ -22,12 +22,31 @@
 Project Manager: Jeramiah Black
 
 ## Technologies Used
+
+### Languages
 - JavaScript
-- HTML
-- CSS
-- Mocha and Chai for testing
-- Webpack for bundling
-- NPM for package management
+- Sass (Syntactically Awesome Style Sheets)
+
+### Build Tools
+- Webpack
+  - webpack-cli
+  - webpack-dev-server
+- style-loader
+- css-loader
+- file-loader
+- sass-loader
+
+### Testing
+- Mocha
+- Mochapack
+- Chai
+
+### Utilities
+- fracty
+
+### Others
+- Node.js
+
 
 ## Set Up
 To set up the project for local development:
